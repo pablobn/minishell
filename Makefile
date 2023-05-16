@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -lreadline
+CFLAGS = -Wall -Wextra -Werror
 
 # SOURCES
 SRCSFD = src/
@@ -44,7 +44,7 @@ $(OBJSFD)$(MINISHELLFD): $(OBJSFD)
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
 
 ${NAME}: ${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
-	@${CC} ${CFLAGS} ${MINISHELL_OBJ} -o $@
+	@${CC} -lreadline ${CFLAGS} ${MINISHELL_OBJ} -o $@
 	@echo "\t[ $(GREEN)✔$(NONE) ] $@ executable"
 
 $(OBJSFD)$(MINISHELLFD)%.o: $(SRCSFD)$(MINISHELLFD)%.c $(HEADERS) 
