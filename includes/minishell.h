@@ -10,7 +10,8 @@
 
 //leaks.c
 void	ft_leaks(void);
-
+//parser.c
+void	ft_parser(t_command **cmd);
 //Structs
 typedef struct s_command
 {
@@ -29,4 +30,5 @@ typedef struct s_file
 	int				**fd;
 	int				flag;
 }t_file;
+
 #endif
