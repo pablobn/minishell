@@ -7,7 +7,8 @@ CFLAGS = -Wall -Wextra -Werror
 # SOURCES
 SRCSFD = src/
 MINISHELLFD = minishell/
-MINISHELL_SRC = minishell.c
+MINISHELL_SRC = minishell.c \
+				leaks.c
 
 # OBJECTS
 OBJSFD = objs/

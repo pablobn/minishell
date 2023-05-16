@@ -7,11 +7,16 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 	(void) envp;
+	//atexit(ft_leaks);
 	line = "";
 	while (line)
 	{
 		printf("minishell$ ");
 		line = readline(line);
+		if (!line)
+			return (0);
+		free(line);
+		line = "";
 	}
 	return (0);
 }

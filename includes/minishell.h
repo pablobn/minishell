@@ -6,5 +6,8 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdlib.h>
 
+//leaks.c
+void	ft_leaks(void);
 #endif
