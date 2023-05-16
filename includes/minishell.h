@@ -4,6 +4,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
-# include <pthread.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 #endif

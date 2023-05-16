@@ -1,7 +1,17 @@
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
-	printf("hola\n");
+	char	*line;
+
+	(void) argc;
+	(void) argv;
+	(void) envp;
+	line = "";
+	while (line)
+	{
+		printf("minishell$ ");
+		line = readline(line);
+	}
 	return (0);
 }
