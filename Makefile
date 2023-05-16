@@ -18,7 +18,13 @@ HEADERFD = includes/
 HEADER = minishell.h
 HEADERS = $(addprefix $(HEADERFD), $(HEADER))
 
+#INCLUDES
+# HEADER INCLUDES
 HEADER_INC = -I./includes
+# LIBFT INCLUDES
+LIBFT_HRD = -I./library/libft/includes/
+LIB_BINARY = -L./library/libft -lft
+LIBFT = library/libft/libft.a
 
 RED = \033[0;31m
 GREEN = \033[0;32m
@@ -26,6 +32,8 @@ NONE = \033[0m
 
 all: ${NAME}
 
+${LIBFT}:
+	@make -C library/libft
 
 $(OBJSFD):
 		@mkdir $@
@@ -35,20 +43,22 @@ $(OBJSFD)$(MINISHELLFD): $(OBJSFD)
 		@mkdir $@
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
 
-${NAME}: ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
-	@gcc ${CFLAGS} ${MINISHELL_OBJ} -o $@
+${NAME}: ${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
+	@${CC} ${CFLAGS} ${MINISHELL_OBJ} -o $@
 	@echo "\t[ $(GREEN)✔$(NONE) ] $@ executable"
 
 $(OBJSFD)$(MINISHELLFD)%.o: $(SRCSFD)$(MINISHELLFD)%.c $(HEADERS) 
-	@gcc $(CFLAGS) $(HEADER_INC)  -o $@ -c $<
+	@${CC} $(CFLAGS) $(HEADER_INC)  -o $@ -c $<
 
 clean:
 	@/bin/rm -rf $(OBJSFD)
 	@echo "\t[ $(RED)✗$(NONE) ] $(OBJSFD) directory"
+	@${MAKE} -s -C library/libft/ clean
 
 fclean: clean
 	@/bin/rm -f $(NAME)
 	@echo "\t[ $(RED)✗$(NONE) ] $(NAME) executable"
+	@${MAKE} -s -C library/libft/ fclean
 
 re: fclean all
 
