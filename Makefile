@@ -7,47 +7,58 @@ CFLAGS = -Wall -Wextra -Werror
 # SOURCES
 SRCSFD = src/
 MINISHELLFD = minishell/
-MINISHELL_SRC = philo.c
+MINISHELL_SRC = minishell.c
 
 # OBJECTS
 OBJSFD = objs/
-PHILO_OBJ = $(addprefix $(OBJSFD)$(PHILOFD), $(PHILO_SRC:.c=.o))
+MINISHELL_OBJ = $(addprefix $(OBJSFD)$(MINISHELLFD), $(MINISHELL_SRC:.c=.o))
 
-HDRSFD = includes/
-HDR = philo.h
-HDRS = $(addprefix $(HDRSFD), $(HDR))
+#HEADERS
+HEADERFD = includes/
+HEADER = minishell.h
+HEADERS = $(addprefix $(HEADERFD), $(HEADER))
 
-HDR_INC = -I./includes
+#INCLUDES
+# HEADER INCLUDES
+HEADER_INC = -I./includes
+# LIBFT INCLUDES
+LIBFT_HRD = -I./library/libft/includes/
+LIB_BINARY = -L./library/libft -lft
+LIBFT = library/libft/libft.a
 
 RED = \033[0;31m
 GREEN = \033[0;32m
 NONE = \033[0m
 
-all: ${HDRS} ${NAME}
+all: ${NAME}
 
+${LIBFT}:
+	@make -C library/libft
 
 $(OBJSFD):
 		@mkdir $@
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
 
-$(OBJSFD)$(PHILOFD): $(OBJSFD)
+$(OBJSFD)$(MINISHELLFD): $(OBJSFD)
 		@mkdir $@
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
 
-${NAME}: ${OBJSFD}$(PHILOFD) ${PHILO_OBJ}  $(HDRS)
-	@gcc ${CFLAGS} ${PHILO_OBJ} -o $@
+${NAME}: ${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
+	@${CC} ${CFLAGS} ${MINISHELL_OBJ} -o $@
 	@echo "\t[ $(GREEN)✔$(NONE) ] $@ executable"
 
-$(OBJSFD)$(PHILOFD)%.o: $(SRCSFD)$(PHILOFD)%.c $(HDRS) 
-	@gcc $(CFLAGS) $(HDR_INC)  -o $@ -c $<
+$(OBJSFD)$(MINISHELLFD)%.o: $(SRCSFD)$(MINISHELLFD)%.c $(HEADERS) 
+	@${CC} $(CFLAGS) $(HEADER_INC)  -o $@ -c $<
 
 clean:
 	@/bin/rm -rf $(OBJSFD)
 	@echo "\t[ $(RED)✗$(NONE) ] $(OBJSFD) directory"
+	@${MAKE} -s -C library/libft/ clean
 
 fclean: clean
 	@/bin/rm -f $(NAME)
 	@echo "\t[ $(RED)✗$(NONE) ] $(NAME) executable"
+	@${MAKE} -s -C library/libft/ fclean
 
 re: fclean all
 
