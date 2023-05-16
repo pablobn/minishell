@@ -2,7 +2,8 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
+	t_command	cmd;
+	char		*line;
 
 	(void) argc;
 	(void) argv;
@@ -15,6 +16,7 @@ int	main(int argc, char **argv, char **envp)
 		line = readline(line);
 		if (!line)
 			return (0);
+		
 		free(line);
 		line = "";
 	}
