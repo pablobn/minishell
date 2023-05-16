@@ -7,39 +7,40 @@ CFLAGS = -Wall -Wextra -Werror
 # SOURCES
 SRCSFD = src/
 MINISHELLFD = minishell/
-MINISHELL_SRC = philo.c
+MINISHELL_SRC = minishell.c
 
 # OBJECTS
 OBJSFD = objs/
-PHILO_OBJ = $(addprefix $(OBJSFD)$(PHILOFD), $(PHILO_SRC:.c=.o))
+MINISHELL_OBJ = $(addprefix $(OBJSFD)$(MINISHELLFD), $(MINISHELL_SRC:.c=.o))
 
-HDRSFD = includes/
-HDR = philo.h
-HDRS = $(addprefix $(HDRSFD), $(HDR))
+#HEADERS
+HEADERFD = includes/
+HEADER = minishell.h
+HEADERS = $(addprefix $(HEADERFD), $(HEADER))
 
-HDR_INC = -I./includes
+HEADER_INC = -I./includes
 
 RED = \033[0;31m
 GREEN = \033[0;32m
 NONE = \033[0m
 
-all: ${HDRS} ${NAME}
+all: ${NAME}
 
 
 $(OBJSFD):
 		@mkdir $@
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
 
-$(OBJSFD)$(PHILOFD): $(OBJSFD)
+$(OBJSFD)$(MINISHELLFD): $(OBJSFD)
 		@mkdir $@
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
 
-${NAME}: ${OBJSFD}$(PHILOFD) ${PHILO_OBJ}  $(HDRS)
-	@gcc ${CFLAGS} ${PHILO_OBJ} -o $@
+${NAME}: ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
+	@gcc ${CFLAGS} ${MINISHELL_OBJ} -o $@
 	@echo "\t[ $(GREEN)✔$(NONE) ] $@ executable"
 
-$(OBJSFD)$(PHILOFD)%.o: $(SRCSFD)$(PHILOFD)%.c $(HDRS) 
-	@gcc $(CFLAGS) $(HDR_INC)  -o $@ -c $<
+$(OBJSFD)$(MINISHELLFD)%.o: $(SRCSFD)$(MINISHELLFD)%.c $(HEADERS) 
+	@gcc $(CFLAGS) $(HEADER_INC)  -o $@ -c $<
 
 clean:
 	@/bin/rm -rf $(OBJSFD)
