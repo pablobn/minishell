@@ -3,6 +3,7 @@
 void	ft_prompt(t_command *cmd)
 {
 	cmd->command = readline(GREEN "minishell" RED "$" RESET " ");
+	add_history(cmd->command);
 }
 
 //atexit(ft_leaks);
