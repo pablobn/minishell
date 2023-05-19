@@ -52,8 +52,11 @@ ${NAME}: ${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
 $(OBJSFD)$(MINISHELLFD)%.o: $(SRCSFD)$(MINISHELLFD)%.c $(HEADERS) 
 	@${CC} $(CFLAGS) $(HEADER_INC)  -o $@ -c $<
 
+debug:	${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
+	@${CC} -g3 -lreadline ${CFLAGS} ${MINISHELL_OBJ} -o $@
+	@echo "\t[ $(GREEN)✔$(NONE) ] $@ ready"
 clean:
-	@/bin/rm -rf $(OBJSFD)
+	@/bin/rm -rf $(OBJSFD) debug
 	@echo "\t[ $(RED)✗$(NONE) ] $(OBJSFD) directory"
 	@${MAKE} -s -C library/libft/ clean
 
@@ -64,4 +67,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug
