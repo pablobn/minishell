@@ -13,7 +13,8 @@ MINISHELL_SRC = minishell.c \
 				parser.c	\
 				pipex.c		\
 				list_utils.c
-
+				prompt.c	\
+				handler.c
 # OBJECTS
 OBJSFD = objs/
 MINISHELL_OBJ = $(addprefix $(OBJSFD)$(MINISHELLFD), $(MINISHELL_SRC:.c=.o))
