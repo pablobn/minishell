@@ -11,6 +11,9 @@ void	ft_handler(int sig)
 	// tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 	// tcsetattr(STDIN_FILENO, TCSANOW, &old_termios);
 	(void) sig;
+	rl_replace_line("  \n", 0);
+	rl_on_new_line();
+	rl_redisplay();
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();

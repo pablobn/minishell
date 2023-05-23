@@ -7,6 +7,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
+# include "../library/libft/libft.h"
 //Para silenciar los echos de la terminal
 # include <termios.h>
 # include "../library/libft/libft.h"
@@ -19,8 +20,10 @@ typedef struct s_command
 {
 	struct s_command	*next;
 	struct s_command	*back;
-	struct s_file		*out;
-	struct s_file		*in;
+	int					out;
+	int					out_f;
+	int					in;
+	int					in_f;
 	char				*command;
 	char				**flags;
 }t_command;
