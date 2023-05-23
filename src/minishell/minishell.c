@@ -25,7 +25,6 @@ void	ft_prompt(void)
 
 //atexit(ft_leaks);
 
-
 int	main(int argc, char **argv, char **envp)
 {
 	(void) argc;
@@ -36,6 +35,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_prompt();
 		if (!g_cmd.command)
 			return (0);
+		ft_pipex();
 	}
 	return (0);
 }

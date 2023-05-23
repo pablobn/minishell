@@ -9,6 +9,7 @@
 # include <stdlib.h>
 //Para silenciar los echos de la terminal
 # include <termios.h>
+# include "../library/libft/libft.h"
 // COLORS
 # define RED "\x1b[34m"
 # define GREEN "\x1b[32m"
@@ -26,19 +27,14 @@ typedef struct s_command
 
 t_command	g_cmd;
 
-//Puede no ser necesaria
-typedef struct s_file
-{
-	struct s_file	*next;
-	struct s_file	*back;
-	int				**fd;
-	int				flag;
-}t_file;
-
 //Prototypes
+//utils.c
+int		ft_size_list(void);
 //leaks.c
 void	ft_leaks(void);
 //parser.c
 void	ft_parser(t_command *cmd);
+//pipex.c
+int		ft_pipex(void);
 
 #endif

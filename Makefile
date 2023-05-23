@@ -1,6 +1,6 @@
 NAME = minishell
-LDFLAGS="-L/Users/sdiaz-ru/.brew/opt/readline/lib"
-CPPFLAGS="-I/Users/sdiaz-ru/.brew/opt/readline/include"
+LDFLAGS="-L/Users/$(USER)/.brew/opt/readline/lib"
+CPPFLAGS="-I/Users/$(USER)/.brew/opt/readline/include"
 CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
@@ -10,7 +10,9 @@ SRCSFD = src/
 MINISHELLFD = minishell/
 MINISHELL_SRC = minishell.c \
 				leaks.c		\
-				parser.c
+				parser.c	\
+				pipex.c		\
+				list_utils.c
 
 # OBJECTS
 OBJSFD = objs/
@@ -25,7 +27,7 @@ HEADER_READLINE = -I /Users/$(USER)/.brew/opt/readline/lib
 # HEADER INCLUDES
 HEADER_INC = -I./includes
 # LIBFT INCLUDES
-LIBFT_HRD = -I./library/libft/includes/
+LIBFT_HDR = -I./library/libft/includes/
 LIB_BINARY = -L./library/libft -lft
 LIBFT = library/libft/libft.a
 
@@ -47,14 +49,14 @@ $(OBJSFD)$(MINISHELLFD): $(OBJSFD)
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
 
 ${NAME}: ${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
-	@${CC} ${CFLAGS} ${MINISHELL_OBJ} -o $@ -lreadline $(LDFLAGS) $(CPPFLAGS)
+	@${CC} ${CFLAGS} $(LIB_BINARY) ${MINISHELL_OBJ} -o $@ -lreadline $(LDFLAGS) $(CPPFLAGS)
 	@echo "\t[ $(GREEN)✔$(NONE) ] $@ executable"
 
 $(OBJSFD)$(MINISHELLFD)%.o: $(SRCSFD)$(MINISHELLFD)%.c $(HEADERS)
-	@${CC} $(CFLAGS) $(HEADER_INC)  -o $@ -c $<
+	@${CC} $(CFLAGS) $(HEADER_INC) ${LIBFT_HDR}  -o $@ -c $<
 
 debug:	${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
-	@${CC} -g3 -lreadline ${CFLAGS} ${MINISHELL_OBJ} -o $@
+	@${CC} -g3 -lreadline ${CFLAGS} $(LIB_BINARY) ${MINISHELL_OBJ} -o $@
 	@echo "\t[ $(GREEN)✔$(NONE) ] $@ ready"
 clean:
 	@/bin/rm -rf $(OBJSFD) debug
