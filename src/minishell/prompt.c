@@ -14,9 +14,9 @@ static int	ft_is_empty(char *str)
 void	ft_prompt(void)
 {
 	signal(SIGINT, ft_handler);
-	g_cmd.command = readline(GREEN "minishell" RED "$" RESET " ");
-	if (!g_cmd.command)
+	g_cmd.line = readline(GREEN "minishell" RED "$" RESET " ");
+	if (!g_cmd.line)
 		return ;
-	if (!ft_is_empty(g_cmd.command))
-		add_history(g_cmd.command);
+	if (!ft_is_empty(g_cmd.line))
+		add_history(g_cmd.line);
 }

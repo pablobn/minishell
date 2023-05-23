@@ -24,6 +24,7 @@ typedef struct s_command
 	int					out_f;
 	int					in;
 	int					in_f;
+	char				*line;
 	char				*command;
 	char				**flags;
 }t_command;
@@ -36,7 +37,7 @@ int		ft_size_list(void);
 //leaks.c
 void	ft_leaks(void);
 //parser.c
-void	ft_parser(t_command *cmd);
+int		ft_parser(void);
 //prompt.c
 void	ft_prompt(void);
 //handler.c
