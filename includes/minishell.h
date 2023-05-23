@@ -40,5 +40,9 @@ typedef struct s_file
 void	ft_leaks(void);
 //parser.c
 void	ft_parser(t_command *cmd);
+//prompt.c
+void	ft_prompt(void);
+//handler.c
+void	ft_handler(int sig);
 
 #endif

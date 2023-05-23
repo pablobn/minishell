@@ -10,7 +10,9 @@ SRCSFD = src/
 MINISHELLFD = minishell/
 MINISHELL_SRC = minishell.c \
 				leaks.c		\
-				parser.c
+				parser.c	\
+				prompt.c	\
+				handler.c
 
 # OBJECTS
 OBJSFD = objs/
