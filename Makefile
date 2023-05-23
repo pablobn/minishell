@@ -1,5 +1,6 @@
 NAME = minishell
-
+LDFLAGS="-L/Users/sdiaz-ru/.brew/opt/readline/lib"
+CPPFLAGS="-I/Users/sdiaz-ru/.brew/opt/readline/include"
 CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
@@ -19,7 +20,7 @@ MINISHELL_OBJ = $(addprefix $(OBJSFD)$(MINISHELLFD), $(MINISHELL_SRC:.c=.o))
 HEADERFD = includes/
 HEADER = minishell.h
 HEADERS = $(addprefix $(HEADERFD), $(HEADER))
-
+HEADER_READLINE = -I /Users/$(USER)/.brew/opt/readline/lib
 #INCLUDES
 # HEADER INCLUDES
 HEADER_INC = -I./includes
@@ -46,10 +47,10 @@ $(OBJSFD)$(MINISHELLFD): $(OBJSFD)
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
 
 ${NAME}: ${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
-	@${CC} -lreadline ${CFLAGS} ${MINISHELL_OBJ} -o $@
+	@${CC} ${CFLAGS} ${MINISHELL_OBJ} -o $@ -lreadline $(LDFLAGS) $(CPPFLAGS)
 	@echo "\t[ $(GREEN)✔$(NONE) ] $@ executable"
 
-$(OBJSFD)$(MINISHELLFD)%.o: $(SRCSFD)$(MINISHELLFD)%.c $(HEADERS) 
+$(OBJSFD)$(MINISHELLFD)%.o: $(SRCSFD)$(MINISHELLFD)%.c $(HEADERS)
 	@${CC} $(CFLAGS) $(HEADER_INC)  -o $@ -c $<
 
 debug:	${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)

@@ -1,23 +1,39 @@
 #include "minishell.h"
 
-void	ft_prompt(t_command *cmd)
+t_command	cmd;
+
+void	ft_prompt(void)
 {
-	cmd->command = readline(GREEN "minishell" RED "$" RESET " ");
-	add_history(cmd->command);
+	struct termios	old_termios;
+	struct termios	new_termios;
+
+	tcgetattr(STDIN_FILENO, &old_termios);
+	new_termios = old_termios;
+	new_termios.c_lflag &= ~ECHO;
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
+	cmd.command = readline(GREEN "minishell" RED "$" RESET " ");
+	add_history(cmd.command);
+	tcsetattr(STDIN_FILENO, TCSANOW, &old_termios);
 }
 
 //atexit(ft_leaks);
 
+void	ft_handler(int sig)
+{
+	(void) sig;
+	ft_prompt();
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_command	cmd;
 
+	signal(SIGINT, ft_handler);
 	(void) argc;
 	(void) argv;
 	(void) envp;
 	while (42)
 	{
-		ft_prompt(&cmd);
+		ft_prompt();
 		if (!cmd.command)
 			return (0);
 	}

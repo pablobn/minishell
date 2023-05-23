@@ -7,6 +7,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
+//Para silenciar los echos de la terminal
+# include <termios.h>
 // COLORS
 # define RED "\x1b[34m"
 # define GREEN "\x1b[32m"
