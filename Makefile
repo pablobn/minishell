@@ -8,12 +8,12 @@ CFLAGS = -Wall -Wextra -Werror
 # SOURCES
 SRCSFD = src/
 MINISHELLFD = minishell/
-MINISHELL_SRC = minishell.c \
-				leaks.c		\
-				parser.c	\
-				pipex.c		\
-				list_utils.c
-				prompt.c	\
+MINISHELL_SRC = minishell.c 	\
+				leaks.c			\
+				parser.c		\
+				pipex.c			\
+				list_utils.c	\
+				prompt.c		\
 				handler.c
 # OBJECTS
 OBJSFD = objs/

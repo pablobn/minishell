@@ -2,5 +2,5 @@
 
 int	ft_pipex(void)
 {
-
+	return (0);
 }
