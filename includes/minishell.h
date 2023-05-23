@@ -19,22 +19,15 @@ typedef struct s_command
 {
 	struct s_command	*next;
 	struct s_command	*back;
-	struct s_file		*out;
-	struct s_file		*in;
+	int					out;
+	int					out_f;
+	int					in;
+	int					in_f;
 	char				*command;
 	char				**flags;
 }t_command;
 
 t_command	g_cmd;
-
-//Puede no ser necesaria
-typedef struct s_file
-{
-	struct s_file	*next;
-	struct s_file	*back;
-	int				**fd;
-	int				flag;
-}t_file;
 
 //Prototypes
 //leaks.c
