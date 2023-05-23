@@ -24,6 +24,8 @@ typedef struct s_command
 	char				**flags;
 }t_command;
 
+t_command	g_cmd;
+
 //Puede no ser necesaria
 typedef struct s_file
 {
