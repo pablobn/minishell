@@ -7,6 +7,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
+# include "../library/libft/libft.h"
 //Para silenciar los echos de la terminal
 # include <termios.h>
 // COLORS

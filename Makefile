@@ -49,7 +49,7 @@ $(OBJSFD)$(MINISHELLFD): $(OBJSFD)
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
 
 ${NAME}: ${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
-	@${CC} ${CFLAGS} ${MINISHELL_OBJ} -o $@ -lreadline $(LDFLAGS) $(CPPFLAGS)
+	@${CC} ${CFLAGS} ${MINISHELL_OBJ} -o $@ -lreadline $(LDFLAGS) $(CPPFLAGS) $(LIB_BINARY)
 	@echo "\t[ $(GREEN)✔$(NONE) ] $@ executable"
 
 $(OBJSFD)$(MINISHELLFD)%.o: $(SRCSFD)$(MINISHELLFD)%.c $(HEADERS)
