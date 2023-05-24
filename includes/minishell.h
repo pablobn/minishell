@@ -16,6 +16,7 @@
 # define GREEN "\x1b[32m"
 # define RESET "\x1b[37m"
 //Structs
+
 typedef struct s_command
 {
 	struct s_command	*next;
@@ -26,9 +27,12 @@ typedef struct s_command
 	int					in_f;
 	char				*command;
 	char				**flags;
-}t_command;
+} t_command;
 
-t_command	g_cmd;
+typedef struct s_ms
+{
+	t_command	*list;
+} t_ms
 
 //Prototypes
 //utils.c
