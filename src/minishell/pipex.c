@@ -14,9 +14,6 @@ void	ft_give_value(t_command *a)
 	a->next = &b;
 	a->back = NULL;
 	a->flags = first;
-	a = a->next;
-	a = a->back;
-	printf("%s\n", a->command);
 }
 
 int	ft_pipex(t_ms *ms)
