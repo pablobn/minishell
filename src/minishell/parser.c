@@ -34,12 +34,13 @@ static int	ft_outfile(t_command *cmd, int i)
 			i++;
 		}
 		aux[++j] = 0;
+		if (cmd->out)
+			close(cmd->out);
 		if (!cmd->out_f)
 			cmd->out = open(aux, O_TRUNC | O_CREAT | O_WRONLY, 664);
 		else
 			cmd->out = open(aux, O_APPEND | O_CREAT | O_WRONLY, 664);
 	}
-	i = ft_space_iter(cmd->line, i);
 	return (i);
 }
 
@@ -57,9 +58,9 @@ int	ft_parser(t_command *cmd)
 	{
 		i = ft_space_iter(cmd->line, i);
 		i = ft_outfile(cmd, i);
-
 		cmd->command[++j] = cmd->line[i];
 		i++;
 	}
+	cmd->command = &cmd->command[ft_space_iter(cmd->command, 0)];
 	return (0);
 }
