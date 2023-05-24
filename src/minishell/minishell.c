@@ -10,6 +10,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) envp;
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	g_ms->list = ft_calloc(1, sizeof(t_command));
+	g_ms->envp = envp;
 	g_ms->list->in_f = 42;
 	while (42)
 	{
@@ -18,7 +19,7 @@ int	main(int argc, char **argv, char **envp)
 			return (0);
 		if (ft_parser(g_ms->list))
 			return (-1);
-		ft_pipex(g_ms);
+		ft_execute_line(g_ms);
 	}
 	return (0);
 }
