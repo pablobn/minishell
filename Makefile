@@ -1,7 +1,7 @@
 NAME = minishell
 LDFLAGS="-L/Users/$(USER)/.brew/opt/readline/lib"
 CPPFLAGS="-I/Users/$(USER)/.brew/opt/readline/include"
-CC = gcc
+CC = gcc -g3
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -56,9 +56,6 @@ ${NAME}: ${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
 $(OBJSFD)$(MINISHELLFD)%.o: $(SRCSFD)$(MINISHELLFD)%.c $(HEADERS)
 	@${CC} $(CFLAGS) $(HEADER_INC) ${LIBFT_HDR}  -o $@ -c $<
 
-debug:	${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
-	@${CC} -g3 -lreadline ${CFLAGS} $(LIB_BINARY) ${MINISHELL_OBJ} -o $@
-	@echo "\t[ $(GREEN)✔$(NONE) ] $@ ready"
 clean:
 	@/bin/rm -rf $(OBJSFD) debug
 	@echo "\t[ $(RED)✗$(NONE) ] $(OBJSFD) directory"
