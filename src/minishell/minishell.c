@@ -18,11 +18,10 @@ int	main(int argc, char **argv, char **envp)
 			return (0);
 		if (ft_parser(g_ms->list))
 			return (-1);
-		printf("Line:%s\n", g_ms->list->line);
-		printf("Command_f:%s\n", g_ms->list->command);
-		printf("Out:%d\n", g_ms->list->out);
-		printf("Out_f:%d\n", g_ms->list->out_f);
-		//close(g_ms->list->out);
+		// printf("Line:%s\n", g_ms->list->line);
+		// printf("Command_f:%s\n", g_ms->list->command);
+		// printf("Out:%d\n", g_ms->list->out);
+		// printf("Out_f:%d\n", g_ms->list->out_f);
 		//ft_pipex(g_ms);
 	}
 	return (0);
