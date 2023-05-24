@@ -32,11 +32,11 @@ typedef struct s_command
 typedef struct s_ms
 {
 	t_command	*list;
-} t_ms
+} t_ms;
 
 //Prototypes
-//utils.c
-int		ft_size_list(void);
+//list_utils.c
+int		ft_size_list(t_command *list);
 //leaks.c
 void	ft_leaks(void);
 //parser.c
@@ -46,5 +46,5 @@ void	ft_prompt(void);
 //handler.c
 void	ft_handler(int sig);
 //pipex.c
-int		ft_pipex(void);
+int		ft_pipex(t_ms *ms);
 #endif

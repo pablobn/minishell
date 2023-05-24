@@ -17,7 +17,7 @@ void	ft_prompt(void)
 {
 	signal(SIGINT, ft_handler);
 	g_ms->list->command = readline(GREEN "minishell" RED "$" RESET " ");
-	if (!g_cmd.command)
+	if (!g_ms->list->command)
 		return ;
 	if (!ft_is_empty(g_ms->list->command))
 		add_history(g_ms->list->command);

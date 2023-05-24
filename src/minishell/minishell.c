@@ -14,7 +14,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_prompt();
 		if (!g_ms->list->command)
 			return (0);
-		ft_pipex();
+		ft_pipex(g_ms);
 	}
 	return (0);
 }
