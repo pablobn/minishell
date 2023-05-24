@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-extern t_ms *g_ms;
-
 static int	ft_is_empty(char *str)
 {
 	int	i;
@@ -13,12 +11,12 @@ static int	ft_is_empty(char *str)
 	return (1);
 }
 
-void	ft_prompt(void)
+void	ft_prompt(t_command *cmd)
 {
 	signal(SIGINT, ft_handler);
-	g_ms->list->command = readline(GREEN "minishell" RED "$" RESET " ");
-	if (!g_ms->list->command)
+	cmd->line = readline(GREEN "minishell" RED "$" RESET " ");
+	if (!cmd->line)
 		return ;
-	if (!ft_is_empty(g_ms->list->command))
-		add_history(g_ms->list->command);
+	if (!ft_is_empty(cmd->line))
+		add_history(cmd->line);
 }

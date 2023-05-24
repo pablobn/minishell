@@ -25,14 +25,15 @@ typedef struct s_command
 	int					out_f;
 	int					in;
 	int					in_f;
+	char				*line;
 	char				*command;
 	char				**flags;
-} t_command;
+}t_command;
 
 typedef struct s_ms
 {
 	t_command	*list;
-} t_ms;
+}t_ms;
 
 //Prototypes
 //list_utils.c
@@ -40,9 +41,9 @@ int		ft_size_list(t_command *list);
 //leaks.c
 void	ft_leaks(void);
 //parser.c
-void	ft_parser(t_command *cmd);
+int		ft_parser(t_command *cmd);
 //prompt.c
-void	ft_prompt(void);
+void	ft_prompt(t_command *cmd);
 //handler.c
 void	ft_handler(int sig);
 //pipex.c
