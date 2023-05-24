@@ -2,8 +2,9 @@
 
 int	ft_parser(void)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	aux[255];
 
 	i = 0;
 	j = -1;
@@ -14,17 +15,31 @@ int	ft_parser(void)
 	{
 		while (g_cmd.line[i] == ' ')
 			i++;
-		if (g_cmd.line[i] == '<')
-			ft_infile();
-		else if (g_cmd.line[i] == '<<')
-			ft_here_doc();
-		else if (g_cmd.line[i] == '>')
-			ft_out_file();
-		else if (g_cmd.line[i] == '>>')
-			ft_out_file();
-		else if (g_cmd.line[i] == '|')
-			ft_new_pipe();
-		g_cmd.command[++j] = g_cmd.line[i];
+		if (g_cmd.line[i] == '>')
+		{
+			i++;
+			if (g_cmd.line[i] == '>')
+			{
+				g_cmd.out_f = 1;
+				i++;
+				while (g_cmd.line[i] != ' ')
+				{
+					aux[++j] = g_cmd.line[i];
+					i++;
+				}
+			aux[++j] = 0;
+			}
+			else
+				g_cmd.out_f = 0;
+			while (g_cmd.line[i] != ' ')
+			{
+				aux[++j] = g_cmd.line[i];
+				i++;
+			}
+			aux[++j] = 0;
+			g_cmd.out = open(aux, O_CREAT | O_TRUNC, 664);
+		}
+		//g_cmd.command[++j] = g_cmd.line[i];
 		i++;
 	}
 	return (0);
