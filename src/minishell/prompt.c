@@ -14,6 +14,7 @@ static int	ft_is_empty(char *str)
 void	ft_prompt(t_command *cmd)
 {
 	signal(SIGINT, ft_handler);
+	rl_replace_line("", 0);
 	cmd->line = readline(GREEN "minishell" BLUE "$" RESET " ");
 	if (!cmd->line)
 		return ;
