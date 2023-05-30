@@ -80,14 +80,16 @@ static int	ft_command(t_command *cmd, int i)
 {
 	int	j;
 
-	j = -1;
-	if (cmd->command[0])
-		return (i);
-	while (cmd->line[i] && ft_isalnum(cmd->line[i]))
+	j = 0;
+	while (cmd->command[j])
+		j++;
+	while (cmd->line[i])
 	{
-		cmd->command[++j] = cmd->line[i];
+		cmd->command[j] = cmd->line[i];
 		i++;
+		j++;
 	}
+	cmd->command[j] = ' ';
 	return (i);
 }
 
@@ -112,6 +114,6 @@ int	ft_parser(t_command *cmd)
 		i = ft_command(cmd, i);
 		i++;
 	}
-	cmd->command = &cmd->command[ft_space_iter(cmd->command, 0)];
+	//cmd->flags = ft_split(cmd->command, ' ');
 	return (0);
 }
