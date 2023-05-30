@@ -83,7 +83,7 @@ static int	ft_command(t_command *cmd, int i)
 	j = 0;
 	while (cmd->command[j])
 		j++;
-	while (cmd->line[i])
+	while (cmd->line[i] && cmd->line[i] != ' ')
 	{
 		cmd->command[j] = cmd->line[i];
 		i++;
