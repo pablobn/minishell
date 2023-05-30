@@ -36,9 +36,7 @@ static int	ft_infile(t_command *cmd, int i)
 		aux[++j] = 0;
 		if (cmd->in)
 			close(cmd->in);
-		printf("\n(%s)\n", aux);
 		cmd->in = open(aux, O_RDONLY);
-		printf("\n(%d)\n", cmd->in);
 	}
 	return (i);
 }
@@ -78,6 +76,21 @@ static int	ft_outfile(t_command *cmd, int i)
 	return (i);
 }
 
+static int	ft_command(t_command *cmd, int i)
+{
+	int	j;
+
+	j = -1;
+	if (cmd->command[0])
+		return (i);
+	while (cmd->line[i] && ft_isalnum(cmd->line[i]))
+	{
+		cmd->command[++j] = cmd->line[i];
+		i++;
+	}
+	return (i);
+}
+
 int	ft_parser(t_command *cmd)
 {
 	int		i;
@@ -88,12 +101,15 @@ int	ft_parser(t_command *cmd)
 	cmd->command = ft_calloc(ft_strlen(cmd->line) + 1, sizeof(char *));
 	if (!cmd->command)
 		return (-1);
+	cmd->flags = ft_calloc(ft_strlen(cmd->line) + 1, sizeof(char *));
+	if (!cmd->flags)
+		return (-1);
 	while (cmd->line[i])
 	{
 		i = ft_space_iter(cmd->line, i);
 		i = ft_outfile(cmd, i);
 		i = ft_infile(cmd, i);
-		cmd->command[++j] = cmd->line[i];
+		i = ft_command(cmd, i);
 		i++;
 	}
 	cmd->command = &cmd->command[ft_space_iter(cmd->command, 0)];
