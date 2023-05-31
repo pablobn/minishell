@@ -60,4 +60,5 @@ int		ft_execute_line(t_ms *ms);
 //init_env.c
 int		ft_init_env(t_ms *ms, char **envp);
 char 	*ft_get_env_key(t_env *env, char *str);
+char	**ft_get_envp(t_env *env);
 #endif

@@ -40,7 +40,6 @@ static char	*ft_get_cmd(char *str, char *path)
 	while (cases[i])
 	{
 		tmp = ft_strjoin(cases[i], str);
-		printf("TEMPORAL %s\n", tmp);
 		if (access(tmp, 0) == 0)
 			return (tmp);
 		free(tmp);
@@ -56,10 +55,9 @@ void	ft_execute_command(t_command *list, t_env *env)
 
 	path = ft_get_env_key(env, "PATH");
 	cmd_path = ft_get_cmd(ft_strjoin("/", list->cmd), path);
-	printf("ESTO ES EL VALOR DE CMD %s\n", cmd_path);
 	if (!cmd_path)
 		exit (1);
-	execve(cmd_path, list->flags, env);
+	execve(cmd_path, ft_split(list->cmd, ' '), ft_get_envp(env));
 }
 
 void	ft_pipex(t_command *list, t_env *env)
@@ -99,7 +97,6 @@ int	ft_execute_line(t_ms *ms)
 	if (pid == 0)
 	{
 		list = ms->list;
-		printf("ESTO ES EL VALOR DEL COMANDO %s\n", list->cmd);
 		// ft_give_value(list);
 		while (list->next)
 		{
