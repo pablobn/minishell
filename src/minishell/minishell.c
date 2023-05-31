@@ -31,6 +31,8 @@ int	main(int argc, char **argv, char **envp)
 		printf("In_f:%d\n", g_ms->list->in_f);
 		ft_execute_line(g_ms);
 		//frees
+		free(g_ms->list->cmd);
+		g_ms->list->cmd = NULL;
 	}
 	return (0);
 }
