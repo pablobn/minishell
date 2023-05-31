@@ -30,10 +30,18 @@ typedef struct s_command
 	char				**flags;
 }t_command;
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+}t_env;
+
 typedef struct s_ms
 {
 	t_command	*list;
+	t_env		*env;
 }t_ms;
+
 
 //Prototypes
 //list_utils.c
@@ -48,4 +56,6 @@ void	ft_prompt(t_command *cmd);
 void	ft_handler(int sig);
 //pipex.c
 int		ft_pipex(t_ms *ms);
+//init_env.c
+int		ft_init_env(t_ms *ms, char **envp);
 #endif
