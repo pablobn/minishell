@@ -12,6 +12,8 @@ int	main(int argc, char **argv, char **envp)
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	g_ms->list = ft_calloc(1, sizeof(t_command));
 	ft_init_env(g_ms, envp);
+	g_ms->envp = envp;
+	g_ms->list->in_f = 42;
 	while (42)
 	{
 		ft_prompt(g_ms->list);
@@ -22,14 +24,14 @@ int	main(int argc, char **argv, char **envp)
 		printf("Line:%s\n", g_ms->list->line);
 		printf("Command_f:%s\n", g_ms->list->cmd);
 		printf("Out:%d\n", g_ms->list->out);
-		if(g_ms->list->out)
+		if (g_ms->list->out)
 			close(g_ms->list->out);
 		printf("Out_f:%d\n", g_ms->list->out_f);
 		printf("In:%d\n", g_ms->list->in);
-		if(g_ms->list->in)
+		if (g_ms->list->in)
 			close(g_ms->list->in);
 		printf("In_f:%d\n", g_ms->list->in_f);
-		//ft_pipex(g_ms);
+		ft_execute_line(g_ms);
 	}
 	return (0);
 }
