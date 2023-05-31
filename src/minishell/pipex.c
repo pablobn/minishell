@@ -54,10 +54,10 @@ void	ft_execute_command(t_command *list, t_env *env)
 	char	*cmd_path;
 
 	path = ft_get_env_key(env, "PATH");
-	cmd_path = ft_get_cmd(ft_strjoin("/", list->cmd), path);
+	cmd_path = ft_get_cmd(ft_strjoin("/", list->flags[0]), path);
 	if (!cmd_path)
 		exit (1);
-	execve(cmd_path, ft_split(list->cmd, ' '), ft_get_envp(env));
+	execve(cmd_path, list->flags, ft_get_envp(env));
 }
 
 void	ft_pipex(t_command *list, t_env *env)

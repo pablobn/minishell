@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char 	*ft_get_env_key(t_env *env, char *str)
+char	*ft_get_env_key(t_env *env, char *str)
 {
 	int	i;
 

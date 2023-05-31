@@ -69,46 +69,56 @@ static int	ft_outfile(t_command *cmd, int i)
 		if (cmd->out)
 			close(cmd->out);
 		if (!cmd->out_f)
-			cmd->out = open(aux, O_TRUNC | O_CREAT | O_WRONLY, 777);
+			cmd->out = open(aux, O_TRUNC | O_CREAT | O_WRONLY, 0777);
 		else
-			cmd->out = open(aux, O_APPEND | O_CREAT | O_WRONLY, 777);
+			cmd->out = open(aux, O_APPEND | O_CREAT | O_WRONLY, 0777);
 	}
 	return (i);
 }
 
-static int	ft_command(t_command *cmd, int i)
+static int	ft_command(t_command *list, int i)
 {
-	int	j;
+	int		j;
+	char	*temp;
 
 	j = 0;
-	while (cmd->cmd[j])
+	while (list->line[i + j] && list->line[i + j] != ' ')
 		j++;
-	while (cmd->line[i] && cmd->line[i] != ' ')
+	temp = ft_calloc(sizeof(char *), j + 1);
+	j = 0;
+	while (list->line[i] && list->line[i] != ' ')
 	{
-		cmd->cmd[j] = cmd->line[i];
-		i++;
+		temp[j] = list->line[i];
 		j++;
+		i++;
 	}
-	cmd->cmd[j] = ' ';
+	//leaks
+	if (list->cmd)
+	{
+		list->cmd = ft_strjoin(list->cmd, temp);
+	}
+	else
+		list->cmd = temp;
+	list->cmd = ft_strjoin(list->cmd, " ");
 	return (i);
 }
 
-static int	ft_expand(t_ms *ms, int i)
-{
-	int	j;
-	int	size;
+// static int	ft_expand(t_ms *ms, int i)
+// {
+// 	int	j;
+// 	int	size;
 
-	j = 0;
-	if (ms->list->line[i] == '$')
-	{
-		i++;
-		size = -1;
-		while (ft_isalnum(ms->list->line[i + ++size]))
-			;
+// 	j = 0;
+// 	if (ms->list->line[i] == '$')
+// 	{
+// 		i++;
+// 		size = -1;
+// 		while (ft_isalnum(ms->list->line[i + ++size]))
+// 			;
 			
-	}
-	return (i);
-}
+// 	}
+// 	return (i);
+// }
 
 int	ft_parser(t_ms *ms)
 {
@@ -117,21 +127,14 @@ int	ft_parser(t_ms *ms)
 
 	i = 0;
 	j = -1;
-	ms->list->cmd = ft_calloc(ft_strlen(ms->list->line) + 1, sizeof(char *));
-	if (!ms->list->cmd)
-		return (-1);
-	ms->list->flags = ft_calloc(ft_strlen(ms->list->line) + 1, sizeof(char *));
-	if (!ms->list->flags)
-		return (-1);
 	while (ms->list->line[i])
 	{
 		i = ft_space_iter(ms->list->line, i);
 		i = ft_outfile(ms->list, i);
 		i = ft_infile(ms->list, i);
-		i = ft_expand(ms, i);
 		i = ft_command(ms->list, i);
 		i++;
 	}
-	//cmd->flags = ft_split(cmd->cmd, ' ');
+	ms->list->flags = ft_split(ms->list->cmd, ' ');
 	return (0);
 }
