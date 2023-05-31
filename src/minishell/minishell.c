@@ -17,10 +17,10 @@ int	main(int argc, char **argv, char **envp)
 		ft_prompt(g_ms->list);
 		if (!g_ms->list->line)
 			return (0);
-		if (ft_parser(g_ms->list))
+		if (ft_parser(g_ms))
 			return (-1);
 		printf("Line:%s\n", g_ms->list->line);
-		printf("Command_f:%s\n", g_ms->list->command);
+		printf("Command_f:%s\n", g_ms->list->cmd);
 		printf("Out:%d\n", g_ms->list->out);
 		if(g_ms->list->out)
 			close(g_ms->list->out);

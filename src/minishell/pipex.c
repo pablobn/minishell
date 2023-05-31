@@ -6,11 +6,11 @@ void	ft_give_value(t_command *a)
 	char *first[] = {"ls", "-l"};
 	char *second[] = {"wc", "-l"};
 
-	b.command = "wc";
+	b.cmd = "wc";
 	b.next = NULL;
 	b.back = a;
 	b.flags = second;
-	a->command = "ls";
+	a->cmd = "ls";
 	a->next = &b;
 	a->back = NULL;
 	a->flags = first;

@@ -81,39 +81,57 @@ static int	ft_command(t_command *cmd, int i)
 	int	j;
 
 	j = 0;
-	while (cmd->command[j])
+	while (cmd->cmd[j])
 		j++;
 	while (cmd->line[i] && cmd->line[i] != ' ')
 	{
-		cmd->command[j] = cmd->line[i];
+		cmd->cmd[j] = cmd->line[i];
 		i++;
 		j++;
 	}
-	cmd->command[j] = ' ';
+	cmd->cmd[j] = ' ';
 	return (i);
 }
 
-int	ft_parser(t_command *cmd)
+static int	ft_expand(t_ms *ms, int i)
+{
+	int	j;
+	int	size;
+
+	j = 0;
+	if (ms->list->line[i] == '$')
+	{
+		i++;
+		size = -1;
+		while (ft_isalnum(ms->list->line[i + ++size]))
+			;
+			
+	}
+	return (i);
+}
+
+int	ft_parser(t_ms *ms)
 {
 	int		i;
 	int		j;
 
 	i = 0;
 	j = -1;
-	cmd->command = ft_calloc(ft_strlen(cmd->line) + 1, sizeof(char *));
-	if (!cmd->command)
+	ms->list->cmd = ft_calloc(ft_strlen(ms->list->line) + 1, sizeof(char *));
+	if (!ms->list->cmd)
 		return (-1);
-	cmd->flags = ft_calloc(ft_strlen(cmd->line) + 1, sizeof(char *));
-	if (!cmd->flags)
+	ms->list->flags = ft_calloc(ft_strlen(ms->list->line) + 1, sizeof(char *));
+	if (!ms->list->flags)
 		return (-1);
-	while (cmd->line[i])
+	while (ms->list->line[i])
 	{
-		i = ft_space_iter(cmd->line, i);
-		i = ft_outfile(cmd, i);
-		i = ft_infile(cmd, i);
-		i = ft_command(cmd, i);
+		i = ft_space_iter(ms->list->line, i);
+		i = ft_outfile(ms->list, i);
+		i = ft_infile(ms->list, i);
+		i = ft_expand(ms, i);
+		i = ft_command(ms->list, i);
 		i++;
 	}
-	//cmd->flags = ft_split(cmd->command, ' ');
+	//cmd->flags = ft_split(cmd->cmd, ' ');
 	return (0);
 }

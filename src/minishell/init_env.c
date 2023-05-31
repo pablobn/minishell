@@ -20,11 +20,11 @@ int	ft_init_env(t_ms *ms, char **envp)
 		ms->env[i].key = ft_substr(envp[i], 0, total);
 		ms->env[i].value = ft_substr(envp[i], total + 1, ft_strlen(envp[i]));
 	}
-	i = -1;
-	while (envp[++i])
-	{
-		printf("ms->env[%d].key:(%s)\n", i, ms->env[i].key);
-		printf("ms->env[%d].value:(%s)\n\n", i, ms->env[i].value);
-	}
+	// i = -1;
+	// while (envp[++i])
+	// {
+	// 	printf("ms->env[%d].key:(%s)\n", i, ms->env[i].key);
+	// 	printf("ms->env[%d].value:(%s)\n\n", i, ms->env[i].value);
+	// }
 	return (0);
 }
