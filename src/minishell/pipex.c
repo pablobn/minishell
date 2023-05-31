@@ -40,6 +40,7 @@ static char	*ft_get_cmd(char *str, char *path)
 	while (cases[i])
 	{
 		tmp = ft_strjoin(cases[i], str);
+		printf("TEMPORAL %s\n", tmp);
 		if (access(tmp, 0) == 0)
 			return (tmp);
 		free(tmp);
@@ -48,19 +49,20 @@ static char	*ft_get_cmd(char *str, char *path)
 	return (NULL);
 }
 
-void	ft_execute_command(t_command *list, char **envp)
+void	ft_execute_command(t_command *list, t_env *env)
 {
 	char	*path;
 	char	*cmd_path;
 
-	path = getenv("PATH");
+	path = ft_get_env_key(env, "PATH");
 	cmd_path = ft_get_cmd(ft_strjoin("/", list->cmd), path);
+	printf("ESTO ES EL VALOR DE CMD %s\n", cmd_path);
 	if (!cmd_path)
 		exit (1);
-	execve(cmd_path, list->flags, envp);
+	execve(cmd_path, list->flags, env);
 }
 
-void	ft_pipex(t_command *list, char **envp)
+void	ft_pipex(t_command *list, t_env *env)
 {
 	pid_t	pid;
 	int		tube[2];
@@ -77,7 +79,7 @@ void	ft_pipex(t_command *list, char **envp)
 		else
 			dup2(tube[1], STDOUT_FILENO);
 		close(tube[1]);
-		ft_execute_command(list, envp);
+		ft_execute_command(list, env);
 	}
 	else
 	{
@@ -97,13 +99,14 @@ int	ft_execute_line(t_ms *ms)
 	if (pid == 0)
 	{
 		list = ms->list;
-		ft_give_value(list);
+		printf("ESTO ES EL VALOR DEL COMANDO %s\n", list->cmd);
+		// ft_give_value(list);
 		while (list->next)
 		{
-			ft_pipex(list, ms->envp);
+			ft_pipex(list, ms->env);
 			list = list->next;
 		}
-		ft_execute_command(list, ms->envp);
+		ft_execute_command(list, ms->env);
 	}
 	waitpid(pid, NULL, 0);
 	return (0);

@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+char 	*ft_get_env_key(t_env *env, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (&env[i])
+	{
+		if (env[i].key == str)
+			return (env[i].value);
+	}
+
+	return (NULL);
+}
+
 int	ft_init_env(t_ms *ms, char **envp)
 {
 	int	i;

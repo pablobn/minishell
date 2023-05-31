@@ -40,7 +40,6 @@ typedef struct s_ms
 {
 	t_command	*list;
 	t_env		*env;
-	char		**envp;
 }t_ms;
 
 
@@ -56,8 +55,9 @@ void	ft_prompt(t_command *cmd);
 //handler.c
 void	ft_handler(int sig);
 //pipex.c
-void	ft_pipex(t_command *list, char **envp);
+void	ft_pipex(t_command *list, t_env *env);
 int		ft_execute_line(t_ms *ms);
 //init_env.c
 int		ft_init_env(t_ms *ms, char **envp);
+char 	*ft_get_env_key(t_env *env, char *str);
 #endif
