@@ -18,7 +18,7 @@ int	ft_init_env(t_ms *ms, char **envp)
 		while (envp[i][++total] != '=')
 			;
 		ms->env[i].key = ft_substr(envp[i], 0, total);
-		ms->env[i].value = ft_substr(envp[i], total + 1, ft_strlen(envp[i]) - total);
+		ms->env[i].value = ft_substr(envp[i], total + 1, ft_strlen(envp[i]));
 	}
 	i = -1;
 	while (envp[++i])
