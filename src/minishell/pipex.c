@@ -31,6 +31,7 @@ void	ft_give_value(t_command *a)
 static char	*ft_get_cmd(char *str, char *path)
 {
 	char	**cases;
+	char	*new;
 	char	*tmp;
 	int		i;
 
@@ -38,10 +39,10 @@ static char	*ft_get_cmd(char *str, char *path)
 	i = 0;
 	if (access(str, 0) == 0)
 			return (str);
-	tmp = ft_strjoin("/", str);
+	new = ft_strjoin("/", str);
 	while (cases[i])
 	{
-		tmp = ft_strjoin(cases[i], str);
+		tmp = ft_strjoin(cases[i], new);
 		if (access(tmp, 0) == 0)
 			return (tmp);
 		free(tmp);
@@ -71,7 +72,11 @@ void	ft_execute_command(t_command *list, t_env *env)
 	// if (ft_built_in(list) == 1)
 	// 	exit (1);
 	if (!cmd_path)
+	{
+		perror(list->flags[0]);
 		exit (1);
+	}
+
 	execve(cmd_path, list->flags, ft_get_envp(env));
 }
 
