@@ -11,16 +11,16 @@ static int	ft_is_empty(char *str)
 	return (1);
 }
 
-void	ft_prompt(t_command *cmd)
+void	ft_prompt(t_ms *ms)
 {
 	signal(SIGINT, ft_handler);
 	rl_replace_line("", 0);
-	if (cmd->line)
-		free(cmd->line);
-	cmd->line = readline(GREEN "minishell" BLUE "$" RESET " ");
-	if (!cmd->line)
+	if (ms->list->line)
+		free(ms->list->line);
+	ms->list->line = readline(GREEN "minishell" BLUE "$" RESET " ");
+	if (!ms->list->line)
 		return ;
-	cmd->line[ft_strlen(cmd->line) + 1] = 0;
-	if (!ft_is_empty(cmd->line))
-		add_history(cmd->line);
+	ms->list->line[ft_strlen(ms->list->line) + 1] = 0;
+	if (!ft_is_empty(ms->list->line))
+		add_history(ms->list->line);
 }
