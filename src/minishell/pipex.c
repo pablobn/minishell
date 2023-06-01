@@ -36,6 +36,9 @@ static char	*ft_get_cmd(char *str, char *path)
 
 	cases = ft_split(path, ':');
 	i = 0;
+	if (access(str, 0) == 0)
+			return (str);
+	tmp = ft_strjoin("/", str);
 	while (cases[i])
 	{
 		tmp = ft_strjoin(cases[i], str);
@@ -47,13 +50,26 @@ static char	*ft_get_cmd(char *str, char *path)
 	return (NULL);
 }
 
+// int	ft_built_in(t_command *list)
+// {
+// 	// if (ft_strncmp(list->flags[0], "cd", 2) == 0)
+// 	// 	return (ft_cd(list), 1);
+// 	// if (ft_strncmp(list->flags[0], "export", 6) == 0)
+// 	// 	return (ft_export(list), 1);
+// 	// if (ft_strncmp(list->flags[0], "unset", 5) == 0)
+// 	// 	return (ft_unset(list), 1);
+// 	return (0);
+// }
+
 void	ft_execute_command(t_command *list, t_env *env)
 {
 	char	*path;
 	char	*cmd_path;
 
 	path = ft_get_env_key(env, "PATH");
-	cmd_path = ft_get_cmd(ft_strjoin("/", list->flags[0]), path);
+	cmd_path = ft_get_cmd(list->flags[0], path);
+	// if (ft_built_in(list) == 1)
+	// 	exit (1);
 	if (!cmd_path)
 		exit (1);
 	execve(cmd_path, list->flags, ft_get_envp(env));

@@ -37,8 +37,8 @@ char	**ft_get_envp(t_env *env)
 	{
 		envp[i] = ft_calloc(ft_strlen(env[i].key) + 1, sizeof(char *));
 		envp[i] = env[i].key;
-		ft_strjoin(envp[i], "=");
-		ft_strjoin(envp[i], env[i].value);
+		envp[i] = ft_strjoin(envp[i], "=");
+		envp[i] = ft_strjoin(envp[i], env[i].value);
 		i++;
 	}
 	return (envp);
@@ -49,10 +49,10 @@ int	ft_init_env(t_ms *ms, char **envp)
 	int	i;
 	int	total;
 
-	total = -1;
-	while (envp[++total])
-		;
-	ms->env = malloc(sizeof(t_env) * total);
+	total = 0;
+	while (envp[total])
+		total++;
+	ms->env = ft_calloc(sizeof(t_env), total + 1);
 	if (!ms->env)
 		return (-1);
 	i = -1;
@@ -65,11 +65,5 @@ int	ft_init_env(t_ms *ms, char **envp)
 		ms->env[i].value = ft_substr(envp[i], total + 1, ft_strlen(envp[i]));
 	}
 	ms->env[i].key = NULL;
-	// i = -1;
-	// while (envp[++i])
-	// {
-	// 	printf("ms->env[%d].key:(%s)\n", i, ms->env[i].key);
-	// 	printf("ms->env[%d].value:(%s)\n\n", i, ms->env[i].value);
-	// }
 	return (0);
 }
