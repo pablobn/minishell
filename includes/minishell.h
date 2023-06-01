@@ -48,6 +48,7 @@ typedef struct s_ms
 int		ft_size_list(t_command *list);
 //leaks.c
 void	ft_leaks(void);
+void	ft_free_matrix(char **matrix);
 //parser.c
 int		ft_parser(t_ms *ms);
 //prompt.c
