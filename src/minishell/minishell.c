@@ -15,17 +15,17 @@ int	main(int argc, char **argv, char **envp)
 	while (42)
 	{
 		ft_prompt(g_ms->list);
-		if (!g_ms->list->line)
+		if (!g_ms->list->line || !ft_strncmp(g_ms->list->line, "exit", 4))
 			return (0);
 		if (ft_parser(g_ms))
 			return (-1);
-		// printf("Line:%s\n", g_ms->list->line);
-		// printf("Command_f:%s\n", g_ms->list->cmd);
-		// printf("Flags:%s\n", g_ms->list->flags[0]);
-		// printf("Out:%d\n", g_ms->list->out);
-		// printf("Out_f:%d\n", g_ms->list->out_f);
-		// printf("In:%d\n", g_ms->list->in);
-		// printf("In_f:%d\n", g_ms->list->in_f);
+		printf("Line:%s\n", g_ms->list->line);
+		printf("Command_f:%s\n", g_ms->list->cmd);
+		printf("Flags:%s\n", g_ms->list->flags[0]);
+		printf("Out:%d\n", g_ms->list->out);
+		printf("Out_f:%d\n", g_ms->list->out_f);
+		printf("In:%d\n", g_ms->list->in);
+		printf("In_f:%d\n", g_ms->list->in_f);
 		ft_execute_line(g_ms);
 		//frees
 		if (g_ms->list->out)
