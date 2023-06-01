@@ -22,9 +22,9 @@ void	ft_give_value(t_command *a)
 	b->in = STDIN_FILENO;
 	b->flags = second;
 	a->cmd = "ls";
-	a->next = b;
+	a->next = NULL;
 	a->back = NULL;
-	a->out = STDOUT_FILENO;
+	a->out = open("hola", O_TRUNC | O_CREAT | O_WRONLY, 0777);;
 	a->in = STDIN_FILENO;
 	a->flags = first;
 }
@@ -98,6 +98,11 @@ int	ft_execute_line(t_ms *ms)
 	{
 		list = ms->list;
 		// ft_give_value(list);
+		if (!list->next)
+		{
+			dup2(list->in, STDIN_FILENO);
+			dup2(list->out, STDOUT_FILENO);
+		}
 		while (list->next)
 		{
 			ft_pipex(list, ms->env);

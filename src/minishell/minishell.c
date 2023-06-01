@@ -22,20 +22,27 @@ int	main(int argc, char **argv, char **envp)
 		printf("Line:%s\n", g_ms->list->line);
 		printf("Command_f:%s\n", g_ms->list->cmd);
 		printf("Out:%d\n", g_ms->list->out);
-		if (g_ms->list->out)
-			close(g_ms->list->out);
 		printf("Out_f:%d\n", g_ms->list->out_f);
 		printf("In:%d\n", g_ms->list->in);
-		if (g_ms->list->in)
-			close(g_ms->list->in);
 		printf("In_f:%d\n", g_ms->list->in_f);
 		ft_execute_line(g_ms);
 		//frees
+		if (g_ms->list->out)
+		{
+			close(g_ms->list->out);
+			g_ms->list->out = 0;
+		}
+		if (g_ms->list->in)
+		{
+			close(g_ms->list->in);
+			g_ms->list->in = 0;
+		}
 		if (g_ms->list->cmd)
 		{
 			free(g_ms->list->cmd);
 			g_ms->list->cmd = NULL;
 		}
+			
 	}
 	return (0);
 }
