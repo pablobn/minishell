@@ -7,10 +7,9 @@ void	ft_give_value(t_command *a)
 	char		**second;
 
 	b = ft_calloc(1, sizeof(t_command));
-	first = ft_calloc(3, sizeof(char *));
-	first[0] = "ls";
-	first[1] = "-l";
-	first[2] = NULL;
+	first = ft_calloc(2, sizeof(char *));
+	first[0] = "cat";
+	first[1] = NULL;
 	second = ft_calloc(3, sizeof(char *));
 	second[0] = "wc";
 	second[1] = "-l";
@@ -21,11 +20,11 @@ void	ft_give_value(t_command *a)
 	b->out = STDOUT_FILENO;
 	b->in = STDIN_FILENO;
 	b->flags = second;
-	a->cmd = "ls";
+	a->cmd = "cat";
 	a->next = NULL;
 	a->back = NULL;
-	a->out = open("hola", O_TRUNC | O_CREAT | O_WRONLY, 0777);;
-	a->in = STDIN_FILENO;
+	a->out = 1;
+	a->in = open("hola", O_RDONLY);
 	a->flags = first;
 }
 
@@ -100,8 +99,9 @@ int	ft_execute_line(t_ms *ms)
 		// ft_give_value(list);
 		if (!list->next)
 		{
-			dup2(list->in, STDIN_FILENO);
-			dup2(list->out, STDOUT_FILENO);
+			dup2(ms->list->in, STDIN_FILENO);
+			if (list->out != 0)
+				dup2(list->out, STDOUT_FILENO);
 		}
 		while (list->next)
 		{

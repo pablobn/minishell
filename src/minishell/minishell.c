@@ -42,7 +42,6 @@ int	main(int argc, char **argv, char **envp)
 			free(g_ms->list->cmd);
 			g_ms->list->cmd = NULL;
 		}
-			
 	}
 	return (0);
 }
