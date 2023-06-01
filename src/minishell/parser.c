@@ -84,7 +84,10 @@ static int	ft_command(t_command *list, int i)
 	j = 0;
 	while (list->line[i + j] && list->line[i + j] != ' ')
 		j++;
+	printf("(%d)\n", j);
 	temp = ft_calloc(sizeof(char *), j + 1);
+	if (!temp)
+		return (i);
 	j = 0;
 	while (list->line[i] && list->line[i] != ' ')
 	{
@@ -96,6 +99,8 @@ static int	ft_command(t_command *list, int i)
 	if (list->cmd)
 	{
 		list->cmd = ft_strjoin(list->cmd, temp);
+		free(temp);
+		temp = NULL;
 	}
 	else
 		list->cmd = temp;
@@ -133,6 +138,7 @@ int	ft_parser(t_ms *ms)
 		i = ft_outfile(ms->list, i);
 		i = ft_infile(ms->list, i);
 		i = ft_command(ms->list, i);
+		printf("(%d)\n",i);
 		i++;
 	}
 	ms->list->flags = ft_split(ms->list->cmd, ' ');
