@@ -107,23 +107,6 @@ static int	ft_command(t_command *list, int i)
 	return (i);
 }
 
-// static int	ft_expand(t_ms *ms, int i)
-// {
-// 	int	j;
-// 	int	size;
-
-// 	j = 0;
-// 	if (ms->list->line[i] == '$')
-// 	{
-// 		i++;
-// 		size = -1;
-// 		while (ft_isalnum(ms->list->line[i + ++size]))
-// 			;
-			
-// 	}
-// 	return (i);
-// }
-
 int	ft_parser(t_ms *ms)
 {
 	int		i;

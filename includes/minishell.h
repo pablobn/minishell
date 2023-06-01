@@ -52,7 +52,7 @@ void	ft_free_matrix(char **matrix);
 //parser.c
 int		ft_parser(t_ms *ms);
 //prompt.c
-void	ft_prompt(t_command *cmd);
+void	ft_prompt(t_ms *ms);
 //handler.c
 void	ft_handler(int sig);
 //pipex.c

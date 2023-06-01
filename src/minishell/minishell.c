@@ -14,7 +14,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_init_env(g_ms, envp);
 	while (42)
 	{
-		ft_prompt(g_ms->list);
+		ft_prompt(g_ms);
 		if (!g_ms->list->line || !ft_strncmp(g_ms->list->line, "exit", 4))
 			return (0);
 		if (ft_parser(g_ms))
