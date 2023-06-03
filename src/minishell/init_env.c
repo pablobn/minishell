@@ -7,10 +7,11 @@ char	*ft_get_env_key(t_env *env, char *str)
 	i = 0;
 	while (env[i].key)
 	{
-		if (ft_strncmp(env[i].key, str, ft_strlen(str)) == 0)
+		if (!ft_strncmp(env[i].key, str, ft_strlen(str)))
 			return (env[i].value);
 		i++;
 	}
+	//me vendria bien que devolviese str
 	return (NULL);
 }
 
