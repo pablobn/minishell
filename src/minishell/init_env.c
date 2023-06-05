@@ -11,7 +11,6 @@ char	*ft_get_env_key(t_env *env, char *str)
 			return (env[i].value);
 		i++;
 	}
-	//me veniene bien que devuelva str y reservar una nueva memoria
 	return (NULL);
 }
 

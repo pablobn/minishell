@@ -69,9 +69,6 @@ void	ft_cd(t_command *list, t_env *env)
 			exit(1);
 		if (!ft_export(env, old))
 			exit(1);
-		free(old);
-		free(pwd);
-		free(path);
 	}
 	else
 	{

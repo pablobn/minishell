@@ -62,7 +62,7 @@ int	ft_built_in(t_command *list, t_env *env)
 	return (0);
 }
 
-void	ft_execute_command(t_command *list, t_env *env)
+int	ft_execute_command(t_command *list, t_env *env)
 {
 	char	*path;
 	char	*cmd_path;
@@ -74,14 +74,12 @@ void	ft_execute_command(t_command *list, t_env *env)
 		exit(1);
 	}
 	cmd_path = ft_get_cmd(list->flags[0], path);
-	if (ft_built_in(list, env) == 1)
-		exit (1);
 	if (!cmd_path)
 	{
 		perror(list->flags[0]);
 		exit (1);
 	}
-	execve(cmd_path, list->flags, ft_get_envp(env));
+	return (execve(cmd_path, list->flags, ft_get_envp(env)));
 }
 
 void	ft_pipex(t_command *list, t_env *env)
@@ -101,7 +99,8 @@ void	ft_pipex(t_command *list, t_env *env)
 		else
 			dup2(tube[1], STDOUT_FILENO);
 		close(tube[1]);
-		ft_execute_command(list, env);
+		if (ft_execute_command(list, env) < 0)
+			perror(list->flags[0]);
 	}
 	else
 	{
@@ -135,7 +134,8 @@ int	ft_execute_line(t_ms *ms)
 			ft_pipex(list, ms->env);
 			list = list->next;
 		}
-		ft_execute_command(list, ms->env);
+		if (ft_execute_command(list, ms->env) < 0)
+			perror(list->flags[0]);
 	}
 	waitpid(pid, NULL, 0);
 	return (0);
