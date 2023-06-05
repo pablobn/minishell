@@ -62,4 +62,8 @@ int		ft_execute_line(t_ms *ms);
 int		ft_init_env(t_ms *ms, char **envp);
 char	*ft_get_env_key(t_env *env, char *str);
 char	**ft_get_envp(t_env *env);
+int		ft_unset_env(t_env *env, char *str);
+//built_in
+void	ft_cd(t_command *list, t_env *env);
+int		ft_export(t_env *env, char *new);
 #endif

@@ -15,7 +15,8 @@ MINISHELL_SRC = minishell.c 	\
 				list_utils.c	\
 				prompt.c		\
 				handler.c		\
-				init_env.c
+				init_env.c		\
+				built_in.c
 # OBJECTS
 OBJSFD = objs/
 MINISHELL_OBJ = $(addprefix $(OBJSFD)$(MINISHELLFD), $(MINISHELL_SRC:.c=.o))

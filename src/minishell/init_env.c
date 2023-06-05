@@ -44,6 +44,26 @@ char	**ft_get_envp(t_env *env)
 	return (envp);
 }
 
+int	ft_unset_env(t_env *env, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (env[i].key && ft_strncmp(env[i].key, str, ft_strlen(str)) != 0)
+		i++;
+	if (!env[i].key)
+		return (ft_putstr_fd("Error eliminando variable de entorno", 2), 1);
+	while (env[i + 1].key)
+	{
+		env[i].key = env[i + 1].key;
+		env[i].value = env[i + 1].value;
+		i++;
+	}
+	env[i].key = NULL;
+	env[i].value = NULL;
+	return (0);
+}
+
 int	ft_init_env(t_ms *ms, char **envp)
 {
 	int	i;
