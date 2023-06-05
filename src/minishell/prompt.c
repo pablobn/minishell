@@ -15,11 +15,12 @@ static int	ft_expand(t_ms *ms)
 {
 	int		i;
 	int		j;
-	//char	*temp;
+	char	*temp;
 	char	*expand;
 	char	*result;
 
 	i = 0;
+	result = NULL;
 	if (!ms->env || !ms->list->line)
 		return (0);
 	while (ms->list->line[i])
@@ -27,20 +28,27 @@ static int	ft_expand(t_ms *ms)
 		j = 0;
 		while (ms->list->line[i + j] && ms->list->line[i + j] != '$')
 			j++;
-		result = ft_substr(ms->list->line, i, j);
+		if (!result)
+			result = ft_substr(ms->list->line, i, j);
+		printf("i=(%d)result:(%s)\n", i, result);
 		i += j + 1;
 		j = 0;
 		while (ms->list->line[i + j] && ft_isalnum(ms->list->line[i + j]))
 			j++;
-
 		expand = ft_substr(ms->list->line, i, j);
+		i += j;
+		temp = ft_get_env_key(ms->env, expand);
+		free(expand);
+		expand = temp;
 		printf("i=(%d)expand:(%s)\n", i, expand);
-		printf("i=(%d)result:(%s)\n", i, result);
-		while (ms->list->line[i] == ' ')
-			i++;
+		result = ft_strjoin(result, expand);
+	if (ms->list->line)
+	{
+		free(ms->list->line);
+		ms->list->line = result;
+		printf("ms->list->line:(%s)\n", ms->list->line);
 	}
-	free(ms->list->line);
-	ms->list->line = result;
+	}
 	return (1);
 }
 
