@@ -6,7 +6,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void) argc;
 	(void) argv;
-	(void) envp;
 
 	//atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
