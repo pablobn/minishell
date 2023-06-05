@@ -12,7 +12,7 @@ char	*ft_get_env_key(t_env *env, char *str)
 		i++;
 	}
 	//me veniene bien que devuelva str y reservar una nueva memoria
-	return (ft_strdup(str));
+	return (NULL);
 }
 
 static int	ft_count_env(t_env *env)
