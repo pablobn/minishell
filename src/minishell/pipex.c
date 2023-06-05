@@ -53,8 +53,8 @@ static char	*ft_get_cmd(char *str, char *path)
 
 // int	ft_built_in(t_command *list)
 // {
-// 	// if (ft_strncmp(list->flags[0], "cd", 2) == 0)
-// 	// 	return (ft_cd(list), 1);
+// 	if (ft_strncmp(list->flags[0], "cd", 2) == 0)
+// 		return (ft_cd(list), 1);
 // 	// if (ft_strncmp(list->flags[0], "export", 6) == 0)
 // 	// 	return (ft_export(list), 1);
 // 	// if (ft_strncmp(list->flags[0], "unset", 5) == 0)
@@ -76,7 +76,6 @@ void	ft_execute_command(t_command *list, t_env *env)
 		perror(list->flags[0]);
 		exit (1);
 	}
-
 	execve(cmd_path, list->flags, ft_get_envp(env));
 }
 
