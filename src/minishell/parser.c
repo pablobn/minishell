@@ -30,6 +30,8 @@ static int	ft_infile(t_command *cmd, int i)
 		i = ft_space_iter(cmd->line, i);
 		while (cmd->line[i] && cmd->line[i] != ' ')
 		{
+			if (cmd->line[i + 1] && cmd->line[i] == '\\')
+				i++;
 			aux[++j] = cmd->line[i];
 			i++;
 		}
@@ -62,6 +64,8 @@ static int	ft_outfile(t_command *cmd, int i)
 		i = ft_space_iter(cmd->line, i);
 		while (cmd->line[i] && cmd->line[i] != ' ')
 		{
+			if (cmd->line[i + 1] && cmd->line[i] == '\\')
+				i++;
 			aux[++j] = cmd->line[i];
 			i++;
 		}
@@ -90,6 +94,8 @@ static int	ft_command(t_command *list, int i)
 	j = 0;
 	while (list->line[i] && list->line[i] != ' ')
 	{
+		if (list->line[i + 1] && list->line[i] == '\\')
+			i++;
 		temp[j] = list->line[i];
 		j++;
 		i++;

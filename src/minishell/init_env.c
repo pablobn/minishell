@@ -52,7 +52,7 @@ int	ft_unset_env(t_env *env, char *str)
 	while (env[i].key && ft_strncmp(env[i].key, str, ft_strlen(str)) != 0)
 		i++;
 	if (!env[i].key)
-		return (ft_putstr_fd("Error eliminando variable de entorno", 2), 1);
+		return (1);
 	while (env[i + 1].key)
 	{
 		env[i].key = env[i + 1].key;
