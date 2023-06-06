@@ -55,8 +55,8 @@ int	ft_built_in(t_command *list, t_env *env)
 {
 	if (ft_strncmp(list->flags[0], "cd", 2) == 0)
 		return (ft_cd(list, env), 1);
-	if (ft_strncmp(list->flags[0], "export", 6) == 0)
-		return (ft_export(env, list->flags[1]), 1);
+	// if (ft_strncmp(list->flags[0], "export", 6) == 0)
+	// 	return (ft_export(env, list->flags[1]), 1);
 	if (ft_strncmp(list->flags[0], "unset", 5) == 0)
 		return (ft_unset_env(env, list->flags[0]), 1);
 	return (0);

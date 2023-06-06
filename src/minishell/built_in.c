@@ -5,12 +5,14 @@ int	ft_export(t_env *env, char *new)
 	int		i;
 	char	**split;
 
+	if (!ft_strrchr(new, '='))
+	{
+		return (1);
+	}
 	split = ft_split(new, '=');
 	if (!split)
 		return (perror(new), 0);
 	i = 0;
-	if (ft_unset_env(env, split[0]))
-		return (1);
 	while (env[i].key)
 		i++;
 	env[i].key = split[0];
@@ -65,6 +67,10 @@ void	ft_cd(t_command *list, t_env *env)
 	{
 		pwd = ft_strjoin("PWD=", path);
 		old = ft_strjoin("OLDPWD=", ft_get_env_key(env, "PWD"));
+		if (ft_unset_env(env, "PWD"))
+			exit(1);
+		if (ft_unset_env(env, "OLDPWD"))
+			exit(1);
 		if (!ft_export(env, pwd))
 			exit(1);
 		if (!ft_export(env, old))
