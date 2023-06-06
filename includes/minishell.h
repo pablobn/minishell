@@ -42,7 +42,6 @@ typedef struct s_ms
 	t_env		*env;
 }t_ms;
 
-
 //Prototypes
 //list_utils.c
 int		ft_size_list(t_command *list);
@@ -64,6 +63,9 @@ char	*ft_get_env_key(t_env *env, char *str);
 char	**ft_get_envp(t_env *env);
 int		ft_unset_env(t_env *env, char *str);
 //built_in
-void	ft_cd(t_command *list, t_env *env);
 int		ft_export(t_env *env, char *new);
+int		ft_check_built_in(t_command *list);
+int		ft_built_in(t_command *list, t_env *env);
+//cd_built
+int		ft_cd(t_command *list, t_env *env);
 #endif

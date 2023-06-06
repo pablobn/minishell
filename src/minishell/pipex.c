@@ -1,33 +1,5 @@
 #include "minishell.h"
 
-void	ft_give_value(t_command *a)
-{
-	t_command	*b;
-	char		**first;
-	char		**second;
-
-	b = ft_calloc(1, sizeof(t_command));
-	first = ft_calloc(2, sizeof(char *));
-	first[0] = "cat";
-	first[1] = NULL;
-	second = ft_calloc(3, sizeof(char *));
-	second[0] = "wc";
-	second[1] = "-l";
-	second[2] = NULL;
-	b->cmd = "wc";
-	b->next = NULL;
-	b->back = a;
-	b->out = STDOUT_FILENO;
-	b->in = STDIN_FILENO;
-	b->flags = second;
-	a->cmd = "cat";
-	a->next = NULL;
-	a->back = NULL;
-	a->out = 1;
-	a->in = open("hola", O_RDONLY);
-	a->flags = first;
-}
-
 static char	*ft_get_cmd(char *str, char *path)
 {
 	char	**cases;
@@ -49,17 +21,6 @@ static char	*ft_get_cmd(char *str, char *path)
 		i++;
 	}
 	return (NULL);
-}
-
-int	ft_built_in(t_command *list, t_env *env)
-{
-	if (ft_strncmp(list->flags[0], "cd", 2) == 0)
-		return (ft_cd(list, env), 1);
-	// if (ft_strncmp(list->flags[0], "export", 6) == 0)
-	// 	return (ft_export(env, list->flags[1]), 1);
-	if (ft_strncmp(list->flags[0], "unset", 5) == 0)
-		return (ft_unset_env(env, list->flags[0]), 1);
-	return (0);
 }
 
 int	ft_execute_command(t_command *list, t_env *env)
@@ -111,14 +72,10 @@ void	ft_pipex(t_command *list, t_env *env)
 	}
 }
 
-int	ft_execute_line(t_ms *ms)
+int	ft_start_pipex(t_command *list, t_ms *ms)
 {
-	t_command	*list;
-	pid_t		pid;
+	pid_t	pid;
 
-	list = ms->list;
-	if (ft_built_in(list, ms->env))
-		return (0);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -138,5 +95,22 @@ int	ft_execute_line(t_ms *ms)
 			perror(list->flags[0]);
 	}
 	waitpid(pid, NULL, 0);
+	return (0);
+}
+
+int	ft_execute_line(t_ms *ms)
+{
+	t_command	*list;
+
+	list = ms->list;
+	if (ft_built_in(list, ms->env))
+		return (1);
+	if (ft_check_built_in(list))
+	{
+		if (!list->next)
+			return (0);
+		list = list->next;
+	}
+	ft_start_pipex(list, ms);
 	return (0);
 }

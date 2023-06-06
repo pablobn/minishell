@@ -1,14 +1,24 @@
 #include "minishell.h"
 
-int	ft_export(t_env *env, char *new)
+int	ft_export(t_env *env, t_command *list)
 {
 	int		i;
 	char	**split;
+	char	*new;
+	int		j;
 
-	if (!ft_strrchr(new, '='))
+	j = 0;
+	while (list->flags[j])
+		j++;
+	if (j > 1)
+		new = list->flags[1];
+	else
 	{
-		return (1);
+		
+		return (0);
 	}
+	if (!ft_strrchr(new, '='))
+		return (1);
 	split = ft_split(new, '=');
 	if (!split)
 		return (perror(new), 0);
@@ -22,63 +32,26 @@ int	ft_export(t_env *env, char *new)
 	return (1);
 }
 
-char	*ft_path_cd(t_command *list, t_env *env)
-{
-	char	*path;
-	int		i;
 
-	i = 0;
-	while (list->flags[i])
-		i++;
-	if (i == 1)
-		path = ft_get_env_key(env, "HOME");
-	else
-		path = list->flags[1];
-	return (path);
+
+int	ft_built_in(t_command *list, t_env *env)
+{
+	if (ft_strncmp(list->flags[0], "cd", 2) == 0)
+		return (ft_cd(list, env));
+	if (ft_strncmp(list->flags[0], "export", 6) == 0)
+		return (ft_export(env, list), 1);
+	if (ft_strncmp(list->flags[0], "unset", 5) == 0)
+		return (ft_unset_env(env, list->flags[0]), 1);
+	return (0);
 }
 
-char	*ft_get_previous_path(char *pwd)
+int	ft_check_built_in(t_command *list)
 {
-	char	*path;
-	int		i;
-
-	if (ft_strncmp(path, "/", 1) == 0)
-		return ("/");
-	i = ft_strlen(pwd) - 1;
-	while (pwd[i] != '/')
-		i--;
-	if (i == 0)
-		path = ft_strdup("/");
-	else
-		path = ft_substr(pwd, 0, i);
-	return (path);
-}
-
-void	ft_cd(t_command *list, t_env *env)
-{
-	char	*pwd;
-	char	*old;
-	char	*path;
-
-	path = ft_path_cd(list, env);
-	if (ft_strncmp(path, "..", 2) == 0)
-		path = ft_get_previous_path(ft_get_env_key(env, "PWD"));
-	if (chdir(path) >= 0)
-	{
-		pwd = ft_strjoin("PWD=", path);
-		old = ft_strjoin("OLDPWD=", ft_get_env_key(env, "PWD"));
-		if (ft_unset_env(env, "PWD"))
-			exit(1);
-		if (ft_unset_env(env, "OLDPWD"))
-			exit(1);
-		if (!ft_export(env, pwd))
-			exit(1);
-		if (!ft_export(env, old))
-			exit(1);
-	}
-	else
-	{
-		perror(list->flags[1]);
-		exit(1);
-	}
+	if (ft_strncmp(list->flags[0], "cd", 2) == 0)
+		return (1);
+	if (ft_strncmp(list->flags[0], "export", 6) == 0)
+		return (1);
+	if (ft_strncmp(list->flags[0], "unset", 5) == 0)
+		return (1);
+	return (0);
 }
