@@ -31,20 +31,20 @@ static int	ft_expand(t_ms *ms, int i)
 		result = ft_substr(ms->list->line, 0, i + j);
 		i += j;
 		j = 0;
-		while (ms->list->line[i + j] && ms->list->line[i + j] != ' ')
+		while (ms->list->line[i + j] && ms->list->line[i + j] != ' ' && ms->list->line[i + j] != '\\')
 			j++;
 		temp = ft_substr(ms->list->line, i + 1, j - 1);
-		i += j;
-		if (!ft_strrchr(temp, '\\'))
+		if (!ft_strrchr(temp, '\\') && ms->list->line[i - 1] != '\\')
 		{
 			expand = ft_get_env_key(ms->env, temp);
 			free(temp);
 		}
 		else
 		{
-			temp[0] = '$';
+			temp = ft_strjoin("$", temp);
 			expand = temp;
 		}
+		i += j;
 		if (expand)
 			result = ft_strjoin(result, expand);
 		result = ft_strjoin(result, &ms->list->line[i]);
@@ -73,12 +73,12 @@ void	ft_prompt(t_ms *ms)
 		add_history(ms->list->line);
 	j = -1;
 	while (ms->list->line[++j])
-		if (ms->list->line[j] == '\"')
+		if (ms->list->line[j] == '\"' && ms->list->line[j - 1] != '\\')
 			ms->list->line[j] = ' ';
 	j = -1;
 	while (ms->list->line[++j])
 	{
-		if (ms->list->line[j] == '\'')
+		if (ms->list->line[j] == '\'' && ms->list->line[j - 1] != '\\')
 		{
 			ms->list->line[j] = ' ';
 			while (ms->list->line[++j] && ms->list->line[j] != '\'')

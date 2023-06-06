@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 20:06:43 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/05 16:56:08 by pbengoec         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:50:17 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 	i = 0;
 	//AÑADIDO PARA EXPANDIR
-	if (ft_strlen(s1) != ft_strlen(s2))
+	if (!ft_strlen(s1) || !ft_strlen(s2))
 		return (1);
 	while ((s1[i] || s2[i]) && i < n)
 	{
