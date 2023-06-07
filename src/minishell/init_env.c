@@ -49,7 +49,8 @@ int	ft_unset_env(t_env *env, char *str)
 	int	i;
 
 	i = 0;
-	while (env[i].key && ft_strncmp(env[i].key, str, ft_strlen(str)) != 0)
+	while (env[i].key && \
+	ft_strncmp(env[i].key, str, ft_strlen(env[i].key)) != 0)
 		i++;
 	if (!env[i].key)
 		return (1);

@@ -1,10 +1,77 @@
 #include "minishell.h"
 
+char	*ft_get_previous_path(char *pwd)
+{
+	char	*path;
+	int		i;
+
+	i = ft_strlen(pwd) - 1;
+	path = ft_strdup("/");
+	while (pwd[i] != '/')
+		i--;
+	if (i != 0)
+		path = ft_substr(pwd, 0, i);
+	return (path);
+}
+
+char	*ft_parse_absolute_rute(char *str)
+{
+	char	*path;
+	char	*temp;
+	char	**new;
+
+	new = ft_split(str, '/');
+	path = ft_strdup("/");
+	temp = ft_strdup("");
+	while (*new)
+	{
+		if (ft_strncmp(*new, ".", ft_strlen(*new)))
+		{
+			if (ft_strncmp(*new, "..", ft_strlen(*new)) == 0)
+				path = ft_get_previous_path(path);
+			else
+			{
+				if (path[ft_strlen(path) - 1] != '/')
+					temp = ft_strjoin("/", *new);
+				else
+					temp = *new;
+				path = ft_strjoin(path, temp);
+			}
+		}
+		new++;
+	}
+	return (ft_free_matrix(new), free(temp), path);
+}
+
+char	*ft_parse_cd(char *str, t_env *env)
+{
+	char	*path;
+	char	*temp;
+	char	*pwd;
+	char	*new;
+
+	path = ft_strdup(str);
+	pwd = ft_strdup("");
+	temp = ft_strdup("");
+	if (str[0] != '/')
+	{
+		pwd = ft_get_env_key(env, "PWD");
+		new = ft_strtrim(str, "/");
+		if (pwd[ft_strlen(pwd) - 1] != '/')
+			temp = ft_strjoin("/", new);
+		path = ft_strjoin(pwd, temp);
+		path = ft_parse_absolute_rute(path);
+		free(new);
+		free(temp);
+		free(pwd);
+	}
+	path = ft_parse_absolute_rute(path);
+	return (path);
+}
+
 char	*ft_path_cd(t_command *list, t_env *env)
 {
 	char	*path;
-	char	*before;
-	char	*pwd;
 	int		i;
 
 	i = 0;
@@ -14,34 +81,11 @@ char	*ft_path_cd(t_command *list, t_env *env)
 		path = ft_get_env_key(env, "HOME");
 	else
 	{
-		if (list->flags[1][0] != '/')
-		{
-			pwd = ft_get_env_key(env, "PWD");
-			before = list->flags[1];
-			if (pwd[ft_strlen(pwd) - 1] != '/')
-				before = ft_strjoin("/", list->flags[1]);
-			path = ft_strjoin(pwd, before);
-		}
+		if (ft_strncmp(list->flags[1], "~", ft_strlen(list->flags[1])) == 0)
+			path = ft_get_env_key(env, "HOME");
 		else
-			path = list->flags[1];
+			path = ft_parse_cd(list->flags[1], env);
 	}
-	return (path);
-}
-
-char	*ft_get_previous_path(char *pwd)
-{
-	char	*path;
-	int		i;
-
-	if (ft_strncmp(path, "/", 1) == 0)
-		return ("/");
-	i = ft_strlen(pwd) - 1;
-	while (pwd[i] != '/')
-		i--;
-	if (i == 0)
-		path = ft_strdup("/");
-	else
-		path = ft_substr(pwd, 0, i);
 	return (path);
 }
 
@@ -52,9 +96,8 @@ int	ft_cd(t_command *list, t_env *env)
 	char	*path;
 
 	path = ft_path_cd(list, env);
-	if (ft_strncmp(list->flags[1], "..", 2) == 0)
-		path = ft_get_previous_path(ft_get_env_key(env, "PWD"));
-	printf("%s\n", path);
+	if (!path)
+		return (ft_putstr_fd("HOME not set\n", 2), 1);
 	if (chdir(path) >= 0)
 	{
 		pwd = ft_strjoin("PWD=", path);

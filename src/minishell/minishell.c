@@ -7,7 +7,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 
-	//atexit(ft_leaks);
+	// atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	g_ms->list = ft_calloc(1, sizeof(t_command));
 	ft_init_env(g_ms, envp);

@@ -1,22 +1,10 @@
 #include "minishell.h"
 
-int	ft_export(t_env *env, t_command *list)
+int	ft_export(t_env *env, char *new)
 {
 	int		i;
 	char	**split;
-	char	*new;
-	int		j;
 
-	j = 0;
-	while (list->flags[j])
-		j++;
-	if (j > 1)
-		new = list->flags[1];
-	else
-	{
-		
-		return (0);
-	}
 	if (!ft_strrchr(new, '='))
 		return (1);
 	split = ft_split(new, '=');
@@ -32,16 +20,14 @@ int	ft_export(t_env *env, t_command *list)
 	return (1);
 }
 
-
-
 int	ft_built_in(t_command *list, t_env *env)
 {
 	if (ft_strncmp(list->flags[0], "cd", 2) == 0)
 		return (ft_cd(list, env));
 	if (ft_strncmp(list->flags[0], "export", 6) == 0)
-		return (ft_export(env, list), 1);
+		return (ft_export(env, list->flags[1]), 1);
 	if (ft_strncmp(list->flags[0], "unset", 5) == 0)
-		return (ft_unset_env(env, list->flags[0]), 1);
+		return (ft_unset_env(env, list->flags[1]), 1);
 	return (0);
 }
 
