@@ -122,7 +122,7 @@ int	ft_parser(t_ms *ms)
 	j = -1;
 	while (ms->list->line[i])
 	{
-		i = ft_space_iter(ms->list->line, i);
+		//i = ft_space_iter(ms->list->line, i);
 		i = ft_outfile(ms->list, i);
 		i = ft_infile(ms->list, i);
 		i = ft_command(ms->list, i);

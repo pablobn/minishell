@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 16:38:36 by pbengoec          #+#    #+#             */
-/*   Updated: 2022/10/03 21:09:50 by pbengoec         ###   ########.fr       */
+/*   Updated: 2023/06/08 10:40:29 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ static char	**ft_splitpriv(char const *s, char c, size_t	i, char **split)
 	start = 0;
 	while (s[i])
 	{
-		if (i == 0 && s[i] == c)
-			start++;
-		else if ((s[i] == c && s[i - 1] != c)
+		if ((s[i] == c && s[i - 1] != c)
 			|| (s[i] != c && s[i + 1] == '\0'))
 		{	
 			if (s[i] != c && s[i + 1] == '\0')
@@ -60,8 +58,6 @@ static char	**ft_splitpriv(char const *s, char c, size_t	i, char **split)
 				return (ft_splitfree(split, cont));
 			start = i + 1;
 		}
-		else if (s[i] == c)
-			start++;
 		i++;
 	}
 	return (split);
