@@ -103,7 +103,7 @@ int	ft_execute_line(t_ms *ms)
 	t_command	*list;
 
 	list = ms->list;
-	if (ft_built_in(list, ms->env))
+	if (ft_built_in(list, ms))
 		return (1);
 	if (ft_check_built_in(list))
 	{

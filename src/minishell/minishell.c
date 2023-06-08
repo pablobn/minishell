@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **envp)
 			return (-1);
 		// printf("Line:%s\n", g_ms->list->line);
 		// printf("Command_f:%s\n", g_ms->list->cmd);
-		// printf("Flags:%s\n", g_ms->list->flags[0]);
+		// printf("Flags:%s\n", g_ms->list->flags[1]);
 		// printf("Out:%d\n", g_ms->list->out);
 		// printf("Out_f:%d\n", g_ms->list->out_f);
 		// printf("In:%d\n", g_ms->list->in);

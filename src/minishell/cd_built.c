@@ -89,26 +89,26 @@ char	*ft_path_cd(t_command *list, t_env *env)
 	return (path);
 }
 
-int	ft_cd(t_command *list, t_env *env)
+int	ft_cd(t_command *list, t_ms *ms)
 {
 	char	*pwd;
 	char	*old;
 	char	*path;
 
-	path = ft_path_cd(list, env);
+	path = ft_path_cd(list, ms->env);
 	if (!path)
 		return (ft_putstr_fd("HOME not set\n", 2), 1);
 	if (chdir(path) >= 0)
 	{
 		pwd = ft_strjoin("PWD=", path);
-		old = ft_strjoin("OLDPWD=", ft_get_env_key(env, "PWD"));
-		if (ft_unset_env(env, "PWD"))
+		old = ft_strjoin("OLDPWD=", ft_get_env_key(ms->env, "PWD"));
+		if (ft_unset(ms, "PWD"))
 			return (1);
-		if (ft_unset_env(env, "OLDPWD"))
+		if (ft_unset(ms, "OLDPWD"))
 			return (1);
-		if (!ft_export(env, pwd))
+		if (ft_export(ms, pwd))
 			return (1);
-		if (!ft_export(env, old))
+		if (ft_export(ms, old))
 			return (1);
 	}
 	else
