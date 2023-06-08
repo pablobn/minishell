@@ -109,7 +109,7 @@ static int	ft_command(t_command *list, int i)
 	}
 	else
 		list->cmd = temp;
-	list->cmd = ft_strjoin(list->cmd, " ");
+	list->cmd = ft_strjoin(list->cmd, " \0");
 	return (i);
 }
 
@@ -127,7 +127,6 @@ int	ft_parser(t_ms *ms)
 		i = ft_outfile(ms->list, i);
 		i = ft_infile(ms->list, i);
 		i = ft_command(ms->list, i);
-		i++;
 		i = ft_space_iter(ms->list->line, i);
 	}
 	if (ms->list->cmd)

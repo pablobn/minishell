@@ -23,13 +23,13 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (ft_parser(g_ms))
 			return (-1);
-		// printf("Line:%s\n", g_ms->list->line);
-		// printf("Command_f:%s\n", g_ms->list->cmd);
-		// printf("Flags:%s\n", g_ms->list->flags[0]);
-		// printf("Out:%d\n", g_ms->list->out);
-		// printf("Out_f:%d\n", g_ms->list->out_f);
-		// printf("In:%d\n", g_ms->list->in);
-		// printf("In_f:%d\n", g_ms->list->in_f);
+		printf("Line:%s\n", g_ms->list->line);
+		printf("Command_f:%s\n", g_ms->list->cmd);
+		printf("Flags:%s\n", g_ms->list->flags[0]);
+		printf("Out:%d\n", g_ms->list->out);
+		printf("Out_f:%d\n", g_ms->list->out_f);
+		printf("In:%d\n", g_ms->list->in);
+		printf("In_f:%d\n", g_ms->list->in_f);
 		if (g_ms->list->cmd)
 			ft_execute_line(g_ms);
 		//frees
