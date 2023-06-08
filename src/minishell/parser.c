@@ -4,7 +4,7 @@ static int	ft_space_iter(char *str, int i)
 {
 	if (!str[i])
 		return (i);
-	while (str[i] == ' ')
+	while (str[i] == ' ' && (i - 1 >= -1 || str[i - 1] == '\\'))
 		i++;
 	return (i);
 }
@@ -120,15 +120,19 @@ int	ft_parser(t_ms *ms)
 
 	i = 0;
 	j = -1;
+
+	i = ft_space_iter(ms->list->line, i);
 	while (ms->list->line[i])
 	{
-		//i = ft_space_iter(ms->list->line, i);
 		i = ft_outfile(ms->list, i);
 		i = ft_infile(ms->list, i);
 		i = ft_command(ms->list, i);
 		i++;
+		i = ft_space_iter(ms->list->line, i);
 	}
 	if (ms->list->cmd)
 		ms->list->flags = ft_split(ms->list->cmd, ' ');
+	if ( ms->list->flags && ms->list->flags[0] && ft_space_iter(ms->list->flags[0], 0) == (int)ft_strlen(ms->list->flags[0]))
+		ms->list->flags[0] = NULL;
 	return (0);
 }

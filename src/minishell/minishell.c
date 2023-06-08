@@ -18,8 +18,8 @@ int	main(int argc, char **argv, char **envp)
 			return (0);
 		if (!ft_strncmp(g_ms->list->line, "exit", 4))
 		{
-			printf("$?:(%d)\n", ft_atoi(&g_ms->list->line[4]));
-			return (0);
+			//printf("$?:(%d)\n", ft_atoi(&g_ms->list->line[4]));
+			return (ft_atoi(&g_ms->list->line[4]));
 		}
 		if (ft_parser(g_ms))
 			return (-1);

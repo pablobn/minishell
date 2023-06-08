@@ -73,10 +73,6 @@ void	ft_prompt(t_ms *ms)
 		add_history(ms->list->line);
 	j = -1;
 	while (ms->list->line[++j])
-		if (ms->list->line[j] == '\"' && ms->list->line[j - 1] != '\\')
-			ms->list->line[j] = ' ';
-	j = -1;
-	while (ms->list->line[++j])
 	{
 		if (ms->list->line[j] == '\'' && ms->list->line[j - 1] != '\\')
 		{
@@ -90,6 +86,29 @@ void	ft_prompt(t_ms *ms)
 				ms->list->line = temp;
 			}
 			ms->list->line[j] = ' ';
+		}
+	}
+	j = -1;
+	while (ms->list->line[++j])
+	{
+		if (ms->list->line[j] == '\"')
+		{
+			if (!ms->list->line[j + 1])
+			{
+				ms->list->line[j] = ' ';
+			}
+			else
+			{
+				ms->list->line[j] = ' ';
+				while (ms->list->line[j + 1] == ' ')
+				{
+					temp = ft_strjoin(ft_substr(ms->list->line, 0, j), "\\ ");
+					temp = ft_strjoin(temp, &ms->list->line[j]);
+					free(ms->list->line);
+					ms->list->line = temp;
+					j += 4;
+				}
+			}
 		}
 	}
 	ft_expand(ms, 0);
