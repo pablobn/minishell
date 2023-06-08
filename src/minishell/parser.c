@@ -88,7 +88,7 @@ static int	ft_command(t_command *list, int i)
 	j = 0;
 	while (list->line[i + j] && list->line[i + j] != ' ')
 		j++;
-	temp = ft_calloc(sizeof(char *), j + 1);
+	temp = ft_calloc(sizeof(char *), j + 255);
 	if (!temp)
 		return (i);
 	j = 0;

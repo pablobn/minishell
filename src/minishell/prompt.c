@@ -74,42 +74,57 @@ void	ft_prompt(t_ms *ms)
 	j = -1;
 	while (ms->list->line[++j])
 	{
-		if (ms->list->line[j] == '\'' && ms->list->line[j - 1] != '\\')
+		if (ms->list->line[j] == '\'' && ms->list->line[j - 1] && ms->list->line[j - 1] != '\\')
 		{
-			ms->list->line[j] = ' ';
+			temp = ft_strjoin(ft_substr(ms->list->line, 0, j), &ms->list->line[j + 1]);
+			free(ms->list->line);
+			ms->list->line = temp;
 			while (ms->list->line[++j] && ms->list->line[j] != '\'')
 			{
 				temp = ft_strjoin(ft_substr(ms->list->line, 0, j), "\\");
 				temp = ft_strjoin(temp, &ms->list->line[j]);
+				free(ms->list->line);
+				ms->list->line = temp;
 				j++;
+			}
+			if (ms->list->line[j] == '\'')
+			{
+				temp = ft_strjoin(ft_substr(ms->list->line, 0, j), &ms->list->line[j + 1]);
 				free(ms->list->line);
 				ms->list->line = temp;
 			}
-			ms->list->line[j] = ' ';
 		}
 	}
-	j = -1;
-	while (ms->list->line[++j])
+	j = 0;
+	while (ms->list->line[j])
 	{
-		if (ms->list->line[j] == '\"')
+		if (ms->list->line[j] == '\"' && ms->list->line[j - 1] && ms->list->line[j - 1] != '\\')
 		{
-			if (!ms->list->line[j + 1])
+			temp = ft_strjoin(ft_substr(ms->list->line, 0, j), &ms->list->line[j + 1]);
+			free(ms->list->line);
+			ms->list->line = temp;
+			while (ms->list->line[++j] && ms->list->line[j] == ' ' && ms->list->line[j] != '\"')
 			{
-				ms->list->line[j] = ' ';
+				temp = ft_strjoin(ft_substr(ms->list->line, 0, j), "\\");
+				temp = ft_strjoin(temp, &ms->list->line[j]);
+				free(ms->list->line);
+				ms->list->line = temp;
+				j++;
 			}
-			else
+			while (ms->list->line[j])
 			{
-				ms->list->line[j] = ' ';
-				while (ms->list->line[j + 1] == ' ')
+				if (ms->list->line[j] && ms->list->line[j] == '\"')
 				{
-					temp = ft_strjoin(ft_substr(ms->list->line, 0, j), "\\ ");
+					temp = ft_strjoin(ft_substr(ms->list->line, 0, j), " ");
 					temp = ft_strjoin(temp, &ms->list->line[j]);
 					free(ms->list->line);
 					ms->list->line = temp;
-					j += 4;
+					j++;
 				}
+				j++;
 			}
 		}
+		j++;
 	}
 	ft_expand(ms, 0);
 }
