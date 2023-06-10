@@ -28,14 +28,15 @@ static int	ft_expand(t_ms *ms, int i)
 			j++;
 		if ((int)ft_strlen(ms->list->line) == j)
 			return (0);
-		result = ft_substr(ms->list->line, 0, i + j);
+		result = ft_substr(ms->list->line, 0, j);
 		i += j;
 		j = 0;
-		while (ms->list->line[i + j] && ms->list->line[i + j] != ' ')
+		while (ms->list->line[i + j] && ms->list->line[i + j] != ' ' && ms->list->line[i + j] != '\'')
 			j++;
 		temp = ft_substr(ms->list->line, i + 1, j - 1);
 		if (!ft_strrchr(temp, '\\'))
 		{
+			//printf("temp:(%s)\n", temp);
 			expand = ft_get_env_key(ms->env, temp);
 			free(temp);
 		}
@@ -44,14 +45,12 @@ static int	ft_expand(t_ms *ms, int i)
 			temp = ft_strjoin("$", temp);
 			expand = temp;
 		}
-		i += j;
 		if (expand)
 			result = ft_strjoin(result, expand);
-		result = ft_strjoin(result, &ms->list->line[i]);
+		result = ft_strjoin(result, &ms->list->line[i + j]);
 		free(ms->list->line);
-		j = 0;
 		ms->list->line = result;
-		ft_expand(ms, i);
+		ft_expand(ms, 0);
 	}
 	return (1);
 }
@@ -74,46 +73,30 @@ void	ft_prompt(t_ms *ms)
 	j = -1;
 	while (ms->list->line[++j])
 	{
-		if (ms->list->line[j] == '\'' && ms->list->line[j - 1] && ms->list->line[j - 1] != '\\')
-		{
-			temp = ft_strjoin(ft_substr(ms->list->line, 0, j), &ms->list->line[j + 1]);
-			free(ms->list->line);
-			ms->list->line = temp;
-			while (ms->list->line[++j] && ms->list->line[j] != '\'')
-			{
-				temp = ft_strjoin(ft_substr(ms->list->line, 0, j), "\\");
-				temp = ft_strjoin(temp, &ms->list->line[j]);
-				free(ms->list->line);
-				ms->list->line = temp;
-				j++;
-			}
-			if (ms->list->line[j] == '\'')
-			{
-				temp = ft_strjoin(ft_substr(ms->list->line, 0, j), &ms->list->line[j + 1]);
-				free(ms->list->line);
-				ms->list->line = temp;
-			}
-		}
-	}
-
-	j = 0;
-	while (ms->list->line[j])
-	{
 		if (ms->list->line[j] == '\"' && ms->list->line[j - 1] && ms->list->line[j - 1] != '\\')
 		{
-			temp = ft_strjoin(ft_substr(ms->list->line, 0, j), &ms->list->line[j + 1]);
+			temp = ft_substr(ms->list->line, 0, j);
+			temp = ft_strjoin(temp, &ms->list->line[j + 1]);
 			free(ms->list->line);
 			ms->list->line = temp;
 			while (ms->list->line[++j] && ms->list->line[j] != '\"')
 			{
-				if (ms->list->line[j] == ' ')
+				if (ms->list->line[j] == '\'')
+					while (ms->list->line[j + 1] && ms->list->line[j + 1] != '\"' && ms->list->line[j + 1] != '\'')
+						j++;
+				else if (ms->list->line[j] == '$')
+					while (ms->list->line[j] && ms->list->line[j] != '\"' && ms->list->line[j] != ' ')
+						j++;
+				else
 				{
 					temp = ft_strjoin(ft_substr(ms->list->line, 0, j), "\\");
 					temp = ft_strjoin(temp, &ms->list->line[j]);
 					free(ms->list->line);
 					ms->list->line = temp;
+					j++;
 				}
-				j++;
+				if (ms->list->line[j] == '\"')
+					j--;
 			}
 			if (ms->list->line[j] == '\"')
 			{
@@ -123,7 +106,36 @@ void	ft_prompt(t_ms *ms)
 				ms->list->line = temp;
 			}
 		}
-		j++;
 	}
+
+	// j = 0;
+	// while (ms->list->line[j])
+	// {
+	// 	if (ms->list->line[j] == '\"' && ms->list->line[j - 1] && ms->list->line[j - 1] != '\\')
+	// 	{
+	// 		temp = ft_strjoin(ft_substr(ms->list->line, 0, j), &ms->list->line[j + 1]);
+	// 		free(ms->list->line);
+	// 		ms->list->line = temp;
+	// 		while (ms->list->line[++j] && ms->list->line[j] != '\"')
+	// 		{
+	// 			if (ms->list->line[j] == ' ')
+	// 			{
+	// 				temp = ft_strjoin(ft_substr(ms->list->line, 0, j), "\\");
+	// 				temp = ft_strjoin(temp, &ms->list->line[j]);
+	// 				free(ms->list->line);
+	// 				ms->list->line = temp;
+	// 			}
+	// 			j++;
+	// 		}
+	// 		if (ms->list->line[j] == '\"')
+	// 		{
+	// 			temp = ft_substr(ms->list->line, 0, j);
+	// 			temp = ft_strjoin(temp, &ms->list->line[j + 1]);
+	// 			free(ms->list->line);
+	// 			ms->list->line = temp;
+	// 		}
+	// 	}
+	// 	j++;
+	// }
 	ft_expand(ms, 0);
 }
