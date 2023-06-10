@@ -6,49 +6,60 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void) argc;
 	(void) argv;
+	int	i;
 
 	// atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
-	g_ms->list = ft_calloc(1, sizeof(t_command));
 	ft_init_env(g_ms, envp);
 	while (42)
 	{
-		ft_prompt(g_ms);
-		if (!g_ms->list->line)
-			return (0);
-		if (!ft_strncmp(g_ms->list->line, "exit", 4))
+		g_ms = ft_prompt(g_ms);
+		i = -1;
+		while (g_ms->list[++i])
 		{
-			//printf("$?:(%d)\n", ft_atoi(&g_ms->list->line[4]));
-			return (ft_atoi(&g_ms->list->line[4]));
+			printf("HOla%s\n", g_ms->list[i]->line);
+			if (!g_ms->list[i])
+				return (0);
+			//tendre que comprobar esto en otro sitio
+			if (!ft_strncmp(g_ms->list[i]->line, "exit", 4))
+			{
+				//printf("$?:(%d)\n", ft_atoi(&g_ms->list->line[4]));
+				return (ft_atoi(&g_ms->list[i]->line[4]));
+			}
+			while (g_ms->list[i])
+			{
+				if (ft_parser(g_ms->list[i]))
+					return (-1);
+				i++;
+			}
+			// printf("Line:%s\n", g_ms->list->line);
+			// printf("Command_f:%s\n", g_ms->list->cmd);
+			// printf("Flags:%s\n", g_ms->list->flags[1]);
+			// printf("Out:%d\n", g_ms->list->out);
+			// printf("Out_f:%d\n", g_ms->list->out_f);
+			// printf("In:%d\n", g_ms->list->in);
+			// printf("In_f:%d\n", g_ms->list->in_f);
+			printf("HOla%s\n", g_ms->list[i]->line);
+			// if (g_ms->list[i]->cmd)
+			// 	ft_execute_line(g_ms);
+			//frees
+			if (g_ms->list[i]->out)
+			{
+				close(g_ms->list[i]->out);
+				g_ms->list[i]->out = 0;
+			}
+			if (g_ms->list[i]->in)
+			{
+				close(g_ms->list[i]->in);
+				g_ms->list[i]->in = 0;
+			}
+			if (g_ms->list[i]->cmd)
+			{
+				free(g_ms->list[i]->cmd);
+				g_ms->list[i]->cmd = NULL;
+			}
+			ft_free_matrix(g_ms->list[i]->flags);
 		}
-		if (ft_parser(g_ms))
-			return (-1);
-		// printf("Line:%s\n", g_ms->list->line);
-		// printf("Command_f:%s\n", g_ms->list->cmd);
-		// printf("Flags:%s\n", g_ms->list->flags[1]);
-		// printf("Out:%d\n", g_ms->list->out);
-		// printf("Out_f:%d\n", g_ms->list->out_f);
-		// printf("In:%d\n", g_ms->list->in);
-		// printf("In_f:%d\n", g_ms->list->in_f);
-		if (g_ms->list->cmd)
-			ft_execute_line(g_ms);
-		//frees
-		if (g_ms->list->out)
-		{
-			close(g_ms->list->out);
-			g_ms->list->out = 0;
-		}
-		if (g_ms->list->in)
-		{
-			close(g_ms->list->in);
-			g_ms->list->in = 0;
-		}
-		if (g_ms->list->cmd)
-		{
-			free(g_ms->list->cmd);
-			g_ms->list->cmd = NULL;
-		}
-		ft_free_matrix(g_ms->list->flags);
 	}
 	return (0);
 }
