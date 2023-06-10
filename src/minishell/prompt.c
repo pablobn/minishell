@@ -31,10 +31,13 @@ static int	ft_expand(t_ms *ms, int i)
 		result = ft_substr(ms->list->line, 0, j);
 		i += j;
 		j = 0;
-		while (ms->list->line[i + j] && ms->list->line[i + j] != ' ' && ms->list->line[i + j] != '\'')
+		while (ms->list->line[i + j] && ms->list->line[i + j] != ' ' && ms->list->line[i + j] != '\\')
 			j++;
-		temp = ft_substr(ms->list->line, i + 1, j - 1);
-		if (!ft_strrchr(temp, '\\'))
+		if (j - 1 < 0)
+		temp = NULL;
+		else
+			temp = ft_substr(ms->list->line, i + 1, j - 1);
+		if (temp)
 		{
 			//printf("temp:(%s)\n", temp);
 			expand = ft_get_env_key(ms->env, temp);
