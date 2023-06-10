@@ -32,6 +32,7 @@ typedef struct s_command
 
 typedef struct s_env
 {
+	struct s_env	*next;
 	char			*key;
 	char			*value;
 }t_env;
@@ -40,8 +41,8 @@ typedef struct s_ms
 {
 	t_command	*list;
 	t_env		*env;
+	t_env		*exp;
 }t_ms;
-
 
 //Prototypes
 //list_utils.c
@@ -60,10 +61,17 @@ void	ft_pipex(t_command *list, t_env *env);
 int		ft_execute_line(t_ms *ms);
 //init_env.c
 int		ft_init_env(t_ms *ms, char **envp);
+void	ft_insert_env(t_env **env, char *key, char *value);
 char	*ft_get_env_key(t_env *env, char *str);
 char	**ft_get_envp(t_env *env);
-int		ft_unset_env(t_env *env, char *str);
 //built_in
-void	ft_cd(t_command *list, t_env *env);
-int		ft_export(t_env *env, char *new);
+int		ft_check_built_in(t_command *list);
+int		ft_built_in(t_command *list, t_ms *ms);
+//cd_built
+int		ft_cd(t_command *list, t_ms *ms);
+//unset_built
+int		ft_unset(t_ms *ms, char *str);
+void	ft_remove_env(t_env **env, char *str);
+//export_built
+int		ft_export(t_ms *ms, char *new);
 #endif
