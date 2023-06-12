@@ -60,13 +60,13 @@ static char	*ft_expand(t_env *env, char *line)
 	return (line);
 }
 
-static char	*ft_comillas(char	*line)
+static char	*ft_comillas(char *line)
 {
 	int		j;
 	char	*temp;
 
 	j = 0;
-	while (line[j])
+	while (line && line[j])
 	{
 		if (line[j] == '\"')
 		{
@@ -124,7 +124,7 @@ static char	*ft_comillas(char	*line)
 	return (line);
 } 
 
-static t_command	**ft_pipe_split(t_ms *g_ms)
+static t_command	*ft_pipe_split(t_ms *g_ms)
 {
 	char	**pipe_line;
 	int		i;
@@ -136,19 +136,24 @@ static t_command	**ft_pipe_split(t_ms *g_ms)
 	i = 0;
 	while (pipe_line[i])
 	{
-		g_ms->list[i] = ft_calloc(1, sizeof(t_command));
-		if (!g_ms->list[i])
+		g_ms->list[i] = *(t_command*)ft_calloc(1, sizeof(t_command));
+		if (!&g_ms->list[i])
 			return (NULL);
-		g_ms->list[i]->line = pipe_line[i];
+		g_ms->list[i].line = pipe_line[i];
+		if (pipe_line[i + 1])
+			g_ms->list[i].next = &g_ms->list[i + 1];
+		else
+			g_ms->list[i].next = NULL;
 		i++;
 	}
+	free(g_ms->line);
 	return (g_ms->list);
 }
 
 t_ms	*ft_prompt(t_ms *g_ms)
 {
 	int	count_p;
-
+	printf("Entro\n");
 	signal(SIGINT, ft_handler);
 	rl_replace_line("", 0);
 	if (g_ms->line)
@@ -159,11 +164,14 @@ t_ms	*ft_prompt(t_ms *g_ms)
 	if (!ft_is_empty(g_ms->line))
 		add_history(g_ms->line);
 	g_ms->list = ft_pipe_split(g_ms);
-	count_p = -1;
-	while (g_ms->list[++count_p])
+	count_p = 0;
+	while (&g_ms->list[count_p])
 	{
-		g_ms->list[count_p]->line = ft_comillas(g_ms->list[count_p]->line);
-		g_ms->list[count_p]->line = ft_expand(g_ms->env, g_ms->list[count_p]->line);
+		printf("g_ms->list[count_p].line:(%s)\n", g_ms->list[count_p].line);
+		g_ms->list[count_p].line = ft_comillas(g_ms->list[count_p].line);
+		g_ms->list[count_p].line = ft_expand(g_ms->env, g_ms->list[count_p].line);
+		count_p++;
 	}
+	printf("salgo\n");
 	return (g_ms);
 }

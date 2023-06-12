@@ -39,7 +39,7 @@ typedef struct s_env
 
 typedef struct s_ms
 {
-	t_command	**list;
+	t_command	*list;
 	t_env		*env;
 	t_env		*exp;
 	char		*line;
@@ -52,7 +52,7 @@ int		ft_size_list(t_command *list);
 void	ft_leaks(void);
 void	ft_free_matrix(char **matrix);
 //parser.c
-int		ft_parser(t_command *ms);
+t_command		*ft_parser(t_command *ms);
 //prompt.c
 t_ms	*ft_prompt(t_ms *ms);
 //handler.c

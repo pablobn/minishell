@@ -113,7 +113,7 @@ static int	ft_command(t_command *list, int i)
 	return (i);
 }
 
-int	ft_parser(t_command *list)
+t_command	*ft_parser(t_command *list)
 {
 	int		i;
 	int		j;
@@ -121,8 +121,9 @@ int	ft_parser(t_command *list)
 	i = 0;
 	j = -1;
 
-	printf("HOla%s\n", list->line);
 	i = ft_space_iter(list->line, i);
+	if (!list)
+		return (NULL);
 	while (list->line[i])
 	{
 		i = ft_outfile(list, i);
@@ -134,5 +135,5 @@ int	ft_parser(t_command *list)
 		list->flags = ft_split(list->cmd, ' ');
 	if (list->flags && list->flags[0] && ft_space_iter(list->flags[0], 0) == (int)ft_strlen(list->flags[0]))
 		list->flags[0] = NULL;
-	return (0);
+	return (list);
 }
