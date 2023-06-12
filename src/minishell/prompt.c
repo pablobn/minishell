@@ -11,34 +11,36 @@ static int	ft_is_empty(char *str)
 	return (1);
 }
 
-static int	ft_expand(t_ms *ms, int i)
+static char	*ft_expand(char *line, t_env *env)
 {
 	int		j;
 	char	*temp;
 	char	*expand;
 	char	*result;
+	int		i;
 
+	i = 0;
 	result = NULL;
-	if (!ms->env || !ms->list->line)
-		return (0);
-	if (ms->list->line[i])
+	if (!env || !line)
+		return (line);
+	if (line[i])
 	{
 		j = 0;
-		while (ms->list->line[i + j] && ms->list->line[i + j] != '$')
+		while (line[i + j] && line[i + j] != '$')
 			j++;
-		if ((int)ft_strlen(ms->list->line) == j)
-			return (0);
-		result = ft_substr(ms->list->line, 0, j);
+		if ((int)ft_strlen(line) == j)
+			return (line);
+		result = ft_substr(line, 0, j);
 		i += j;
 		j = 0;
-		while (ms->list->line[i + j] && ms->list->line[i + j] != ' ' && ms->list->line[i + j] != '\\' && ms->list->line[i + j] != '\'' && ms->list->line[i + j] != '\"')
-			if (ms->list->line[i + ++j] == '$')
+		while (line[i + j] && line[i + j] != ' ' && line[i + j] != '\\' && line[i + j] != '\'' && line[i + j] != '\"')
+			if (line[i + ++j] == '$')
 				break ;
-		temp = ft_substr(ms->list->line, i + 1, j);
+		temp = ft_substr(line, i + 1, j);
 		if (temp)
 		{
 			//printf("temp:(%s)\n", temp);
-			expand = ft_get_env_key(ms->env, temp);
+			expand = ft_get_env_key(env, temp);
 			free(temp);
 		}
 		else
@@ -48,29 +50,19 @@ static int	ft_expand(t_ms *ms, int i)
 		}
 		if (expand)
 			result = ft_strjoin(result, expand);
-		result = ft_strjoin(result, &ms->list->line[i + j]);
-		free(ms->list->line);
-		ms->list->line = result;
-		ft_expand(ms, 0);
+		result = ft_strjoin(result, &line[i + j]);
+		free(line);
+		line = result;
+		ft_expand(line, env);
 	}
-	return (1);
+	return (line);
 }
 
-void	ft_prompt(t_ms *ms)
+static char	*ft_comillas(t_ms *ms)
 {
 	int		j;
 	char	*temp;
 
-	signal(SIGINT, ft_handler);
-	rl_replace_line("", 0);
-	if (ms->list->line)
-		free(ms->list->line);
-	ms->list->line = readline(GREEN "minishell" BLUE "$" RESET " ");
-	if (!ms->list->line)
-		return ;
-	//ms->list->line[ft_strlen(ms->list->line) + 1] = 0;
-	if (!ft_is_empty(ms->list->line))
-		add_history(ms->list->line);
 	j = 0;
 	while (ms->list->line[j])
 	{
@@ -119,44 +111,31 @@ void	ft_prompt(t_ms *ms)
 			}
 		}
 		j++;
-			if (ms->list->line[j] == '\"')
-			{
-				temp = ft_substr(ms->list->line, 0, j);
-				temp = ft_strjoin(temp, &ms->list->line[j + 1]);
-				//printf("&ms->list->line[j + 1]:(%s)\n", &ms->list->line[j + 1]);
-				free(ms->list->line);
-				ms->list->line = temp;
-			}
+		if (ms->list->line[j] == '\"')
+		{
+			temp = ft_substr(ms->list->line, 0, j);
+			temp = ft_strjoin(temp, &ms->list->line[j + 1]);
+			//printf("&ms->list->line[j + 1]:(%s)\n", &ms->list->line[j + 1]);
+			free(ms->list->line);
+			ms->list->line = temp;
+		}
 	}
-	//printf("ms->list->line:(%s)\n", ms->list->line);
-	// j = 0;
-	// while (ms->list->line[j])
-	// {
-	// 	if (ms->list->line[j] == '\"' && ms->list->line[j - 1] && ms->list->line[j - 1] != '\\')
-	// 	{
-	// 		temp = ft_strjoin(ft_substr(ms->list->line, 0, j), &ms->list->line[j + 1]);
-	// 		free(ms->list->line);
-	// 		ms->list->line = temp;
-	// 		while (ms->list->line[++j] && ms->list->line[j] != '\"')
-	// 		{
-	// 			if (ms->list->line[j] == ' ')
-	// 			{
-	// 				temp = ft_strjoin(ft_substr(ms->list->line, 0, j), "\\");
-	// 				temp = ft_strjoin(temp, &ms->list->line[j]);
-	// 				free(ms->list->line);
-	// 				ms->list->line = temp;
-	// 			}
-	// 			j++;
-	// 		}
-	// 		if (ms->list->line[j] == '\"')
-	// 		{
-	// 			temp = ft_substr(ms->list->line, 0, j);
-	// 			temp = ft_strjoin(temp, &ms->list->line[j + 1]);
-	// 			free(ms->list->line);
-	// 			ms->list->line = temp;
-	// 		}
-	// 	}
-	// 	j++;
-	// }
-	ft_expand(ms, 0);
+	return (ms->list->line);
+}
+
+void	ft_prompt(t_ms *ms)
+{
+	signal(SIGINT, ft_handler);
+	rl_replace_line("", 0);
+	if (ms->list->line)
+		free(ms->list->line);
+	ms->list->line = readline(GREEN "minishell" BLUE "$" RESET " ");
+	if (!ms->list->line)
+		return ;
+	//ms->list->line[ft_strlen(ms->list->line) + 1] = 0;
+	if (!ft_is_empty(ms->list->line))
+		add_history(ms->list->line);
+	
+	ms->list->line = ft_comillas(ms);
+	ms->list->line = ft_expand(ms->list->line, ms->env);
 }
