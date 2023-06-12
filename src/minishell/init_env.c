@@ -7,7 +7,7 @@ char	*ft_get_env_key(t_env *env, char *str)
 	i = 0;
 	while (env)
 	{
-		if (!ft_strncmp(env->key, str, ft_strlen(str)))
+		if (!ft_strncmp(env->key, str, ft_strlen(env[i].key)))
 			return (env->value);
 		env = env->next;
 	}
