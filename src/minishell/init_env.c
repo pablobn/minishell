@@ -50,7 +50,7 @@ char	**ft_get_envp(t_env *env)
 void	ft_insert_env(t_env **env, char *key, char *value)
 {
 	t_env	*new;
-
+	
 	new = malloc(sizeof(t_env));
 	new->key = key;
 	new->value = value;

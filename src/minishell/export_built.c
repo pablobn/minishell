@@ -27,7 +27,7 @@ int	ft_export(t_ms *ms, char *new)
 	else
 	{
 		if (!ft_strrchr(new, '='))
-			return (ft_insert_env(&ms->exp, new, NULL), 0);
+			return (ft_insert_env(&ms->exp, ft_strdup(new), NULL), 0);
 		split = ft_split(new, '=');
 		if (!split)
 			return (perror(new), 1);
