@@ -2,9 +2,9 @@
 
 static int	ft_space_iter(char *str, int i)
 {
-	if (!str[i])
+	if (!str)
 		return (i);
-	while (str[i] == ' ' && (i - 1 >= -1 || str[i - 1] == '\\'))
+	while (str[i] && str[i] == ' ' && (i - 1 >= -1 || str[i - 1] == '\\'))
 		i++;
 	return (i);
 }
@@ -105,7 +105,6 @@ static int	ft_command(t_command *list, int i)
 	{
 		list->cmd = ft_strjoin(list->cmd, temp);
 		free(temp);
-		temp = NULL;
 	}
 	else
 		list->cmd = temp;
@@ -113,7 +112,7 @@ static int	ft_command(t_command *list, int i)
 	return (i);
 }
 
-int	ft_parser(t_ms *ms)
+t_command	*ft_parser(t_command *list)
 {
 	int		i;
 	int		j;
@@ -121,17 +120,17 @@ int	ft_parser(t_ms *ms)
 	i = 0;
 	j = -1;
 
-	i = ft_space_iter(ms->list->line, i);
-	while (ms->list->line[i])
+	i = ft_space_iter(list->line, i);
+	while (list->line && list->line[i])
 	{
-		i = ft_outfile(ms->list, i);
-		i = ft_infile(ms->list, i);
-		i = ft_command(ms->list, i);
-		i = ft_space_iter(ms->list->line, i);
+		i = ft_outfile(list, i);
+		i = ft_infile(list, i);
+		i = ft_command(list, i);
+		i = ft_space_iter(list->line, i);
 	}
-	if (ms->list->cmd)
-		ms->list->flags = ft_split(ms->list->cmd, ' ');
-	if ( ms->list->flags && ms->list->flags[0] && ft_space_iter(ms->list->flags[0], 0) == (int)ft_strlen(ms->list->flags[0]))
-		ms->list->flags[0] = NULL;
-	return (0);
+	if (list->cmd)
+		list->flags = ft_split(list->cmd, ' ');
+	if (list->flags && list->flags[0] && ft_space_iter(list->flags[0], 0) == (int)ft_strlen(list->flags[0]))
+		list->flags[0] = NULL;
+	return (list);
 }

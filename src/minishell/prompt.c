@@ -5,13 +5,13 @@ static int	ft_is_empty(char *str)
 	int	i;
 
 	i = -1;
-	while (str[++i])
+	while (str && str[++i])
 		if (str[i] != ' ' && str[i] != '\n')
 			return (0);
 	return (1);
 }
 
-static char	*ft_expand(char *line, t_env *env)
+static t_command	*ft_expand(t_command *list, t_env *env)
 {
 	int		j;
 	char	*temp;
@@ -21,25 +21,24 @@ static char	*ft_expand(char *line, t_env *env)
 
 	i = 0;
 	result = NULL;
-	if (!env || !line)
-		return (line);
-	if (line[i])
+	if (!env || !list->line)
+		return (list);
+	if (list->line[i])
 	{
 		j = 0;
-		while (line[i + j] && line[i + j] != '$')
+		while (list->line[i + j] && list->line[i + j] != '$')
 			j++;
-		if ((int)ft_strlen(line) == j)
-			return (line);
-		result = ft_substr(line, 0, j);
+		if ((int)ft_strlen(list->line) == j)
+			return (list);
+		result = ft_substr(list->line, 0, j);
 		i += j;
 		j = 0;
-		while (line[i + j] && line[i + j] != ' ' && line[i + j] != '\\' && line[i + j] != '\'' && line[i + j] != '\"')
-			if (line[i + ++j] == '$')
+		while (list->line[i + j] && list->line[i + j] != ' ' && list->line[i + j] != '\\' && list->line[i + j] != '\'' && list->line[i + j] != '\"')
+			if (list->line[i + ++j] == '$')
 				break ;
-		temp = ft_substr(line, i + 1, j);
+		temp = ft_substr(list->line, i + 1, j);
 		if (temp)
 		{
-			//printf("temp:(%s)\n", temp);
 			expand = ft_get_env_key(env, temp);
 			free(temp);
 		}
@@ -49,93 +48,133 @@ static char	*ft_expand(char *line, t_env *env)
 			expand = temp;
 		}
 		if (expand)
+		{
 			result = ft_strjoin(result, expand);
-		result = ft_strjoin(result, &line[i + j]);
-		free(line);
-		line = result;
-		ft_expand(line, env);
+			free(expand);
+		}
+		result = ft_strjoin(result, &list->line[i + j]);
+		free(list->line);
+		list->line = result;
+		ft_expand(list, env);
 	}
-	return (line);
+	return (list);
 }
 
-static char	*ft_comillas(t_ms *ms)
+static t_command	*ft_comillas(t_command *list)
 {
 	int		j;
 	char	*temp;
 
 	j = 0;
-	while (ms->list->line[j])
+	if (!list->line)
+		return (NULL);
+	while (list->line[j])
 	{
-		if (ms->list->line[j] == '\"')
+		if (list->line[j] == '\"')
 		{
-			temp = ft_substr(ms->list->line, 0, j);
-			temp = ft_strjoin(temp, &ms->list->line[j + 1]);
-			free(ms->list->line);
-			ms->list->line = temp;
-			while (ms->list->line[j])
+			temp = ft_substr(list->line, 0, j);
+			temp = ft_strjoin(temp, &list->line[j + 1]);
+			free(list->line);
+			list->line = temp;
+			while (list->line[j])
 			{
-				if (ms->list->line[j] == '\'')
+				if (list->line[j] == '\'')
 				{
-					while (ms->list->line[j + 1] && ms->list->line[j + 1] != '\'')
+					while (list->line[j + 1] && list->line[j + 1] != '\'')
 					{
-						if (ms->list->line[j] == '$')
+						if (list->line[j] == '$')
 						{
-							while (ms->list->line[j] && (ms->list->line[j] != '\"' && ms->list->line[j] != ' '))
+							while (list->line[j] && (list->line[j] != '\"' && list->line[j] != ' '))
 								j++;
 						}
 						else
 						{
-							temp = ft_strjoin(ft_substr(ms->list->line, 0, j), "\\");
-							temp = ft_strjoin(temp, &ms->list->line[j]);
-							free(ms->list->line);
-							ms->list->line = temp;
+							temp = ft_strjoin(ft_substr(list->line, 0, j), "\\");
+							temp = ft_strjoin(temp, &list->line[j]);
+							free(list->line);
+							list->line = temp;
 							j++;
 						}
 						j++;
 					}
 				}
-				else if (ms->list->line[j] == '$')
+				else if (list->line[j] == '$')
 				{
-					while (ms->list->line[j] && (ms->list->line[j] != '\"' && ms->list->line[j] != ' '))
+					while (list->line[j] && (list->line[j] != '\"' && list->line[j] != ' '))
 						j++;
 				}
 				else
 				{
-					temp = ft_strjoin(ft_substr(ms->list->line, 0, j), "\\");
-					temp = ft_strjoin(temp, &ms->list->line[j]);
-					free(ms->list->line);
-					ms->list->line = temp;
+					temp = ft_strjoin(ft_substr(list->line, 0, j), "\\");
+					temp = ft_strjoin(temp, &list->line[j]);
+					free(list->line);
+					list->line = temp;
 					j++;
 				}
 				j++;
 			}
 		}
 		j++;
-		if (ms->list->line[j] == '\"')
+		if (list->line[j] == '\"')
 		{
-			temp = ft_substr(ms->list->line, 0, j);
-			temp = ft_strjoin(temp, &ms->list->line[j + 1]);
+			temp = ft_substr(list->line, 0, j);
+			temp = ft_strjoin(temp, &list->line[j + 1]);
 			//printf("&ms->list->line[j + 1]:(%s)\n", &ms->list->line[j + 1]);
-			free(ms->list->line);
-			ms->list->line = temp;
+			free(list->line);
+			list->line = temp;
 		}
 	}
-	return (ms->list->line);
+	return (list);
 }
 
-void	ft_prompt(t_ms *ms)
+static t_command **ft_split_line(t_command **list, char *line)
 {
+	int		i;
+	int		total_split;
+	char	**line_split;
+
+	total_split = -1;
+	line_split = ft_split(line, '|');
+	if (!line_split)
+		return (NULL);
+	list = ft_calloc(total_split + 1, sizeof(t_command *));
+	i = -1;
+	while (line_split[++i])
+	{
+		list[i] = ft_calloc(1, sizeof(t_command));
+		list[i]->line = line_split[i];
+		if (i + 1 <= total_split)
+			list[i]->next = list[i + 1];
+		else
+			list[i]->next = NULL;
+	}
+	return (list);
+}
+
+t_command	**ft_prompt(t_ms *g_ms)
+{
+	int		i;
+
 	signal(SIGINT, ft_handler);
 	rl_replace_line("", 0);
-	if (ms->list->line)
-		free(ms->list->line);
-	ms->list->line = readline(GREEN "minishell" BLUE "$" RESET " ");
-	if (!ms->list->line)
-		return ;
+	if (g_ms->line)
+		free(g_ms->line);
+	g_ms->line = readline(GREEN "minishell" BLUE "$" RESET " ");
+	if (!g_ms->line)
+		return (NULL);
 	//ms->list->line[ft_strlen(ms->list->line) + 1] = 0;
-	if (!ft_is_empty(ms->list->line))
-		add_history(ms->list->line);
-	
-	ms->list->line = ft_comillas(ms);
-	ms->list->line = ft_expand(ms->list->line, ms->env);
+	if (!ft_is_empty(g_ms->line))
+		add_history(g_ms->line);
+	g_ms->list = ft_split_line(g_ms->list, g_ms->line);
+	if (!g_ms->list)
+		return (NULL);
+	i = 0;
+	while (g_ms->list[i])
+	{
+		g_ms->list[i] = ft_comillas(g_ms->list[i]);
+		g_ms->list[i] = ft_expand(g_ms->list[i], g_ms->env);
+		printf("g_ms->list[%d]->line:(%s)\n",i ,g_ms->list[i]->line);
+		i++;
+	}
+	return (g_ms->list);
 }

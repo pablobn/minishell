@@ -72,6 +72,7 @@ int	ft_init_env(t_ms *ms, char **envp)
 		ft_insert_env(&ms->env, split[0], split[1]);
 		ft_insert_env(&ms->exp, split[0], split[1]);
 		envp++;
+		ft_free_matrix(split);
 	}
 	return (0);
 }
