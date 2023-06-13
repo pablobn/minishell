@@ -137,7 +137,10 @@ static t_command **ft_split_line(t_command **list, char *line)
 	line_split = ft_split(line, '|');
 	if (!line_split)
 		return (NULL);
-	list = ft_calloc(total_split + 1, sizeof(t_command *));
+	i = 0;
+	while (line_split[++i])
+		;
+	list = ft_calloc(i + 1, sizeof(t_command *));
 	i = -1;
 	while (line_split[++i])
 	{
@@ -173,7 +176,7 @@ t_command	**ft_prompt(t_ms *g_ms)
 	{
 		g_ms->list[i] = ft_comillas(g_ms->list[i]);
 		g_ms->list[i] = ft_expand(g_ms->list[i], g_ms->env);
-		printf("g_ms->list[%d]->line:(%s)\n",i ,g_ms->list[i]->line);
+		//printf("g_ms->list[%d]->line:(%s)\n",i ,g_ms->list[i]->line);
 		i++;
 	}
 	return (g_ms->list);

@@ -5,11 +5,11 @@ char	*ft_get_env_key(t_env *env, char *str)
 	int	i;
 
 	i = 0;
-	while (env)
+	while (&env[i])
 	{
 		if (!ft_strncmp(env->key, str, ft_strlen(env[i].key)))
 			return (env->value);
-		env = env->next;
+		i++;
 	}
 	return (NULL);
 }
@@ -50,7 +50,7 @@ char	**ft_get_envp(t_env *env)
 void	ft_insert_env(t_env **env, char *key, char *value)
 {
 	t_env	*new;
-	
+
 	new = malloc(sizeof(t_env));
 	new->key = key;
 	new->value = value;
