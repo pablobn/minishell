@@ -40,6 +40,7 @@ typedef struct s_env
 typedef struct s_ms
 {
 	t_command	**list;
+	t_env		**env2;
 	t_env		*env;
 	t_env		*exp;
 	char		*line;
@@ -75,4 +76,8 @@ int			ft_unset(t_ms *ms, char *str);
 void		ft_remove_env(t_env **env, char *str);
 //export_built
 int			ft_export(t_ms *ms, char *new);
+/////////////2
+char		*ft_get_env_key2(t_env **env, char *str);
+t_env		*ft_insert_env2(t_env *env, char *key, char *value);
+t_env		**ft_init_env2(t_env **env, char **envp);
 #endif

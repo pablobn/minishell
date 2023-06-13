@@ -11,7 +11,7 @@ static int	ft_is_empty(char *str)
 	return (1);
 }
 
-static t_command	*ft_expand(t_command *list, t_env *env)
+static t_command	*ft_expand(t_command *list, t_env **env)
 {
 	int		j;
 	char	*temp;
@@ -20,6 +20,7 @@ static t_command	*ft_expand(t_command *list, t_env *env)
 	int		i;
 
 	i = 0;
+	printf("hola:%s\n", env[i]->key);
 	result = NULL;
 	if (!env || !list->line)
 		return (list);
@@ -39,7 +40,7 @@ static t_command	*ft_expand(t_command *list, t_env *env)
 		temp = ft_substr(list->line, i + 1, j);
 		if (temp)
 		{
-			expand = ft_get_env_key(env, temp);
+			expand = ft_get_env_key2(env, temp);
 			free(temp);
 		}
 		else
@@ -175,7 +176,7 @@ t_command	**ft_prompt(t_ms *g_ms)
 	while (g_ms->list[i])
 	{
 		g_ms->list[i] = ft_comillas(g_ms->list[i]);
-		g_ms->list[i] = ft_expand(g_ms->list[i], g_ms->env);
+		g_ms->list[i] = ft_expand(g_ms->list[i], g_ms->env2);
 		//printf("g_ms->list[%d]->line:(%s)\n",i ,g_ms->list[i]->line);
 		i++;
 	}
