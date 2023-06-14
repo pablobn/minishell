@@ -104,7 +104,7 @@ int	ft_execute_line(t_ms *ms)
 	t_command	*list;
 
 	list = ms->list[0];
-	printf("NEXT %p\n", list->next);
+	// printf("NEXT %p\n", list->next);
 	ft_built_in(list, ms);
 	if (ft_check_built_in(list))
 	{

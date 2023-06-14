@@ -28,15 +28,15 @@ int	main(int argc, char **argv, char **envp)
 			g_ms->list[i] = ft_parser(g_ms->list[i]);
 			i++;
 		}
-		// if (g_ms->list[0])
+		// if (g_ms->list[2])
 		// {
-		// 	printf("Line:%s\n", g_ms->list[0]->line);
-		// 	printf("Command_f:%s\n", g_ms->list[0]->cmd);
-		// 	printf("Flags:%s\n", g_ms->list[0]->flags[0]);
-		// 	printf("Out:%d\n", g_ms->list[0]->out);
-		// 	printf("Out_f:%d\n", g_ms->list[0]->out_f);
-		// 	printf("In:%d\n", g_ms->list[0]->in);
-		// 	printf("In_f:%d\n", g_ms->list[0]->in_f);
+		// 	printf("Line:%s\n", g_ms->list[2]->line);
+		// 	printf("Command_f:%s\n", g_ms->list[2]->cmd);
+		// 	printf("Flags:%s\n", g_ms->list[2]->flags[0]);
+		// 	printf("Out:%d\n", g_ms->list[2]->out);
+		// 	printf("Out_f:%d\n", g_ms->list[2]->out_f);
+		// 	printf("In:%d\n", g_ms->list[2]->in);
+		// 	printf("In_f:%d\n", g_ms->list[2]->in_f);
 		// }
 		if (g_ms->list[0] && g_ms->list[0]->cmd)
 			ft_execute_line(g_ms);

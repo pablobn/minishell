@@ -145,14 +145,21 @@ static t_command	**ft_split_line(t_command **list, char *line)
 	list = ft_calloc(i + 1, sizeof(t_command *));
 	i = -1;
 	while (line_split[++i])
-	{
 		list[i] = ft_calloc(1, sizeof(t_command));
+	i = -1;
+	while (line_split[++i])
+	{
 		list[i]->line = ft_strdup(line_split[i]);
 		free(line_split[i]);
 		if (i + 1 <= total_split)
-			list[i]->next = list[i + 1];
-		else
+		{
 			list[i]->next = NULL;
+		}
+		else
+		{
+			list[i]->next = list[i + 1];
+			// printf("NEXT %p\n", list[i]->next);
+		}
 	}
 	return (list);
 }
