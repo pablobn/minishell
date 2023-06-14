@@ -31,8 +31,8 @@ int	ft_export(t_ms *ms, char *new)
 		split = ft_split(new, '=');
 		if (!split)
 			return (perror(new), 1);
-		ft_insert_env(&ms->exp, split[0], split[1]);
-		ft_insert_env(&ms->env, split[0], split[1]);
+		ft_insert_env(&ms->exp, ft_strdup(split[0]), ft_strdup(split[1]));
+		ft_insert_env(&ms->env, ft_strdup(split[0]), ft_strdup(split[1]));
 		ft_free_matrix(split);
 	}
 	return (0);

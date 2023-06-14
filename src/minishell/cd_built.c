@@ -17,28 +17,30 @@ char	*ft_get_previous_path(char *pwd)
 char	*ft_parse_absolute_rute(char *str)
 {
 	char	*path;
+	int		i;
 	char	*temp;
 	char	**new;
 
 	new = ft_split(str, '/');
 	path = ft_strdup("/");
 	temp = ft_strdup("");
-	while (*new)
+	i = 0;
+	while (new[i])
 	{
-		if (ft_strncmp(*new, ".", ft_strlen(*new)))
+		if (ft_strncmp(new[i], ".", ft_strlen(new[i])))
 		{
-			if (ft_strncmp(*new, "..", ft_strlen(*new)) == 0)
+			if (ft_strncmp(new[i], "..", ft_strlen(new[i])) == 0)
 				path = ft_get_previous_path(path);
 			else
 			{
 				if (path[ft_strlen(path) - 1] != '/')
-					temp = ft_strjoin("/", *new);
+					temp = ft_strjoin("/", new[i]);
 				else
-					temp = *new;
-				path = ft_strjoin(path, temp);
+					temp = new[i];
+				path = ft_strjoin_free(path, temp);
 			}
 		}
-		new++;
+		i++;
 	}
 	return (ft_free_matrix(new), path);
 }
