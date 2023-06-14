@@ -5,14 +5,15 @@ char	*ft_get_env_key(t_env *env, char *str)
 	int	i;
 
 	i = 0;
-	while (env)
+	while (&env[i])
 	{
 		if (!ft_strncmp(env->key, str, ft_strlen(env[i].key)))
 			return (env->value);
-		env = env->next;
+		i++;
 	}
 	return (NULL);
 }
+
 
 static int	ft_count_env(t_env *env)
 {
@@ -56,6 +57,52 @@ void	ft_insert_env(t_env **env, char *key, char *value)
 	new->value = value;
 	new->next = *env;
 	*env = new;
+}
+
+char	*ft_get_env_key2(t_env **env, char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (env[i])
+	{
+		if (!ft_strncmp(env[i]->key, str, ft_strlen(env[i]->key)))
+			return (ft_strdup(env[i]->value));
+		i++;
+	}
+	return (NULL);
+}
+
+t_env	*ft_insert_env2(t_env *env, char *key, char *value)
+{
+	env = ft_calloc(sizeof(t_env), 1);
+	env->key = key;
+	env->value = value;
+	return (env);
+}
+
+t_env	**ft_init_env2(t_env **env, char **envp)
+{
+	char	**split;
+	int		i;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	env = ft_calloc(sizeof(t_env**), i + 1);
+	i = 0;
+	while (envp[i])
+	{
+		split = ft_split(envp[i], '=');
+		if (!split)
+			return (NULL);
+		env[i] = ft_insert_env2(env[i], ft_strdup(split[0]), ft_strdup(split[1]));
+		ft_free_matrix(split);
+		i++;
+	}
+	return (env);
 }
 
 int	ft_init_env(t_ms *ms, char **envp)

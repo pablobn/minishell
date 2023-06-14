@@ -39,7 +39,7 @@ typedef struct s_env
 
 typedef struct s_ms
 {
-	t_command	*list;
+	t_command	**list;
 	t_env		*env;
 	t_env		*exp;
 	char		*line;
@@ -47,34 +47,34 @@ typedef struct s_ms
 
 //Prototypes
 //list_utils.c
-int		ft_size_list(t_command *list);
+int			ft_size_list(t_command *list);
 //leaks.c
-void	ft_leaks(void);
-void	ft_free_matrix(char **matrix);
+void		ft_leaks(void);
+void		ft_free_matrix(char **matrix);
 //parser.c
-t_command		*ft_parser(t_command *ms);
+t_command	*ft_parser(t_command *list);
 //prompt.c
-t_ms	*ft_prompt(t_ms *ms);
+t_command	**ft_prompt(t_ms *ms);
 //handler.c
-void	ft_handler(int sig);
+void		ft_handler(int sig);
 //pipex.c
-void	ft_pipex(t_command *list, t_env *env);
-int		ft_execute_line(t_ms *ms);
+void		ft_pipex(t_command *list, t_env *env);
+int			ft_execute_line(t_ms *ms);
 //init_env.c
-int		ft_init_env(t_ms *ms, char **envp);
-void	ft_insert_env(t_env **env, char *key, char *value);
-char	*ft_get_env_key(t_env *env, char *str);
-char	**ft_get_envp(t_env *env);
+int			ft_init_env(t_ms *ms, char **envp);
+void		ft_insert_env(t_env **env, char *key, char *value);
+char		*ft_get_env_key(t_env *env, char *str);
+char		**ft_get_envp(t_env *env);
 //built_in
-int		ft_check_built_in(t_command *list);
-int		ft_built_in(t_command *list, t_ms *ms);
+int			ft_check_built_in(t_command *list);
+int			ft_built_in(t_command *list, t_ms *ms);
 //cd_built
-int		ft_cd(t_command *list, t_ms *ms);
+int			ft_cd(t_command *list, t_ms *ms);
 //unset_built
-int		ft_unset(t_ms *ms, char *str);
-void	ft_remove_env(t_env **env, char *str);
+int			ft_unset(t_ms *ms, char *str);
+void		ft_remove_env(t_env **env, char *str);
 //export_built
-int		ft_export(t_ms *ms, char *new);
+int			ft_export(t_ms *ms, char *new);
 //free
 t_env	*free_env(t_env *env);
 #endif

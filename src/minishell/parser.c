@@ -2,9 +2,9 @@
 
 static int	ft_space_iter(char *str, int i)
 {
-	if (!str[i])
+	if (!str)
 		return (i);
-	while (str[i] == ' ' && (i - 1 >= -1 || str[i - 1] == '\\'))
+	while (str[i] && str[i] == ' ' && (i - 1 >= -1 || str[i - 1] == '\\'))
 		i++;
 	return (i);
 }
@@ -105,7 +105,6 @@ static int	ft_command(t_command *list, int i)
 	{
 		list->cmd = ft_strjoin(list->cmd, temp);
 		free(temp);
-		temp = NULL;
 	}
 	else
 		list->cmd = temp;
@@ -122,9 +121,7 @@ t_command	*ft_parser(t_command *list)
 	j = -1;
 
 	i = ft_space_iter(list->line, i);
-	if (!list)
-		return (NULL);
-	while (list->line[i])
+	while (list->line && list->line[i])
 	{
 		i = ft_outfile(list, i);
 		i = ft_infile(list, i);

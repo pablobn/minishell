@@ -102,7 +102,7 @@ int	ft_execute_line(t_ms *ms)
 {
 	t_command	*list;
 
-	list = ms->list;
+	list = ms->list[0];
 	ft_built_in(list, ms);
 	if (ft_check_built_in(list))
 	{
