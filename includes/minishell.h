@@ -79,4 +79,5 @@ void		ft_free_matrix(char **matrix);
 t_env		*free_env(t_env *env);
 void		ft_free_ms(t_ms *ms);
 void		ft_free_list(t_command	**list);
+char		*ft_strjoin_free(char *str, char *buf);
 #endif
