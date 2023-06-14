@@ -5,7 +5,7 @@ char	*ft_get_env_key(t_env *env, char *str)
 	while (env)
 	{
 		if (!ft_strncmp(env->key, str, ft_strlen(env->key)))
-			return (env->value);
+			return (ft_strdup(env->value));
 		env = env->next;
 	}
 	return (NULL);

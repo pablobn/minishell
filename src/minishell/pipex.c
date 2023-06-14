@@ -35,7 +35,6 @@ int	ft_execute_command(t_command *list, t_env *env)
 		exit(1);
 	}
 	cmd_path = ft_get_cmd(list->flags[0], path);
-	printf("%s\n", cmd_path);
 	if (!cmd_path)
 	{
 		perror(list->flags[0]);
@@ -89,7 +88,6 @@ int	ft_start_pipex(t_command *list, t_ms *ms)
 		}
 		while (list->next)
 		{
-			printf("hola\n");
 			ft_pipex(list, ms->env);
 			list = list->next;
 		}
