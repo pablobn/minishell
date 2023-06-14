@@ -33,6 +33,7 @@ int	ft_export(t_ms *ms, char *new)
 			return (perror(new), 1);
 		ft_insert_env(&ms->exp, split[0], split[1]);
 		ft_insert_env(&ms->env, split[0], split[1]);
+		ft_free_matrix(split);
 	}
 	return (0);
 }

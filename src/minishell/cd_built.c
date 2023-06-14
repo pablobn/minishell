@@ -111,6 +111,7 @@ int	ft_cd(t_command *list, t_ms *ms)
 		if (ft_export(ms, old))
 			return (1);
 		free(pwd);
+		free(path);
 		free(old);
 	}
 	else

@@ -35,6 +35,7 @@ int	ft_execute_command(t_command *list, t_env *env)
 		exit(1);
 	}
 	cmd_path = ft_get_cmd(list->flags[0], path);
+	printf("%s\n", cmd_path);
 	if (!cmd_path)
 	{
 		perror(list->flags[0]);
