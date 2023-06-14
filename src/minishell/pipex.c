@@ -88,6 +88,7 @@ int	ft_start_pipex(t_command *list, t_ms *ms)
 		}
 		while (list->next)
 		{
+			printf("hola\n");
 			ft_pipex(list, ms->env);
 			list = list->next;
 		}
@@ -103,6 +104,7 @@ int	ft_execute_line(t_ms *ms)
 	t_command	*list;
 
 	list = ms->list[0];
+	printf("NEXT %p\n", list->next);
 	ft_built_in(list, ms);
 	if (ft_check_built_in(list))
 	{

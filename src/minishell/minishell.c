@@ -9,7 +9,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 
-	atexit(ft_leaks);
+	// atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	ft_init_env(g_ms, envp);
 	while (42)
@@ -43,10 +43,8 @@ int	main(int argc, char **argv, char **envp)
 		i = 0;
 		if (g_ms->list)
 		{
-			printf("Existe list\n");
 			while (g_ms->list[i])
 			{
-				printf("Existe list interna\n");
 				ft_free_matrix(g_ms->list[i]->flags);
 				free(g_ms->list[i]->cmd);
 				free(g_ms->list[i]->line);

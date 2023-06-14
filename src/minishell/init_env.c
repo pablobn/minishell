@@ -2,14 +2,11 @@
 
 char	*ft_get_env_key(t_env *env, char *str)
 {
-	int	i;
-
-	i = 0;
-	while (&env[i])
+	while (env)
 	{
-		if (!ft_strncmp(env->key, str, ft_strlen(env[i].key)))
+		if (!ft_strncmp(env->key, str, ft_strlen(env->key)))
 			return (env->value);
-		i++;
+		env = env->next;
 	}
 	return (NULL);
 }
