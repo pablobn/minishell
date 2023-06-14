@@ -36,11 +36,12 @@ char	*ft_parse_absolute_rute(char *str)
 				else
 					temp = *new;
 				path = ft_strjoin(path, temp);
+				free(temp);
 			}
 		}
 		new++;
 	}
-	return (ft_free_matrix(new), free(temp), path);
+	return (ft_free_matrix(new), path);
 }
 
 char	*ft_parse_cd(char *str, t_env *env)
