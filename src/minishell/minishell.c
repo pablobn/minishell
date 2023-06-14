@@ -8,11 +8,10 @@ int	main(int argc, char **argv, char **envp)
 
 	(void) argc;
 	(void) argv;
-	int	i;
 
 	atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
-	g_ms->env2 = ft_init_env2(g_ms->env2, envp);
+	ft_init_env(g_ms, envp);
 	while (42)
 	{
 		g_ms->list = ft_prompt(g_ms);
@@ -39,9 +38,21 @@ int	main(int argc, char **argv, char **envp)
 			printf("In:%d\n", g_ms->list[0]->in);
 			printf("In_f:%d\n", g_ms->list[0]->in_f);
 		}
-		// if (g_ms->list[0]->cmd)
-		// 	ft_execute_line(g_ms);
-		// //frees
+		i = 0;
+		if (g_ms->list)
+		{
+			while (g_ms->list[i])
+			{
+				ft_free_matrix(g_ms->list[i]->flags);
+				free(g_ms->list[i]->cmd);
+				free(g_ms->list[i]->line);
+				i++;
+			}
+			free(g_ms->list[i]);
+		}
+		if (g_ms->list[0]->cmd)
+			ft_execute_line(g_ms);
+		//frees
 		// if (g_ms->list->out)
 		// {
 		// 	close(g_ms->list->out);
@@ -59,29 +70,10 @@ int	main(int argc, char **argv, char **envp)
 		// }
 		// ft_free_matrix(g_ms->list->flags);
 	}
-	int k;
-	k = 0;
-	while (g_ms->env2[k])
-	{
-		free(g_ms->env2[k]->key);
-		free(g_ms->env2[k]->value);
-		free(g_ms->env2[k]);
-		k++;
-	}
-	free(g_ms->env2);
-	
-	k = 0;
+	free_env(g_ms->env);
+	free_env(g_ms->exp);
 	if (g_ms->line)
 		free(g_ms->line);
-	if (g_ms->list)
-		while (g_ms->list[k])
-		{
-			ft_free_matrix(g_ms->list[k]->flags);
-			free(g_ms->list[i]->cmd);
-			free(g_ms->list[i]->line);
-			k++;
-		}
-	free(g_ms->list);
 	free(g_ms);	
 	return (0);
 }
