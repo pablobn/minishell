@@ -103,14 +103,14 @@ int	ft_execute_line(t_ms *ms)
 	t_command	*list;
 
 	list = ms->list;
-	if (ft_built_in(list, ms))
-		return (1);
+	ft_built_in(list, ms);
 	if (ft_check_built_in(list))
 	{
 		if (!list->next)
 			return (0);
 		list = list->next;
 	}
-	ft_start_pipex(list, ms);
+	else
+		ft_start_pipex(list, ms);
 	return (0);
 }

@@ -8,7 +8,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv;
 	int	i;
 
-	// atexit(ft_leaks);
+	atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	ft_init_env(g_ms, envp);
 	while (42)
@@ -64,5 +64,7 @@ int	main(int argc, char **argv, char **envp)
 			//ft_free_matrix(g_ms->list[i].flags);
 		// }
 	}
+	// g_ms->env = free_env(g_ms->env);
+	// g_ms->exp = free_env(g_ms->exp);
 	return (0);
 }

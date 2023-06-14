@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 16:38:36 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/08 10:40:29 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:38:34 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	**ft_split(char const *s, char c)
 	size_t	size;
 
 	size = ft_countwords(s, c);
-	split = ft_calloc(size + 1, sizeof(char *));
+	split = ft_calloc(size + 2, sizeof(char *));
 	if (split == NULL)
 		return (NULL);
 	split = ft_splitpriv(s, c, 0, split);

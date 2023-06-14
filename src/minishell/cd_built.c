@@ -110,6 +110,8 @@ int	ft_cd(t_command *list, t_ms *ms)
 			return (1);
 		if (ft_export(ms, old))
 			return (1);
+		free(pwd);
+		free(old);
 	}
 	else
 	{
