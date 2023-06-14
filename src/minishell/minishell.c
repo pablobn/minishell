@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 		// 	return (ft_atoi(&g_ms->list->line[4]));
 		// }
 		i = 0;
-		while (g_ms->list[i])
+		while (g_ms->list && g_ms->list[i])
 		{
 			g_ms->list[i] = ft_parser(g_ms->list[i]);
 			i++;
@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 		// 	printf("In:%d\n", g_ms->list[0]->in);
 		// 	printf("In_f:%d\n", g_ms->list[0]->in_f);
 		// }
-		if (g_ms->list[0]->cmd)
+		if (g_ms->list[0] && g_ms->list[0]->cmd)
 			ft_execute_line(g_ms);
 		i = 0;
 		if (g_ms->list)

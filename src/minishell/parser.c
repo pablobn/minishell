@@ -106,6 +106,8 @@ static int	ft_command(t_command *list, int i)
 	else
 		list->cmd = temp;
 	list->cmd = ft_strjoin(list->cmd, " \0");
+	if (temp)
+		free(temp);
 	return (i);
 }
 

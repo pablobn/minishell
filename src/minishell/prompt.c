@@ -129,7 +129,7 @@ static t_command	*ft_comillas(t_command *list)
 	return (list);
 }
 
-static t_command **ft_split_line(t_command **list, char *line)
+static t_command	**ft_split_line(t_command **list, char *line)
 {
 	int		i;
 	int		total_split;
@@ -148,12 +148,12 @@ static t_command **ft_split_line(t_command **list, char *line)
 	{
 		list[i] = ft_calloc(1, sizeof(t_command));
 		list[i]->line = ft_strdup(line_split[i]);
+		free(line_split[i]);
 		if (i + 1 <= total_split)
 			list[i]->next = list[i + 1];
 		else
 			list[i]->next = NULL;
 	}
-	ft_free_matrix(line_split);
 	return (list);
 }
 
