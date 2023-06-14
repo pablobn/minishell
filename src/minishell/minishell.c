@@ -10,8 +10,10 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv;
 
 	// atexit(ft_leaks);
+	// atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	ft_init_env(g_ms, envp);
+	printf("ENV %s\n", g_ms->env->value);
 	while (42)
 	{
 		g_ms->list = ft_prompt(g_ms);
