@@ -50,7 +50,6 @@ typedef struct s_ms
 int			ft_size_list(t_command *list);
 //leaks.c
 void		ft_leaks(void);
-void		ft_free_matrix(char **matrix);
 //parser.c
 t_command	*ft_parser(t_command *list);
 //prompt.c
@@ -76,5 +75,8 @@ void		ft_remove_env(t_env **env, char *str);
 //export_built
 int			ft_export(t_ms *ms, char *new);
 //free
-t_env	*free_env(t_env *env);
+void		ft_free_matrix(char **matrix);
+t_env		*free_env(t_env *env);
+void		ft_free_ms(t_ms *ms);
+void		ft_free_list(t_command	**list);
 #endif

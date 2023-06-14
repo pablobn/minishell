@@ -36,7 +36,6 @@ char	*ft_parse_absolute_rute(char *str)
 				else
 					temp = *new;
 				path = ft_strjoin(path, temp);
-				free(temp);
 			}
 		}
 		new++;

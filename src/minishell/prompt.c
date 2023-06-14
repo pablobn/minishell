@@ -121,7 +121,6 @@ static t_command	*ft_comillas(t_command *list)
 		{
 			temp = ft_substr(list->line, 0, j);
 			temp = ft_strjoin(temp, &list->line[j + 1]);
-			//printf("&ms->list->line[j + 1]:(%s)\n", &ms->list->line[j + 1]);
 			free(list->line);
 			list->line = temp;
 		}
@@ -150,18 +149,12 @@ static t_command	**ft_split_line(t_command **list, char *line)
 	while (line_split[++i])
 	{
 		list[i]->line = ft_strdup(line_split[i]);
-		free(line_split[i]);
 		if (i + 1 <= total_split)
-		{
 			list[i]->next = NULL;
-		}
 		else
-		{
 			list[i]->next = list[i + 1];
-			// printf("NEXT %p\n", list[i]->next);
-		}
 	}
-	return (list);
+	return (ft_free_matrix(line_split), list);
 }
 
 t_command	**ft_prompt(t_ms *g_ms)
@@ -175,7 +168,6 @@ t_command	**ft_prompt(t_ms *g_ms)
 	g_ms->line = readline(GREEN "minishell" BLUE "$" RESET " ");
 	if (!g_ms->line)
 		return (NULL);
-	//ms->list->line[ft_strlen(ms->list->line) + 1] = 0;
 	if (!ft_is_empty(g_ms->line))
 		add_history(g_ms->line);
 	g_ms->list = ft_split_line(g_ms->list, g_ms->line);
@@ -186,7 +178,6 @@ t_command	**ft_prompt(t_ms *g_ms)
 	{
 		g_ms->list[i] = ft_comillas(g_ms->list[i]);
 		g_ms->list[i] = ft_expand(g_ms->list[i], g_ms->env);
-		//printf("g_ms->list[%d]->line:(%s)\n",i ,g_ms->list[i]->line);
 		i++;
 	}
 	return (g_ms->list);
