@@ -74,4 +74,6 @@ int		ft_unset(t_ms *ms, char *str);
 void	ft_remove_env(t_env **env, char *str);
 //export_built
 int		ft_export(t_ms *ms, char *new);
+//free
+t_env	*free_env(t_env *env);
 #endif

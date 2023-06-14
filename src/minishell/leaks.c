@@ -17,7 +17,7 @@ void	ft_free_matrix(char **matrix)
 			free(matrix[i]);
 			matrix[i] = NULL;
 		}
-		// free(matrix);
+		free(matrix);
 		// matrix = NULL;
 	}
 }

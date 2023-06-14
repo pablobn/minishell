@@ -6,19 +6,21 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void) argc;
 	(void) argv;
+	(void) envp;
 
-	// atexit(ft_leaks);
+	atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	g_ms->list = ft_calloc(1, sizeof(t_command));
+	g_ms->env = ft_calloc(1, sizeof(t_env));
+	g_ms->exp = ft_calloc(1, sizeof(t_env));
 	ft_init_env(g_ms, envp);
 	while (42)
 	{
 		ft_prompt(g_ms);
 		if (!g_ms->list->line)
-			return (0);
+			break ;
 		if (!ft_strncmp(g_ms->list->line, "exit", 4))
 		{
-			//printf("$?:(%d)\n", ft_atoi(&g_ms->list->line[4]));
 			return (ft_atoi(&g_ms->list->line[4]));
 		}
 		if (ft_parser(g_ms))
@@ -31,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 		// printf("In:%d\n", g_ms->list->in);
 		// printf("In_f:%d\n", g_ms->list->in_f);
 		if (g_ms->list->cmd)
-			ft_execute_line(g_ms);
+			// ft_execute_line(g_ms);
 		//frees
 		if (g_ms->list->out)
 		{
@@ -50,5 +52,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		ft_free_matrix(g_ms->list->flags);
 	}
+	// g_ms->env = free_env(g_ms->env);
+	// g_ms->exp = free_env(g_ms->exp);
 	return (0);
 }

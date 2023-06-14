@@ -50,7 +50,7 @@ char	**ft_get_envp(t_env *env)
 void	ft_insert_env(t_env **env, char *key, char *value)
 {
 	t_env	*new;
-	
+
 	new = malloc(sizeof(t_env));
 	new->key = key;
 	new->value = value;
@@ -69,9 +69,10 @@ int	ft_init_env(t_ms *ms, char **envp)
 		split = ft_split(*envp, '=');
 		if (!split)
 			return (1);
-		ft_insert_env(&ms->env, split[0], split[1]);
-		ft_insert_env(&ms->exp, split[0], split[1]);
+		ft_insert_env(&ms->env, ft_strdup(split[0]), ft_strdup(split[1]));
+		ft_insert_env(&ms->exp, ft_strdup(split[0]), ft_strdup(split[1]));
 		envp++;
+		ft_free_matrix(split);
 	}
 	return (0);
 }

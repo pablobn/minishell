@@ -110,6 +110,7 @@ int	ft_execute_line(t_ms *ms)
 			return (0);
 		list = list->next;
 	}
-	ft_start_pipex(list, ms);
+	else
+		ft_start_pipex(list, ms);
 	return (0);
 }
