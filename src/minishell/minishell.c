@@ -9,9 +9,10 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 
-	atexit(ft_leaks);
+	// atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	ft_init_env(g_ms, envp);
+	printf("ENV %s\n", g_ms->env->value);
 	while (42)
 	{
 		g_ms->list = ft_prompt(g_ms);
@@ -38,6 +39,8 @@ int	main(int argc, char **argv, char **envp)
 			printf("In:%d\n", g_ms->list[0]->in);
 			printf("In_f:%d\n", g_ms->list[0]->in_f);
 		}
+		if (g_ms->list[0]->cmd)
+			ft_execute_line(g_ms);
 		i = 0;
 		if (g_ms->list)
 		{
@@ -50,8 +53,6 @@ int	main(int argc, char **argv, char **envp)
 			}
 			free(g_ms->list[i]);
 		}
-		if (g_ms->list[0]->cmd)
-			ft_execute_line(g_ms);
 		//frees
 		// if (g_ms->list->out)
 		// {

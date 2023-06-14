@@ -20,7 +20,7 @@ static char	*ft_get_cmd(char *str, char *path)
 		free(tmp);
 		i++;
 	}
-	return (NULL);
+	return (ft_free_matrix(cases), NULL);
 }
 
 int	ft_execute_command(t_command *list, t_env *env)
