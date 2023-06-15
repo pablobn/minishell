@@ -16,11 +16,11 @@ static char	*ft_get_cmd(char *str, char *path)
 	{
 		tmp = ft_strjoin(cases[i], new);
 		if (access(tmp, 0) == 0)
-			return (tmp);
+			return (free(new), tmp);
 		free(tmp);
 		i++;
 	}
-	return (ft_free_matrix(cases), NULL);
+	return (free(new), ft_free_matrix(cases), NULL);
 }
 
 int	ft_execute_command(t_command *list, t_env *env)
