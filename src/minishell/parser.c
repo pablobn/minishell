@@ -100,12 +100,10 @@ static int	ft_command(t_command *list, int i)
 		j++;
 		i++;
 	}
-	//leaks
 	if (list->cmd)
 		list->cmd = ft_strjoin_free(list->cmd, temp);
 	else
-		list->cmd = temp;
-	list->cmd = ft_strjoin(list->cmd, " \0");
+		list->cmd = ft_strjoin_free(list->cmd, " \0");
 	if (temp)
 		free(temp);
 	return (i);
