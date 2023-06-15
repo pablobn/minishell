@@ -51,12 +51,13 @@ void	ft_free_list(t_command	**list)
 		while (list[i])
 		{
 			ft_free_matrix(list[i]->flags);
+			free(list[i]->cmd);
 			free(list[i]->line);
-			free(list[i]);
 			if (list[i]->in != 0)
 				close(list[i]->in);
 			if (list[i]->out != 0)
 				close(list[i]->out);
+			free(list[i]);
 			i++;
 		}
 		free(list);

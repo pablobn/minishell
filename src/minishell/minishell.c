@@ -8,6 +8,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void) argc;
 	(void) argv;
+	atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	ft_init_env(g_ms, envp);
 	while (42)
@@ -22,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 		i = -1;
 		while (g_ms->list && g_ms->list[++i])
 			ft_parser(g_ms->list[i]);
-		if (g_ms->list[0] && g_ms->list[0]->cmd)
+		if (g_ms->list[0])
 			ft_execute_line(g_ms);
 		ft_free_list(g_ms->list);
 	}

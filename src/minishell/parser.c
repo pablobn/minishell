@@ -102,12 +102,13 @@ static int	ft_command(t_command *list, int i)
 	}
 	//leaks
 	if (list->cmd)
+	{
 		list->cmd = ft_strjoin_free(list->cmd, temp);
+		free(temp);
+	}
 	else
 		list->cmd = temp;
-	list->cmd = ft_strjoin(list->cmd, " \0");
-	if (temp)
-		free(temp);
+	list->cmd = ft_strjoin_free(list->cmd, " \0");
 	return (i);
 }
 
@@ -127,7 +128,6 @@ void	ft_parser(t_command *list)
 	}
 	if (list->cmd)
 		list->flags = ft_split(list->cmd, ' ');
-	free(list->cmd);
 	if (list->flags && list->flags[0] && ft_space_iter(list->flags[0], 0) == (int)ft_strlen(list->flags[0]))
 		list->flags[0] = NULL;
 	return ;
