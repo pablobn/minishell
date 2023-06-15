@@ -102,7 +102,7 @@ static int	ft_command(t_command *list, int i)
 	}
 	//leaks
 	if (list->cmd)
-		list->cmd = ft_strjoin(list->cmd, temp);
+		list->cmd = ft_strjoin_free(list->cmd, temp);
 	else
 		list->cmd = temp;
 	list->cmd = ft_strjoin(list->cmd, " \0");
@@ -111,15 +111,11 @@ static int	ft_command(t_command *list, int i)
 	return (i);
 }
 
-t_command	*ft_parser(t_command *list)
+void	ft_parser(t_command *list)
 {
 	int		i;
-	int		j;
 
-	i = 0;
-	j = -1;
-
-	i = ft_space_iter(list->line, i);
+	i = ft_space_iter(list->line, 0);
 	while (list->line && list->line[i])
 	{
 		i = ft_outfile(list, i);
@@ -131,5 +127,5 @@ t_command	*ft_parser(t_command *list)
 		list->flags = ft_split(list->cmd, ' ');
 	if (list->flags && list->flags[0] && ft_space_iter(list->flags[0], 0) == (int)ft_strlen(list->flags[0]))
 		list->flags[0] = NULL;
-	return (list);
+	return ;
 }

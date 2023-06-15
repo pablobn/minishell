@@ -22,8 +22,6 @@ void	ft_free_ms(t_ms *g_ms)
 	free_env(g_ms->exp);
 	if (g_ms->line)
 		free(g_ms->line);
-	if (g_ms->list)
-		free(g_ms->list);
 	free(g_ms);
 }
 
@@ -55,9 +53,10 @@ void	ft_free_list(t_command	**list)
 			ft_free_matrix(list[i]->flags);
 			free(list[i]->cmd);
 			free(list[i]->line);
+			free(list[i]);
 			i++;
 		}
-		free(list[i]);
+		free(list);
 	}
 }
 
@@ -68,12 +67,9 @@ char	*ft_strjoin_free(char *str, char *buf)
 	int		j;
 
 	if (str == NULL)
-	{
-		str = (char *) malloc(1 * sizeof(char));
-		str[0] = '\0';
-	}
-	if (buf == NULL)
 		return (NULL);
+	if (buf == NULL)
+		return (free(str), NULL);
 	new = (char *) malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(buf) + 1));
 	if (new == NULL)
 		return (free(str), NULL);

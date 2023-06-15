@@ -51,9 +51,9 @@ int			ft_size_list(t_command *list);
 //leaks.c
 void		ft_leaks(void);
 //parser.c
-t_command	*ft_parser(t_command *list);
+void		ft_parser(t_command *list);
 //prompt.c
-t_command	**ft_prompt(t_ms *ms);
+void		ft_prompt(t_ms *ms);
 //handler.c
 void		ft_handler(int sig);
 //pipex.c

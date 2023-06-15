@@ -12,7 +12,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_init_env(g_ms, envp);
 	while (42)
 	{
-		g_ms->list = ft_prompt(g_ms);
+		ft_prompt(g_ms);
 		if (!g_ms->line)
 			break ;
 		i = -1;
@@ -21,11 +21,12 @@ int	main(int argc, char **argv, char **envp)
 				return (ft_atoi(g_ms->list[i]->line));
 		i = -1;
 		while (g_ms->list && g_ms->list[++i])
-			g_ms->list[i] = ft_parser(g_ms->list[i]);
+			ft_parser(g_ms->list[i]);
 		if (g_ms->list[0] && g_ms->list[0]->cmd)
 			ft_execute_line(g_ms);
 		ft_free_list(g_ms->list);
 	}
 	ft_free_ms(g_ms);
+	rl_clear_history();
 	return (0);
 }
