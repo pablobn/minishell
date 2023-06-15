@@ -119,12 +119,15 @@ void	ft_parser(t_command *list)
 	while (list->line && list->line[i])
 	{
 		i = ft_outfile(list, i);
+		i = ft_space_iter(list->line, i);
 		i = ft_infile(list, i);
+		i = ft_space_iter(list->line, i);
 		i = ft_command(list, i);
 		i = ft_space_iter(list->line, i);
 	}
 	if (list->cmd)
 		list->flags = ft_split(list->cmd, ' ');
+	free(list->cmd);
 	if (list->flags && list->flags[0] && ft_space_iter(list->flags[0], 0) == (int)ft_strlen(list->flags[0]))
 		list->flags[0] = NULL;
 	return ;
