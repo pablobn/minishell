@@ -92,7 +92,7 @@ static int	ft_command(t_command *list, int i)
 	if (!temp)
 		return (i);
 	j = 0;
-	while (list->line[i] && list->line[i] != ' ')
+	while (list->line[i] && list->line[i] != ' ' && list->line[i] != '<' && list->line[i] != '>')
 	{
 		if (list->line[i + 1] && list->line[i] == '\\')
 			i++;
