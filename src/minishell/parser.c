@@ -39,7 +39,6 @@ static int	ft_infile(t_command *cmd, int i)
 		if (cmd->in)
 			close(cmd->in);
 		cmd->in = open(aux, O_RDONLY);
-		printf("%d\n", cmd->in);
 	}
 	return (i);
 }
