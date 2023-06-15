@@ -7,6 +7,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 # include "../library/libft/libft.h"
 //Para silenciar los echos de la terminal
 # include <termios.h>
@@ -48,6 +50,7 @@ typedef struct s_ms
 //Prototypes
 //list_utils.c
 int			ft_size_list(t_command *list);
+int			ft_size_matrix(char **str);
 //leaks.c
 void		ft_leaks(void);
 //parser.c
@@ -62,6 +65,7 @@ int			ft_execute_line(t_ms *ms);
 //init_env.c
 int			ft_init_env(t_ms *ms, char **envp);
 void		ft_insert_env(t_env **env, char *key, char *value);
+void		ft_insert_last_env(t_env **env, char *key, char *value);
 char		*ft_get_env_key(t_env *env, char *str);
 char		**ft_get_envp(t_env *env);
 //built_in

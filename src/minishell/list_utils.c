@@ -11,3 +11,13 @@ int	ft_size_list(t_command *list)
 	}	
 	return (i);
 }
+
+int	ft_size_matrix(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}

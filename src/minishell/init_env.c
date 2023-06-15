@@ -56,20 +56,46 @@ void	ft_insert_env(t_env **env, char *key, char *value)
 	*env = new;
 }
 
+void	ft_insert_last_env(t_env **env, char *key, char *value)
+{
+	t_env	*new;
+	t_env	*last;
+
+	new = malloc(sizeof(t_env));
+	new->key = key;
+	if (value)
+		new->value = value;
+	else
+		new->value = NULL;
+	new->next = NULL;
+
+	if (*env == NULL)
+		*env = new;
+	else
+	{
+		last = *env;
+		while (last->next)
+			last = last->next;
+		last->next = new;
+	}
+}
+
 int	ft_init_env(t_ms *ms, char **envp)
 {
 	char		**split;
+	int			i;
 
 	ms->env = NULL;
 	ms->exp = NULL;
-	while (*envp)
+	i = ft_size_matrix(envp) - 1;
+	while (i >= 0)
 	{
-		split = ft_split(*envp, '=');
+		split = ft_split(envp[i], '=');
 		if (!split)
 			return (1);
 		ft_insert_env(&ms->env, ft_strdup(split[0]), ft_strdup(split[1]));
 		ft_insert_env(&ms->exp, ft_strdup(split[0]), ft_strdup(split[1]));
-		envp++;
+		i--;
 		ft_free_matrix(split);
 	}
 	return (0);

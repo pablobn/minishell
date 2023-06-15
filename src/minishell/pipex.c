@@ -2,20 +2,24 @@
 
 static char	*ft_get_cmd(char *str, char *path)
 {
-	char	**cases;
-	char	*new;
-	char	*tmp;
-	int		i;
+	char		**cases;
+	char		*new;
+	char		*tmp;
+	struct stat	file_stat;
+	int			i;
 
 	cases = ft_split(path, ':');
 	i = 0;
-	if (access(str, 0) == 0)
-		return (str);
+	if (stat(str, &file_stat) != 0)
+	{
+		if (access(str, X_OK) == 0)
+			return (ft_strdup(str));
+	}
 	new = ft_strjoin("/", str);
 	while (cases[i])
 	{
 		tmp = ft_strjoin(cases[i], new);
-		if (access(tmp, 0) == 0)
+		if (access(tmp, X_OK) == 0)
 			return (free(new), tmp);
 		free(tmp);
 		i++;
