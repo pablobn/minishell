@@ -11,7 +11,6 @@ char	*ft_get_env_key(t_env *env, char *str)
 	return (NULL);
 }
 
-
 static int	ft_count_env(t_env *env)
 {
 	int	i;
@@ -45,39 +44,37 @@ char	**ft_get_envp(t_env *env)
 	return (envp);
 }
 
+int	ft_env_is_repeated(t_env **env, char *key, char *value)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key)) == 0)
+		{
+			tmp->value = value;
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 void	ft_insert_env(t_env **env, char *key, char *value)
 {
 	t_env	*new;
 
-	new = malloc(sizeof(t_env));
-	new->key = key;
-	new->value = value;
-	new->next = *env;
-	*env = new;
-}
-
-void	ft_insert_last_env(t_env **env, char *key, char *value)
-{
-	t_env	*new;
-	t_env	*last;
-
+	if (ft_env_is_repeated(env, key, value))
+		return ;
 	new = malloc(sizeof(t_env));
 	new->key = key;
 	if (value)
 		new->value = value;
 	else
 		new->value = NULL;
-	new->next = NULL;
-
-	if (*env == NULL)
-		*env = new;
-	else
-	{
-		last = *env;
-		while (last->next)
-			last = last->next;
-		last->next = new;
-	}
+	new->next = *env;
+	*env = new;
 }
 
 int	ft_init_env(t_ms *ms, char **envp)

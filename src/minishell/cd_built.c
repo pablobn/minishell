@@ -104,10 +104,6 @@ int	ft_cd(t_command *list, t_ms *ms)
 	{
 		pwd = ft_strjoin("PWD=", path);
 		old = ft_strjoin("OLDPWD=", ft_get_env_key(ms->env, "PWD"));
-		if (ft_unset(ms, "PWD"))
-			return (1);
-		if (ft_unset(ms, "OLDPWD"))
-			return (1);
 		if (ft_export(ms, pwd))
 			return (1);
 		if (ft_export(ms, old))
