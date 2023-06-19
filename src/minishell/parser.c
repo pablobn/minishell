@@ -22,7 +22,8 @@ static int	ft_infile(t_command *cmd, int i)
 		i++;
 		if (cmd->line[i] == '<')
 		{
-			cmd->in_f = 1;
+			//ft_heredoc();
+			//cmd->in_f = 1;
 			i++;
 		}
 		else

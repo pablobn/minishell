@@ -25,7 +25,6 @@ static t_command	*ft_expand(t_command *list, t_env *env, int i)
 		return (list);
 	if (list->line[i])
 	{
-		printf("line:(%s)\n", list->line);
 		while (list->line[i] && list->line[i] != '$')
 		{
 			if (list->line[i - 1] == '\\')
@@ -139,7 +138,6 @@ static t_command	*ft_comillas(t_command *list)
 		}
 		j++;
 	}
-
 	return (list);
 }
 

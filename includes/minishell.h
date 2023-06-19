@@ -26,7 +26,7 @@ typedef struct s_command
 	int					out;
 	int					out_f;
 	int					in;
-	int					in_f;
+	char				**in_f;
 	char				*line;
 	char				*cmd;
 	char				**flags;
