@@ -128,6 +128,8 @@ void	ft_parser(t_command *list)
 	}
 	if (list->cmd)
 		list->flags = ft_split(list->cmd, ' ');
+	else
+		list->flags = ft_calloc(sizeof(char *), 1);
 	if (list->flags && list->flags[0] && ft_space_iter(list->flags[0], 0) == (int)ft_strlen(list->flags[0]))
 		list->flags[0] = NULL;
 	return ;

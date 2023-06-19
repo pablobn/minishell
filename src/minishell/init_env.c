@@ -2,9 +2,14 @@
 
 char	*ft_get_env_key(t_env *env, char *str)
 {
+	int	size;
+
+	size = (int)ft_strlen(env->key);
+	if ((int)ft_strlen(str) > size)
+		size = (int)ft_strlen(str);
 	while (env)
 	{
-		if (!ft_strncmp(env->key, str, ft_strlen(env->key)))
+		if (!ft_strncmp(env->key, str, size))
 			return (ft_strdup(env->value));
 		env = env->next;
 	}
