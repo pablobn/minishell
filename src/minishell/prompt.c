@@ -185,6 +185,35 @@ static t_command	**ft_split_line(t_command **list, char *line)
 	return (ft_free_matrix(line_split), list);
 }
 
+// static t_command	*ft_tilde(t_command *list, t_env *env)
+// {
+// 	int		i;
+// 	char	*temp;
+// 	char	*home;
+
+// 	i = 0;
+// 	if (!env || !list->line)
+// 		return (list);
+// 	home = ft_get_env_key(env, "HOME");
+// 	while (list->line[i])
+// 	{
+// 		if (list->line[i] == '~')
+// 		{
+// 			if (i - 1 >= 0 && list->line[i - 1] == '\\' && list->line[i - 1] != ' ')
+// 				break ;
+// 			if (list->line[i + 1] && list->line[i + 1] != ' ')
+// 				break ;
+// 			temp = ft_strjoin(ft_substr(list->line, 0, i), home);
+// 			temp = ft_strjoin_free(temp, &list->line[i + 1]);
+// 			free(list->line);
+// 			list->line = temp;
+// 		}
+// 		i++;
+// 	}
+// 	free(home);
+// 	return (list);
+// }
+
 void	ft_prompt(t_ms *g_ms)
 {
 	int		i;
@@ -207,6 +236,7 @@ void	ft_prompt(t_ms *g_ms)
 		g_ms->list[i]->heredoc = ft_calloc(sizeof(char *), 50);
 		g_ms->list[i] = ft_comillas(g_ms->list[i]);
 		g_ms->list[i] = ft_expand(g_ms->list[i], g_ms->env, 0);
+		//g_ms->list[i] = ft_tilde(g_ms->list[i], g_ms->env);
 		i++;
 	}
 	return ;
