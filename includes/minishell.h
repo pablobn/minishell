@@ -41,6 +41,7 @@ typedef struct s_env
 
 typedef struct s_ms
 {
+	int			status;
 	t_command	**list;
 	t_env		*env;
 	t_env		*exp;
