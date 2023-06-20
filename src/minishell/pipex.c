@@ -47,7 +47,7 @@ void	ft_execute_command(t_command *list, t_env *env)
 	execve(cmd_path, list->flags, ft_get_envp(env));
 }
 
-void	ft_pipex(t_command *list, t_env *env)
+void	ft_pipex(t_command *list, t_env *env, t_ms *ms)
 {
 	pid_t	pid;
 	int		tube[2];
@@ -64,7 +64,9 @@ void	ft_pipex(t_command *list, t_env *env)
 		else
 			dup2(tube[1], STDOUT_FILENO);
 		close(tube[1]);
-		ft_execute_command(list, env);
+		ft_built_in(list, ms);
+		if (!ft_check_built_in(list))
+			ft_execute_command(list, env);
 	}
 	else
 	{
@@ -92,10 +94,12 @@ int	ft_start_pipex(t_command *list, t_ms *ms)
 		}
 		while (list->next)
 		{
-			ft_pipex(list, ms->env);
+			ft_pipex(list, ms->env, ms);
 			list = list->next;
 		}
-		ft_execute_command(list, ms->env);
+		ft_built_in(list, ms);
+		if (!ft_check_built_in(list))
+			ft_execute_command(list, ms->env);
 	}
 	wait(&num);
 	if (WIFEXITED(num))
@@ -108,12 +112,13 @@ int	ft_execute_line(t_ms *ms)
 	t_command	*list;
 
 	list = ms->list[0];
-	ft_built_in(list, ms);
-	if (ft_check_built_in(list))
+	if (!list->next)
 	{
-		if (!list->next)
-			return (0);
-		list = list->next;
+		ft_built_in_cd(list, ms);
+		if (ft_check_built_in_cd(list))
+			list = list->next;
+		else
+			return(ft_start_pipex(list, ms));
 	}
 	else
 		return (ft_start_pipex(list, ms));
