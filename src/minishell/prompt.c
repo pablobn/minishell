@@ -37,25 +37,32 @@ static t_command	*ft_expand(t_command *list, t_env *env, int i)
 		result = ft_substr(list->line, 0, i);
 		j = 0;
 		while (list->line[i + j] && list->line[i + j] != ' ' && list->line[i + j] != '\'' && list->line[i + j] != '\"')
-			if (list->line[i + ++j] == '$' && list->line[i + j - 1] != '\\')
+			if (list->line[i + ++j] == '$')
 				break ;
 		temp = ft_substr(list->line, i, j);
-		if (temp[ft_strlen(temp) - 1] == '\\')
-			temp[ft_strlen(temp) - 1] = '\0';
-		printf("temp:(%s)\n", temp);
-		if (temp && list->line[i - 1] != '\\')
+		if (temp[1] != '$' && temp[1])
 		{
-			expand = ft_get_env_key(env, &temp[1]);
-			free(temp);
+			if (temp[ft_strlen(temp) - 1] == '\\')
+				temp[ft_strlen(temp) - 1] = '\0';
+			if (temp && list->line[i - 1] != '\\')
+			{
+				expand = ft_get_env_key(env, &temp[1]);
+				free(temp);
+			}
+			else
+				expand = temp;
+			if (expand)
+			{
+				result = ft_strjoin_free(result, expand);
+				free(expand);
+			}
 		}
 		else
 			expand = temp;
-		if (expand)
-		{
-			result = ft_strjoin_free(result, expand);
-			free(expand);
-		}
-		result = ft_strjoin_free(result, &list->line[i + j]);
+		if (j > i)
+			result = ft_strjoin_free(result, &list->line[i + j]);
+		else
+			result = ft_strjoin_free(result, &list->line[i + j]);
 		free(list->line);
 		list->line = result;
 		ft_expand(list, env, i + j + 1);
@@ -116,7 +123,7 @@ static t_command	*ft_comillas(t_command *list)
 				}
 				else
 				{
-					if (list->line[j] && list->line[j - 1] != '\\')
+					if (list->line[j] && j - 1 > 0 && list->line[j - 1] != '\\')
 					{
 						temp = ft_strjoin(ft_substr(list->line, 0, j), "\\");
 						temp = ft_strjoin_free(temp, &list->line[j]);
@@ -136,7 +143,8 @@ static t_command	*ft_comillas(t_command *list)
 			free(list->line);
 			list->line = temp;
 		}
-		j++;
+		if (list->line[j] != '\'')
+			j++;
 	}
 	return (list);
 }
@@ -189,6 +197,7 @@ void	ft_prompt(t_ms *g_ms)
 	i = 0;
 	while (g_ms->list[i])
 	{
+		g_ms->list[i]->heredoc = ft_calloc(sizeof(char *), 50);
 		g_ms->list[i] = ft_comillas(g_ms->list[i]);
 		g_ms->list[i] = ft_expand(g_ms->list[i], g_ms->env, 0);
 		i++;
