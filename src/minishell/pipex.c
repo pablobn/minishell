@@ -64,9 +64,10 @@ void	ft_pipex(t_command *list, t_env *env, t_ms *ms)
 		else
 			dup2(tube[1], STDOUT_FILENO);
 		close(tube[1]);
-		ft_built_in(list, ms);
 		if (!ft_check_built_in(list))
 			ft_execute_command(list, env);
+		else
+			exit (ft_built_in(list, ms));
 	}
 	else
 	{
@@ -85,21 +86,19 @@ int	ft_start_pipex(t_command *list, t_ms *ms)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (!list->next)
-		{
-			if (list->in != STDIN_FILENO)
-				dup2(list->in, STDIN_FILENO);
-			if (list->out != STDOUT_FILENO && list->out != 0)
-				dup2(list->out, STDOUT_FILENO);
-		}
 		while (list->next)
 		{
 			ft_pipex(list, ms->env, ms);
 			list = list->next;
 		}
-		ft_built_in(list, ms);
+		if (list->in != STDIN_FILENO)
+			dup2(list->in, STDIN_FILENO);
+		if (list->out != STDOUT_FILENO && list->out != 0)
+			dup2(list->out, STDOUT_FILENO);
 		if (!ft_check_built_in(list))
 			ft_execute_command(list, ms->env);
+		else
+			exit (ft_built_in(list, ms));
 	}
 	wait(&num);
 	if (WIFEXITED(num))
