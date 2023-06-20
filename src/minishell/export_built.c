@@ -106,9 +106,10 @@ int	ft_export(t_ms *ms, char *new)
 			ft_free_matrix(split);
 			return (1);
 		}
-		ft_insert_env(&ms->exp, ft_strdup(split[0]), second);
-		ft_insert_env(&ms->env, ft_strdup(split[0]), second);
+		ft_insert_env(&ms->exp, ft_strdup(split[0]), ft_strdup(second));
+		ft_insert_env(&ms->env, ft_strdup(split[0]), ft_strdup(second));
 		ft_free_matrix(split);
+		free(second);
 	}
 	return (0);
 }

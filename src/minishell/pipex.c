@@ -27,7 +27,7 @@ static char	*ft_get_cmd(char *str, char *path)
 	return (free(new), ft_free_matrix(cases), NULL);
 }
 
-int	ft_execute_command(t_command *list, t_env *env)
+void	ft_execute_command(t_command *list, t_env *env)
 {
 	char	*path;
 	char	*cmd_path;
@@ -35,16 +35,16 @@ int	ft_execute_command(t_command *list, t_env *env)
 	path = ft_get_env_key(env, "PATH");
 	if (!path)
 	{
-		ft_putstr_fd("No existe PATH", 2);
-		exit(1);
+		ft_putstr_fd("No existe PATH\n", 2);
+		exit (127);
 	}
 	cmd_path = ft_get_cmd(list->flags[0], path);
 	if (!cmd_path)
 	{
 		perror(list->flags[0]);
-		exit (1);
+		exit (127);
 	}
-	return (execve(cmd_path, list->flags, ft_get_envp(env)));
+	execve(cmd_path, list->flags, ft_get_envp(env));
 }
 
 void	ft_pipex(t_command *list, t_env *env)
@@ -64,8 +64,7 @@ void	ft_pipex(t_command *list, t_env *env)
 		else
 			dup2(tube[1], STDOUT_FILENO);
 		close(tube[1]);
-		if (ft_execute_command(list, env) < 0)
-			perror(list->flags[0]);
+		ft_execute_command(list, env);
 	}
 	else
 	{
@@ -79,6 +78,7 @@ void	ft_pipex(t_command *list, t_env *env)
 int	ft_start_pipex(t_command *list, t_ms *ms)
 {
 	pid_t	pid;
+	int		num;
 
 	pid = fork();
 	if (pid == 0)
@@ -95,10 +95,11 @@ int	ft_start_pipex(t_command *list, t_ms *ms)
 			ft_pipex(list, ms->env);
 			list = list->next;
 		}
-		if (ft_execute_command(list, ms->env) < 0)
-			perror(list->flags[0]);
+		ft_execute_command(list, ms->env);
 	}
-	waitpid(pid, NULL, 0);
+	wait(&num);
+	if (WIFEXITED(num))
+		ms->status = WEXITSTATUS(num);
 	return (0);
 }
 
@@ -115,6 +116,6 @@ int	ft_execute_line(t_ms *ms)
 		list = list->next;
 	}
 	else
-		ft_start_pipex(list, ms);
+		return (ft_start_pipex(list, ms));
 	return (0);
 }
