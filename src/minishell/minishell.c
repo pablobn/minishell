@@ -16,13 +16,13 @@ int	main(int argc, char **argv, char **envp)
 		ft_prompt(g_ms);
 		if (!g_ms->line)
 			break ;
-		// i = -1;
-		// while (g_ms->list && g_ms->list[++i])
-		// 	if (!ft_strncmp(g_ms->list[i]->line, "exit", 4))
-		// 		return (ft_atoi(g_ms->list[i]->line));
 		i = -1;
 		while (g_ms->list && g_ms->list[++i])
 			ft_parser(g_ms->list[i]);
+		i = -1;
+		while (g_ms->list && g_ms->list[++i])
+			if (!ft_strncmp(g_ms->list[i]->line, "exit", 4))
+				return (ft_atoi(g_ms->list[i]->line));
 		if (g_ms->list[0])
 			ft_execute_line(g_ms);
 		ft_free_list(g_ms->list);

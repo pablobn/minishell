@@ -190,6 +190,7 @@ void	ft_prompt(t_ms *g_ms)
 	int		i;
 
 	signal(SIGINT, ft_handler);
+	signal(SIGQUIT, ft_handler);
 	rl_replace_line("", 0);
 	if (g_ms->line)
 		free(g_ms->line);

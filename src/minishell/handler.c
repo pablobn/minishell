@@ -14,8 +14,8 @@ void	ft_handler(int sig)
 	// pid_t pgid = getpgid(0);
 	// printf("Soy el proceso padre %d\n", getpid());
 	// printf("SOY EL PROCESO HIJO %d\n", pgid);
-	rl_replace_line("  \n", 0);
 	rl_on_new_line();
+	rl_replace_line(" \n", 1);
 	rl_redisplay();
 	printf("\n");
 	rl_replace_line("", 0);
