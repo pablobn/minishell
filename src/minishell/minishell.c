@@ -16,10 +16,10 @@ int	main(int argc, char **argv, char **envp)
 		ft_prompt(g_ms);
 		if (!g_ms->line)
 			break ;
-		i = -1;
-		while (g_ms->list && g_ms->list[++i])
-			if (!ft_strncmp(g_ms->list[i]->line, "exit", 4))
-				return (ft_atoi(g_ms->list[i]->line));
+		// i = -1;
+		// while (g_ms->list && g_ms->list[++i])
+		// 	if (!ft_strncmp(g_ms->list[i]->line, "exit", 4))
+		// 		return (ft_atoi(g_ms->list[i]->line));
 		i = -1;
 		while (g_ms->list && g_ms->list[++i])
 			ft_parser(g_ms->list[i]);
@@ -28,6 +28,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_free_list(g_ms->list);
 	}
 	ft_free_ms(g_ms);
-	rl_clear_history();
+	clear_history();
 	return (0);
 }
