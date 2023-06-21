@@ -5,6 +5,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <readline/history.h>
 # include <stdlib.h>
 #include <sys/types.h>
