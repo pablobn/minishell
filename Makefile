@@ -20,7 +20,10 @@ MINISHELL_SRC = minishell.c 	\
 				cd_built.c		\
 				unset_built.c	\
 				export_built.c	\
-				free.c
+				free.c			\
+				utils_prompt.c	\
+				quotes.c		\
+				expand.c
 # OBJECTS
 OBJSFD = objs/
 MINISHELL_OBJ = $(addprefix $(OBJSFD)$(MINISHELLFD), $(MINISHELL_SRC:.c=.o))

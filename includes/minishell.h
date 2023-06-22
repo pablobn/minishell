@@ -89,4 +89,10 @@ t_env		*free_env(t_env *env);
 void		ft_free_ms(t_ms *ms);
 void		ft_free_list(t_command	**list);
 char		*ft_strjoin_free(char *str, char *buf);
+//utils_prompt
+int			ft_is_empty(char *str);
+//quotes
+t_command	*ft_quotes(t_command *list);
+//expand
+t_command	*ft_expand(t_command *list, t_ms *ms, int i);
 #endif
