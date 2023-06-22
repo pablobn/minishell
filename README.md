@@ -6,3 +6,5 @@ hola
 - Heredoc
 - CTR + C, input duplicado (probar con sleep 10)
 - exit no devuelve valor
+- /bin/ls
+- /bin/echo hola

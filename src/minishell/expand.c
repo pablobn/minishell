@@ -35,6 +35,11 @@ t_command	*ft_expand(t_command *list, t_ms *ms, int i)
 			result = ft_strjoin_free(result, temp);
 			free(temp);
 		}
+		else if (temp[0] == '$' && (!temp[1] || !ft_isalnum(temp[1])))
+		{
+			result = ft_strjoin_free(result, temp);
+			free(temp);
+		}
 		else if (temp[1] != '$' && temp[1])
 		{
 			if (temp[ft_strlen(temp) - 1] == '\\')

@@ -43,6 +43,16 @@ static int	ft_infile(t_command *cmd, int i)
 	return (i);
 }
 
+static void	ft_outfile_file(t_command *cmd, char *aux)
+{
+	if (cmd->out)
+		close(cmd->out);
+	if (!cmd->out_f)
+		cmd->out = open(aux, O_TRUNC | O_CREAT | O_WRONLY, 0777);
+	else
+		cmd->out = open(aux, O_APPEND | O_CREAT | O_WRONLY, 0777);
+}
+
 static int	ft_outfile(t_command *cmd, int i)
 {
 	int		j;
@@ -53,12 +63,8 @@ static int	ft_outfile(t_command *cmd, int i)
 		return (i);
 	if (cmd->line[i] == '>')
 	{
-		i++;
-		if (cmd->line[i] == '>')
-		{
-			cmd->out_f = 1;
-			i++;
-		}
+		if (cmd->line[++i] == '>')
+			cmd->out_f = i;
 		else
 			cmd->out_f = 0;
 		i = ft_space_iter(cmd->line, i);
@@ -70,12 +76,7 @@ static int	ft_outfile(t_command *cmd, int i)
 			i++;
 		}
 		aux[++j] = 0;
-		if (cmd->out)
-			close(cmd->out);
-		if (!cmd->out_f)
-			cmd->out = open(aux, O_TRUNC | O_CREAT | O_WRONLY, 0777);
-		else
-			cmd->out = open(aux, O_APPEND | O_CREAT | O_WRONLY, 0777);
+		ft_outfile_file(cmd, aux);
 	}
 	return (i);
 }
@@ -92,15 +93,13 @@ static int	ft_command(t_command *list, int i)
 	if (!temp)
 		return (i);
 	j = 0;
-	while (list->line[i] && list->line[i] != ' ' && list->line[i] != '<' && list->line[i] != '>')
+	while (list->line[i] && list->line[i] != ' '
+		&& list->line[i] != '<' && list->line[i] != '>')
 	{
 		if (list->line[i + 1] && list->line[i] == '\\')
 			i++;
-		temp[j] = list->line[i];
-		j++;
-		i++;
+		temp[j++] = list->line[i++];
 	}
-	//leaks
 	if (list->cmd)
 	{
 		list->cmd = ft_strjoin_free(list->cmd, temp);
@@ -108,8 +107,7 @@ static int	ft_command(t_command *list, int i)
 	}
 	else
 		list->cmd = temp;
-	list->cmd = ft_strjoin_free(list->cmd, " \0");
-	return (i);
+	return (list->cmd = ft_strjoin_free(list->cmd, " \0"), i);
 }
 
 void	ft_parser(t_command *list)
@@ -130,7 +128,8 @@ void	ft_parser(t_command *list)
 		list->flags = ft_split(list->cmd, ' ');
 	else
 		list->flags = ft_calloc(sizeof(char *), 1);
-	if (list->flags && list->flags[0] && ft_space_iter(list->flags[0], 0) == (int)ft_strlen(list->flags[0]))
+	if (list->flags && list->flags[0]
+		&& ft_space_iter(list->flags[0], 0) == (int)ft_strlen(list->flags[0]))
 		list->flags[0] = NULL;
 	return ;
 }

@@ -35,7 +35,7 @@ static int	ft_normi_quotes_doble(int j, t_command *list)
 		}
 		else
 		{
-			if (list->line[j] && j - 1 > 0 && list->line[j - 1] != '\\')
+			if (list->line[j] && j - 1 >= 0 && list->line[j - 1] != '\\')
 			{
 				temp = ft_strjoin(ft_substr(list->line, 0, j), "\\");
 				temp = ft_strjoin_free(temp, &list->line[j]);
@@ -72,6 +72,10 @@ static int	ft_normi_quotes_doble2(int j, t_command *list)
 		list->line = temp;
 		j = ft_normi_quotes_doble(j, list);
 	}
+		if (list->line[j] == '\"')
+			ft_delete_quotes(j, list);
+		if (list->line[j] != '\'')
+			j++;
 	return (j);
 }
 
@@ -92,10 +96,6 @@ t_command	*ft_quotes(t_command *list)
 				ft_delete_quotes(j, list);
 		}
 		j = ft_normi_quotes_doble2(j, list);
-		if (list->line[j] == '\"')
-			ft_delete_quotes(j, list);
-		if (list->line[j] != '\'')
-			j++;
 	}
 	return (list);
 }
