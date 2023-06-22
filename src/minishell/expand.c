@@ -14,12 +14,9 @@ t_command	*ft_expand(t_command *list, t_ms *ms, int i)
 	if (list->line[i])
 	{
 		while (list->line[i] && list->line[i] != '$')
-		{
-			if (list->line[i - 1] == '\\')
-				break ;
-			else
-				i++;
-		}
+			i++;
+		if (i - 1 >= 0 && list->line[i - 1] == '\\')
+			return (list);
 		if ((int)ft_strlen(list->line) == i)
 			return (list);
 		result = ft_substr(list->line, 0, i);

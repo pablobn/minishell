@@ -8,3 +8,4 @@ hola
 - exit no devuelve valor
 - /bin/ls
 - /bin/echo hola
+-./minishel
