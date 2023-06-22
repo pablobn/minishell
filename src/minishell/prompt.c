@@ -41,11 +41,12 @@ static t_command	*ft_tilde(t_command *list, t_env *env)
 	if (!env || !list->line)
 		return (list);
 	home = ft_get_env_key(env, "HOME");
-	while (list->line[i])
+	while (list->line[i] && home)
 	{
 		if (list->line[i] == '~')
 		{
-			if (i - 1 >= 0 && (list->line[i - 1] == '\\' || list->line[i - 1] != ' '))
+			if (i - 1 >= 0 && (list->line[i - 1] == '\\'
+					|| list->line[i - 1] != ' '))
 				break ;
 			if (list->line[i + 1] && list->line[i + 1] != ' ')
 				break ;

@@ -21,10 +21,7 @@ static int	ft_infile(t_command *cmd, int i)
 	{
 		i++;
 		if (cmd->line[i] == '<')
-		{
-			//cmd->in_f = 1;
-			i++;
-		}
+			cmd->in_f = i++;
 		else
 			cmd->in_f = 0;
 		i = ft_space_iter(cmd->line, i);
@@ -38,7 +35,10 @@ static int	ft_infile(t_command *cmd, int i)
 		aux[++j] = 0;
 		if (cmd->in)
 			close(cmd->in);
-		cmd->in = open(aux, O_RDONLY);
+		if (cmd->in_f != 0)
+			cmd->heredoc = aux;
+		else
+			cmd->in = open(aux, O_RDONLY);
 	}
 	return (i);
 }
@@ -64,7 +64,7 @@ static int	ft_outfile(t_command *cmd, int i)
 	if (cmd->line[i] == '>')
 	{
 		if (cmd->line[++i] == '>')
-			cmd->out_f = i;
+			cmd->out_f = ++i;
 		else
 			cmd->out_f = 0;
 		i = ft_space_iter(cmd->line, i);
