@@ -26,12 +26,9 @@ static t_command	*ft_expand(t_command *list, t_env *env, int i)
 	if (list->line[i])
 	{
 		while (list->line[i] && list->line[i] != '$')
-		{
-			if (list->line[i - 1] == '\\')
-				break ;
-			else
-				i++;
-		}
+			i++;
+		if (i - 1 >= 0 && list->line[i - 1] == '\\')
+			return (list);
 		if ((int)ft_strlen(list->line) == i)
 			return (list);
 		result = ft_substr(list->line, 0, i);
@@ -95,7 +92,7 @@ static t_command	*ft_comillas(t_command *list)
 			list->line = temp;
 			while (list->line[j] && list->line[j] != '\'')
 			{
-				if (list->line[j] == '$' && list->line[j - 1] != '\\')
+				if (j - 1 >= 0 && list->line[j] == '$' && list->line[j - 1] != '\\')
 				{
 					temp = ft_strjoin(ft_substr(list->line, 0, j), "\\");
 					temp = ft_strjoin_free(temp, &list->line[j]);
@@ -130,7 +127,7 @@ static t_command	*ft_comillas(t_command *list)
 				}
 				else
 				{
-					if (list->line[j] && j - 1 > 0 && list->line[j - 1] != '\\')
+					if (list->line[j] && j - 1 >= 0 && list->line[j - 1] != '\\')
 					{
 						temp = ft_strjoin(ft_substr(list->line, 0, j), "\\");
 						temp = ft_strjoin_free(temp, &list->line[j]);
