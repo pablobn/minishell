@@ -5,6 +5,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <readline/history.h>
 # include <stdlib.h>
 #include <sys/types.h>
@@ -62,7 +63,7 @@ void		ft_prompt(t_ms *ms);
 //handler.c
 void		ft_handler(int sig);
 //pipex.c
-void		ft_pipex(t_command *list, t_env *env);
+void		ft_pipex(t_command *list, t_env *env, t_ms *ms);
 int			ft_execute_line(t_ms *ms);
 //init_env.c
 int			ft_init_env(t_ms *ms, char **envp);
@@ -73,6 +74,8 @@ char		**ft_get_envp(t_env *env);
 //built_in
 int			ft_check_built_in(t_command *list);
 int			ft_built_in(t_command *list, t_ms *ms);
+int			ft_built_in_cd(t_command *list, t_ms *ms);
+int			ft_check_built_in_cd(t_command *list);
 //cd_built
 int			ft_cd(t_command *list, t_ms *ms);
 //unset_built

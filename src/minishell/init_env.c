@@ -2,11 +2,11 @@
 
 char	*ft_get_env_key(t_env *env, char *str)
 {
-	int	size;
+	size_t	size;
 
-	size = (int)ft_strlen(env->key);
-	if ((int)ft_strlen(str) > size)
-		size = (int)ft_strlen(str);
+	size = ft_strlen(env->key);
+	if (ft_strlen(str) > size)
+		size = ft_strlen(str);
 	while (env)
 	{
 		if (!ft_strncmp(env->key, str, size))
@@ -52,11 +52,15 @@ char	**ft_get_envp(t_env *env)
 int	ft_env_is_repeated(t_env **env, char *key, char *value)
 {
 	t_env	*tmp;
+	size_t	size;
 
 	tmp = *env;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key)) == 0)
+		size = ft_strlen((*env)->key);
+		if (ft_strlen(key) > size)
+			size = ft_strlen(key);
+		if (ft_strncmp(tmp->key, key, size) == 0)
 		{
 			tmp->value = value;
 			return (1);

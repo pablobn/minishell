@@ -219,6 +219,7 @@ void	ft_prompt(t_ms *g_ms)
 	int		i;
 
 	signal(SIGINT, ft_handler);
+	signal(SIGQUIT, ft_handler);
 	rl_replace_line("", 0);
 	if (g_ms->line)
 		free(g_ms->line);
@@ -233,7 +234,6 @@ void	ft_prompt(t_ms *g_ms)
 	i = 0;
 	while (g_ms->list[i])
 	{
-		g_ms->list[i]->heredoc = ft_calloc(sizeof(char *), 50);
 		g_ms->list[i] = ft_comillas(g_ms->list[i]);
 		g_ms->list[i] = ft_expand(g_ms->list[i], g_ms->env, 0);
 		//g_ms->list[i] = ft_tilde(g_ms->list[i], g_ms->env);
