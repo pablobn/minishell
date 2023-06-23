@@ -24,10 +24,13 @@ MINISHELL_SRC = minishell.c 	\
 				utils_prompt.c	\
 				quotes.c		\
 				expand.c
+GNLPFD = get_next_line/
+GNLPFD_SRC = get_next_line.c\
+			get_next_line_utils.c
 # OBJECTS
 OBJSFD = objs/
 MINISHELL_OBJ = $(addprefix $(OBJSFD)$(MINISHELLFD), $(MINISHELL_SRC:.c=.o))
-
+GNL_OBJS = $(addprefix $(OBJSFD)$(GNLPFD), $(GNLPFD_SRC:.c=.o))
 #HEADERS
 HEADERFD = includes/
 HEADER = minishell.h
@@ -58,12 +61,19 @@ $(OBJSFD)$(MINISHELLFD): $(OBJSFD)
 		@mkdir $@
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
 
-${NAME}: ${LIBFT} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ}  $(HEADERS)
-	@${CC} ${CFLAGS} $(LIB_BINARY) ${MINISHELL_OBJ} -o $@ -lreadline $(LDFLAGS) $(CPPFLAGS)
+$(OBJSFD)$(GNLPFD): $(OBJSFD)
+		@mkdir $@
+		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
+
+${NAME}: ${LIBFT} $(OBJSFD)$(GNLPFD) ${GNL_OBJS} ${OBJSFD}$(MINISHELLFD) ${MINISHELL_OBJ} $(HEADERS)
+	@${CC} ${CFLAGS} $(LIB_BINARY) ${GNL_OBJS} ${MINISHELL_OBJ} -o $@ -lreadline $(LDFLAGS) $(CPPFLAGS)
 	@echo "\t[ $(GREEN)✔$(NONE) ] $@ executable"
 
 $(OBJSFD)$(MINISHELLFD)%.o: $(SRCSFD)$(MINISHELLFD)%.c $(HEADERS)
 	@${CC} $(CFLAGS) $(HEADER_INC) ${LIBFT_HDR}  -o $@ -c $<
+
+$(OBJSFD)$(GNLPFD)%.o: $(SRCSFD)$(GNLPFD)%.c
+		@gcc $(CFLAGS) -o $@ -c $<
 
 clean:
 	@/bin/rm -rf $(OBJSFD) debug

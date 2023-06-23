@@ -96,4 +96,6 @@ int			ft_is_empty(char *str);
 t_command	*ft_quotes(t_command *list);
 //expand
 t_command	*ft_expand(t_command *list, t_ms *ms, int i);
+//gnl
+char	*get_next_line(int fd);
 #endif

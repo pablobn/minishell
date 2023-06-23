@@ -50,6 +50,11 @@ void	ft_free_list(t_command	**list)
 	{
 		while (list[i])
 		{
+			if (list[i]->heredoc)
+			{
+				unlink(".here_doc");
+				free(list[i]->heredoc);
+			}
 			ft_free_matrix(list[i]->flags);
 			free(list[i]->cmd);
 			free(list[i]->line);

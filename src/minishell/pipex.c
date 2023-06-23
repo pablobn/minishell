@@ -112,11 +112,44 @@ int	ft_start_pipex(t_command *list, t_ms *ms)
 	return (0);
 }
 
+void	ft_create_heredoc(t_command *list)
+{
+	int		file;
+	char	*str;
+
+	file = open(".here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (file < 0)
+	{
+		ft_putstr_fd("Error creando archivo here_doc", 2);
+		exit (255);
+	}
+	while (1)
+	{
+		ft_putstr_fd("heredoc> ", 1);
+		str = get_next_line(0);
+		if (ft_strncmp(str, list->heredoc, ft_strlen(str)) == 0)
+			break ;
+		write(file, str, ft_strlen(str));
+	}
+	free(str);
+	close(file);
+	list->in = open(file, O_RDONLY);
+	if (list->in < 0)
+	{
+		unlink(".here_doc");
+		ft_putstr_fd("Error abriendo archivo here_doc", 2);
+		exit (255);
+	}
+}
+
 int	ft_execute_line(t_ms *ms)
 {
 	t_command	*list;
 
+
 	list = ms->list[0];
+	if (list->heredoc)
+		ft_create_heredoc(list);
 	if (!list->next)
 	{
 		ft_built_in_cd(list, ms);
