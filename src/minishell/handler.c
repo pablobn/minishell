@@ -17,6 +17,7 @@ void	ft_handler(int sig)
 	{
 		printf("\n");
 		kill(g_ms->pid, SIGKILL);
+		g_ms->status = 130;
 		g_ms->pid = 0;
 	}
 	else
