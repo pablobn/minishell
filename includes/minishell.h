@@ -48,6 +48,7 @@ typedef struct s_ms
 	t_env		*env;
 	t_env		*exp;
 	char		*line;
+	pid_t		pid;
 }t_ms;
 
 //Prototypes

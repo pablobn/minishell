@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **envp)
 		if (g_ms->list[0])
 			ft_execute_line(g_ms);
 		ft_free_list(g_ms->list);
+		g_ms->pid = 0;
 	}
 	return (ft_free_ms(g_ms), rl_clear_history(), (void)argv, 0);
 }

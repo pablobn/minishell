@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern t_ms *g_ms;
+
 static char	*ft_get_cmd(char *str, char *path)
 {
 	char		**cases;
@@ -74,6 +76,7 @@ void	ft_pipex(t_command *list, t_env *env, t_ms *ms)
 	else
 	{
 		wait(NULL);
+		printf("ESTOY SALIENDO DEL PROCESO HIJO2\n");
 		close(tube[1]);
 		dup2(tube[0], STDIN_FILENO);
 		close(tube[0]);
@@ -86,6 +89,8 @@ int	ft_start_pipex(t_command *list, t_ms *ms)
 	int		num;
 
 	pid = fork();
+	if (pid != 0)
+		g_ms->pid = pid;
 	if (pid == 0)
 	{
 		while (list->next)
@@ -119,7 +124,7 @@ int	ft_execute_line(t_ms *ms)
 		if (ft_check_built_in_cd(list))
 			list = list->next;
 		else
-			return(ft_start_pipex(list, ms));
+			return (ft_start_pipex(list, ms));
 	}
 	else
 		return (ft_start_pipex(list, ms));
