@@ -32,7 +32,7 @@ static void	ft_exit(t_ms *ms)
 
 int	main(int argc, char **argv, char **envp)
 {
-	atexit(ft_leaks);
+	//atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	ft_init_env(g_ms, envp);
 	while (42)
