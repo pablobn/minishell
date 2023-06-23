@@ -18,16 +18,25 @@ int	ft_pwd(void)
 int	ft_echo(t_command *list)
 {
 	int	i;
+	int	flag;
 
 	i = 1;
+	flag = 1;
 	while (list->flags[i])
 	{
-		printf("%s", list->flags[i]);
+		while (!ft_strncmp(list->flags[i], "-n", 2))
+		{
+			flag = 0;
+			i++;
+		}
+		if (list->flags[i])
+			printf("%s", list->flags[i]);
 		if (list->flags[i + 1])
 			printf(" ");
 		i++;
 	}
-	printf("\n");
+	if (flag)
+		printf("\n");
 	return (0);
 }
 
