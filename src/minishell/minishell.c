@@ -21,6 +21,8 @@ int	main(int argc, char **argv, char **envp)
 			{
 				if (g_ms->list[argc]->flags[1])
 					return (ft_atoi(g_ms->list[argc]->flags[1]));
+				else if (g_ms->list[argc]->flags[2])
+					break ;
 				return (255);
 			}
 		}

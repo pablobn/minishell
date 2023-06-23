@@ -15,9 +15,9 @@ void	ft_handler(int sig)
 	
 	if (g_ms->pid != 0 && g_ms->pid != -1)
 	{
+		printf("\n");
 		kill(g_ms->pid, SIGKILL);
 		g_ms->pid = 0;
-		rl_replace_line("  \n", 0);
 	}
 	else
 	{
