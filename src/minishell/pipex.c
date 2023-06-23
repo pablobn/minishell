@@ -5,16 +5,12 @@ static char	*ft_get_cmd(char *str, char *path)
 	char		**cases;
 	char		*new;
 	char		*tmp;
-	struct stat	file_stat;
 	int			i;
 
+	if (access(str, X_OK) == 0)
+		return (ft_strdup(str));
 	cases = ft_split(path, ':');
 	i = 0;
-	if (stat(str, &file_stat) != 0)
-	{
-		if (access(str, X_OK) == 0)
-			return (ft_strdup(str));
-	}
 	new = ft_strjoin("/", str);
 	while (cases[i])
 	{
@@ -41,10 +37,16 @@ void	ft_execute_command(t_command *list, t_env *env)
 	cmd_path = ft_get_cmd(list->flags[0], path);
 	if (!cmd_path)
 	{
+		free(path);
 		perror(list->flags[0]);
 		exit (127);
 	}
-	execve(cmd_path, list->flags, ft_get_envp(env));
+	free(path);
+	if (execve(cmd_path, list->flags, ft_get_envp(env)) == -1)
+	{
+		perror(cmd_path);
+		exit(-1);
+	}
 }
 
 void	ft_pipex(t_command *list, t_env *env, t_ms *ms)
