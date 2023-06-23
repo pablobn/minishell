@@ -36,7 +36,7 @@ static int	ft_infile(t_command *cmd, int i)
 		if (cmd->in)
 			close(cmd->in);
 		if (cmd->in_f != 0)
-			cmd->heredoc = aux;
+			cmd->heredoc = ft_strdup(aux);
 		else
 			cmd->in = open(aux, O_RDONLY);
 	}
