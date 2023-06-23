@@ -76,7 +76,6 @@ void	ft_pipex(t_command *list, t_env *env, t_ms *ms)
 	else
 	{
 		wait(NULL);
-		printf("ESTOY SALIENDO DEL PROCESO HIJO2\n");
 		close(tube[1]);
 		dup2(tube[0], STDIN_FILENO);
 		close(tube[0]);
