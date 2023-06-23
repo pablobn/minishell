@@ -116,8 +116,9 @@ void	ft_create_heredoc(t_command *list)
 {
 	int		file;
 	char	*str;
+	size_t	size;
 
-	file = open(".here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	file = open(".here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (file < 0)
 	{
 		ft_putstr_fd("Error creando archivo here_doc", 2);
@@ -125,15 +126,18 @@ void	ft_create_heredoc(t_command *list)
 	}
 	while (1)
 	{
+		size = ft_strlen(list->heredoc);
 		ft_putstr_fd("heredoc> ", 1);
 		str = get_next_line(0);
-		if (ft_strncmp(str, list->heredoc, ft_strlen(str)) == 0)
+		if (ft_strlen(str) - 1 > size)
+			size = ft_strlen(str) - 1;
+		if (ft_strncmp(str, list->heredoc, size) == 0)
 			break ;
 		write(file, str, ft_strlen(str));
 	}
 	free(str);
 	close(file);
-	list->in = open(file, O_RDONLY);
+	list->in = open(".here_doc", O_RDONLY);
 	if (list->in < 0)
 	{
 		unlink(".here_doc");

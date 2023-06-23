@@ -58,8 +58,6 @@ void	ft_free_list(t_command	**list)
 			ft_free_matrix(list[i]->flags);
 			free(list[i]->cmd);
 			free(list[i]->line);
-			if (list[i]->heredoc)
-				free(list[i]->heredoc);
 			if (list[i]->in != 0)
 				close(list[i]->in);
 			if (list[i]->out != 0)
