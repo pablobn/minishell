@@ -25,6 +25,10 @@ static int	ft_infile(t_command *cmd, int i)
 		else
 			cmd->in_f = 0;
 		i = ft_space_iter(cmd->line, i);
+		if (cmd->line[i] == '<')
+			return (i);
+		if (cmd->line[i] == '>')
+			return (i);
 		while (cmd->line[i] && cmd->line[i] != ' ')
 		{
 			if (cmd->line[i + 1] && cmd->line[i] == '\\')
@@ -35,7 +39,7 @@ static int	ft_infile(t_command *cmd, int i)
 		aux[++j] = 0;
 		if (cmd->in)
 			close(cmd->in);
-		if (cmd->in_f != 0)
+		if (cmd->in_f != 0 && !ft_is_empty(aux))
 			cmd->heredoc = ft_strdup(aux);
 		else
 			cmd->in = open(aux, O_RDONLY);
@@ -68,6 +72,8 @@ static int	ft_outfile(t_command *cmd, int i)
 		else
 			cmd->out_f = 0;
 		i = ft_space_iter(cmd->line, i);
+		if (cmd->line[i] == '<')
+			return (i);
 		while (cmd->line[i] && cmd->line[i] != ' ')
 		{
 			if (cmd->line[i + 1] && cmd->line[i] == '\\')
