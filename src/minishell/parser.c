@@ -92,7 +92,7 @@ void	ft_parser(t_command *list)
 		i = ft_space_iter(list->line, i);
 	}
 	if (list->cmd)
-		list->flags = ft_split(list->cmd, ' ');
+		list->flags = ft_split_pipex(list->cmd, ' ');
 	else
 		list->flags = ft_calloc(sizeof(char *), 1);
 	if (list->flags && list->flags[0]
