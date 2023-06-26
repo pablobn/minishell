@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+
 static t_command	**ft_split_line(t_command **list, char *line)
 {
 	int		i;
@@ -7,7 +8,7 @@ static t_command	**ft_split_line(t_command **list, char *line)
 	char	**line_split;
 
 	total_split = -1;
-	line_split = ft_split(line, '|');
+	line_split = ft_split_pipex(line, '|');
 	if (!line_split)
 		return (NULL);
 	i = 0;

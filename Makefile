@@ -24,7 +24,8 @@ MINISHELL_SRC = minishell.c 		\
 				utils_minishell.c	\
 				quotes.c			\
 				expand.c			\
-				command.c
+				command.c			\
+				split_pipex.c
 GNLPFD = get_next_line/
 GNLPFD_SRC = get_next_line.c\
 			get_next_line_utils.c

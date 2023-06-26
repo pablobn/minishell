@@ -101,6 +101,8 @@ int			ft_execute_line(t_ms *ms);
 void		ft_prompt(t_ms *ms);
 //quotes
 t_command	*ft_quotes(t_command *list);
+//split_pipex
+char	**ft_split_pipex(char const *s, char c);
 //unset_built
 int			ft_unset(t_ms *ms, char *str);
 void		ft_remove_env(t_env **env, char *str);
