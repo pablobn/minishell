@@ -49,6 +49,7 @@ int	ft_env_is_repeated(t_env **env, char *key, char *value)
 			size = ft_strlen(key);
 		if (ft_strncmp(tmp->key, key, size) == 0)
 		{
+			free(tmp->value);
 			tmp->value = ft_strdup(value);
 			return (1);
 		}
