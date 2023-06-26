@@ -19,7 +19,7 @@ static t_command	**ft_split_line(t_command **list, char *line)
 	while (line_split[++i])
 	{
 		list[i]->line = ft_strdup(line_split[i]);
-		if (i <= 0)
+		if (i + 1 <= -1)
 			list[i]->next = NULL;
 		else
 			list[i]->next = list[i + 1];
