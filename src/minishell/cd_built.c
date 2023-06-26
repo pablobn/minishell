@@ -50,7 +50,6 @@ char	*ft_parse_cd(char *str)
 	char	*new;
 
 	path = ft_strdup(str);
-	pwd = ft_strdup("");
 	temp = ft_strdup("");
 	if (str[0] != '/')
 	{
