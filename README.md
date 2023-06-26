@@ -2,6 +2,8 @@
 hola
 
 # Todo luis
-- Heredoc
 - files
 - echo -nnnnnns arreglar
+- Arreglar El here doc
+- Norminette
+-LEAKS
