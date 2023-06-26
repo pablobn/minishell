@@ -79,7 +79,7 @@ void	ft_prompt(t_ms *ms)
 	while (ms->list[i])
 	{
 		ms->list[i] = ft_quotes(ms->list[i]);
-		ms->list[i] = ft_expand(ms->list[i], ms, 0);
+		ms->list[i] = ft_expand(ms->list[i], ms, 0, 0);
 		ms->list[i] = ft_tilde(ms->list[i], ms->env);
 		i++;
 	}

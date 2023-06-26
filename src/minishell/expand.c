@@ -1,67 +1,67 @@
 #include "minishell.h"
 
-t_command	*ft_expand(t_command *list, t_ms *ms, int i)
+static void	ft_normi(t_command *list, t_ms *ms, int i)
 {
-	int		j;
-	char	*temp;
-	char	*expand;
-	char	*result;
-
-	result = NULL;
-	if (!ms->env || !list->line)
-		return (list);
-	if (list->line[i])
+	if (list->flags[0][ft_strlen(list->flags[0]) - 1] == '\\')
+		list->flags[0][ft_strlen(list->flags[0]) - 1] = '\0';
+	if (list->flags[0] && list->line[i - 1] != '\\')
 	{
-		while (list->line[i] && list->line[i] != '$')
-			i++;
-		if (i - 1 >= 0 && list->line[i - 1] == '\\')
-			return (list);
-		if ((int)ft_strlen(list->line) == i)
-			return (list);
-		result = ft_substr(list->line, 0, i);
-		j = 0;
-		while (list->line[i + j] && list->line[i + j] != ' ' && list->line[i + j] != '\'' && list->line[i + j] != '\"')
-			if (list->line[i + ++j] == '$')
-				break ;
-		temp = ft_substr(list->line, i, j);
-		if (temp[1] == '?' && !temp[2])
-		{
-			free(temp);
-			temp = ft_itoa(ms->status);
-			result = ft_strjoin_free(result, temp);
-			free(temp);
-		}
-		else if (temp[0] == '$' && (!temp[1] || !ft_isalnum(temp[1])))
-		{
-			result = ft_strjoin_free(result, temp);
-			free(temp);
-		}
-		else if (temp[1] != '$' && temp[1])
-		{
-			if (temp[ft_strlen(temp) - 1] == '\\')
-				temp[ft_strlen(temp) - 1] = '\0';
-			if (temp && list->line[i - 1] != '\\')
-			{
-				expand = ft_get_env_key(ms->env, &temp[1]);
-				free(temp);
-			}
-			else
-				expand = temp;
-			if (expand)
-			{
-				result = ft_strjoin_free(result, expand);
-				free(expand);
-			}
-		}
-		else
-			expand = temp;
-		if (j > i)
-			result = ft_strjoin_free(result, &list->line[i + j]);
-		else
-			result = ft_strjoin_free(result, &list->line[i + j]);
-		free(list->line);
-		list->line = result;
-		ft_expand(list, ms, i + j + 1);
+		list->flags[1] = ft_get_env_key(ms->env, &list->flags[0][1]);
+		free(list->flags[0]);
 	}
+	else
+		list->flags[1] = list->flags[0];
+	if (list->flags[1])
+	{
+		list->flags[2] = ft_strjoin_free(list->flags[2], list->flags[1]);
+		free(list->flags[1]);
+	}
+}
+
+static void	ft_normi_2(t_command *list, t_ms *ms, int i)
+{
+	if (list->flags[0][1] == '?' && !list->flags[0][2])
+	{
+		free(list->flags[0]);
+		list->flags[0] = ft_itoa(ms->status);
+		list->flags[2] = ft_strjoin_free(list->flags[2], list->flags[0]);
+		free(list->flags[0]);
+	}
+	else if (list->flags[0][0] == '$' && (!list->flags[0][1]
+		|| !ft_isalnum(list->flags[0][1])))
+	{
+		list->flags[2] = ft_strjoin_free(list->flags[2], list->flags[0]);
+		free(list->flags[0]);
+	}
+	else if (list->flags[0][1] != '$' && list->flags[0][1])
+		ft_normi(list, ms, i);
+	else
+		list->flags[1] = list->flags[0];
+}
+
+t_command	*ft_expand(t_command *list, t_ms *ms, int i, int j)
+{
+	list->flags = ft_calloc(3, sizeof(char *));
+	if (!ms->env || !list->line || !list->line[i])
+		return (list);
+	while (list->line[i] && list->line[i] != '$')
+		i++;
+	if ((i - 1 >= 0 && list->line[i - 1] == '\\')
+		|| (int)ft_strlen(list->line) == i)
+		return (list);
+	list->flags[2] = ft_substr(list->line, 0, i);
+	while (list->line[i + j] && list->line[i + j] != ' '
+		&& list->line[i + j] != '\'' && list->line[i + j] != '\"')
+		if (list->line[i + ++j] == '$')
+			break ;
+	list->flags[0] = ft_substr(list->line, i, j);
+	ft_normi_2(list, ms, i);
+	if (j > i)
+		list->flags[2] = ft_strjoin_free(list->flags[2], &list->line[i + j]);
+	else
+		list->flags[2] = ft_strjoin_free(list->flags[2], &list->line[i + j]);
+	free(list->line);
+	list->line = list->flags[2];
+	ft_expand(list, ms, i + j + 1, 0);
 	return (list);
 }

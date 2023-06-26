@@ -2,6 +2,5 @@
 hola
 
 # Todo luis
-- Heredoc
-- files
-- echo -nnnnnns arreglar
+- pipes entre comillas se ejecutan: echo " ls | ls "
+- Unset PWD y OLDPWD cd seg

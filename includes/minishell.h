@@ -68,7 +68,7 @@ int			ft_cd(t_command *list, t_ms *ms);
 //command
 int			ft_command(t_command *list, int i);
 //expand
-t_command	*ft_expand(t_command *list, t_ms *ms, int i);
+t_command	*ft_expand(t_command *list, t_ms *ms, int i, int j);
 //export_built
 int			ft_export(t_ms *ms, char *new);
 //free

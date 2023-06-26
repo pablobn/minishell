@@ -4,7 +4,6 @@ extern t_ms *g_ms;
 
 void	ft_handler(int sig)
 {
-	(void) sig;
 	if (g_ms->pid != 0 && g_ms->pid != -1)
 	{
 		printf("\n");
@@ -12,7 +11,7 @@ void	ft_handler(int sig)
 		g_ms->status = 130;
 		g_ms->pid = 0;
 	}
-	else
+	else if (sig == SIGINT)
 	{
 		rl_on_new_line();
 		rl_replace_line("  \n", 0);
@@ -21,5 +20,12 @@ void	ft_handler(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+	}
+	else if (sig == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_replace_line("  ", 0);
+		rl_redisplay();
+		rl_replace_line("", 0);
 	}
 }
