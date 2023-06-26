@@ -24,7 +24,7 @@ int	ft_echo(t_command *list)
 	flag = 1;
 	while (list->flags[i])
 	{
-		while (!ft_strncmp(list->flags[i], "-n", 2))
+		while (!ft_strncmp(list->flags[i], "-n", ft_strlen(list->flags[i])))
 		{
 			flag = 0;
 			i++;
