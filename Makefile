@@ -25,7 +25,10 @@ MINISHELL_SRC = minishell.c 		\
 				quotes.c			\
 				expand.c			\
 				command.c			\
-				split_pipex.c
+				split_pipex.c		\
+				here_doc.c			\
+				execute_cmd.c		\
+				check_built_in.c
 GNLPFD = get_next_line/
 GNLPFD_SRC = get_next_line.c\
 			get_next_line_utils.c

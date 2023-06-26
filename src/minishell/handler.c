@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-extern t_ms *g_ms;
+extern t_ms	*g_ms;
 
 void	ft_handler(int sig)
 {

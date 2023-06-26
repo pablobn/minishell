@@ -95,14 +95,14 @@ int			main(int argc, char **argv, char **envp);
 void		ft_parser(t_command *list);
 int			ft_size_matrix(char **str);
 //pipex.c
-void		ft_pipex(t_command *list, t_env *env, t_ms *ms);
-int			ft_execute_line(t_ms *ms);
+void		ft_pipex(t_command *list, t_ms *ms);
+int			ft_start_pipex(t_command *list, t_ms *ms);
 //prompt.c
 void		ft_prompt(t_ms *ms);
 //quotes
 t_command	*ft_quotes(t_command *list);
 //split_pipex
-char	**ft_split_pipex(char const *s, char c);
+char		**ft_split_pipex(char const *s, char c);
 //unset_built
 int			ft_unset(t_ms *ms, char *str);
 void		ft_remove_env(t_env **env, char *str);
@@ -112,4 +112,12 @@ int			ft_space_iter(char *str, int i);
 int			ft_count_env(t_env *env);
 //gnl
 char		*get_next_line(int fd);
+//here_doc
+void		ft_get_here_doc(t_command *list);
+//execute_cmd
+int			ft_execute_line(t_ms *ms);
+void		ft_execute_command(t_command *list, t_env *env);
+//check_built_in
+int			ft_check_built_in(t_command *list);
+int			ft_check_built_in_cd(t_command *list);
 #endif
