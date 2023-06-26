@@ -99,8 +99,6 @@ void	ft_pipex(t_command *list, t_env *env, t_ms *ms)
 	if (pid == 0)
 	{
 		close(tube[0]);
-		if (list->heredoc)
-			ft_create_heredoc(list);
 		if (list->in != STDIN_FILENO)
 			dup2(list->in, STDIN_FILENO);
 		if (list->out != STDOUT_FILENO && list->out != 0)
@@ -119,8 +117,6 @@ void	ft_pipex(t_command *list, t_env *env, t_ms *ms)
 		close(tube[1]);
 		dup2(tube[0], STDIN_FILENO);
 		close(tube[0]);
-		if (list->heredoc)
-			unlink(".here_doc");
 	}
 }
 
@@ -139,8 +135,6 @@ int	ft_start_pipex(t_command *list, t_ms *ms)
 			ft_pipex(list, ms->env, ms);
 			list = list->next;
 		}
-		if (list->heredoc)
-			ft_create_heredoc(list);
 		if (list->in != STDIN_FILENO)
 			dup2(list->in, STDIN_FILENO);
 		if (list->out != STDOUT_FILENO && list->out != 0)
@@ -156,6 +150,15 @@ int	ft_start_pipex(t_command *list, t_ms *ms)
 	return (0);
 }
 
+void	ft_get_here_doc(t_command *list)
+{
+	while (list)
+	{
+		if (list->heredoc)
+			ft_create_heredoc((list));
+		list = list->next;
+	}
+}
 
 int	ft_execute_line(t_ms *ms)
 {
@@ -163,6 +166,7 @@ int	ft_execute_line(t_ms *ms)
 
 
 	list = ms->list[0];
+	ft_get_here_doc(list);
 	if (!list->next)
 	{
 		ft_built_in_cd(list, ms);

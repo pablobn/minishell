@@ -62,7 +62,7 @@ int			ft_check_built_in(t_command *list);
 //cd_built
 char		*ft_get_previous_path(char *pwd);
 char		*ft_parse_absolute_rute(char *str, int i);
-char		*ft_parse_cd(char *str, t_env *env);
+char		*ft_parse_cd(char *str);
 char		*ft_path_cd(t_command *list, t_env *env);
 int			ft_cd(t_command *list, t_ms *ms);
 //command

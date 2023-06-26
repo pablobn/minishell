@@ -42,7 +42,7 @@ char	*ft_parse_absolute_rute(char *str, int i)
 	return (ft_free_matrix(new), path);
 }
 
-char	*ft_parse_cd(char *str, t_env *env)
+char	*ft_parse_cd(char *str)
 {
 	char	*path;
 	char	*temp;
@@ -54,7 +54,7 @@ char	*ft_parse_cd(char *str, t_env *env)
 	temp = ft_strdup("");
 	if (str[0] != '/')
 	{
-		pwd = ft_get_env_key(env, "PWD");
+		pwd = getcwd(NULL, 0);
 		new = ft_strtrim(str, "/");
 		if (pwd[ft_strlen(pwd) - 1] != '/')
 			temp = ft_strjoin("/", new);
@@ -83,7 +83,7 @@ char	*ft_path_cd(t_command *list, t_env *env)
 		if (ft_strncmp(list->flags[1], "~", ft_strlen(list->flags[1])) == 0)
 			path = ft_get_env_key(env, "HOME");
 		else
-			path = ft_parse_cd(list->flags[1], env);
+			path = ft_parse_cd(list->flags[1]);
 	}
 	return (path);
 }
@@ -100,7 +100,7 @@ int	ft_cd(t_command *list, t_ms *ms)
 	if (chdir(path) >= 0)
 	{
 		pwd = ft_strjoin("PWD=", path);
-		old = ft_strjoin("OLDPWD=", ft_get_env_key(ms->env, "PWD"));
+		old = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
 		if (ft_export(ms, pwd))
 			return (1);
 		if (ft_export(ms, old))
