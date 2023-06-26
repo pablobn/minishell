@@ -35,7 +35,7 @@ int	ft_echo(t_command *list)
 			printf(" ");
 		i++;
 	}
-	if (flag)
+	if (flag && list->out >= 0)
 		printf("\n");
 	return (0);
 }
