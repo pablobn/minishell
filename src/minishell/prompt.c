@@ -3,14 +3,12 @@
 static t_command	**ft_split_line(t_command **list, char *line)
 {
 	int		i;
-	int		total_split;
 	char	**line_split;
 
-	total_split = -1;
 	line_split = ft_split_pipex(line, '|');
 	if (!line_split)
 		return (NULL);
-	i = 0;
+	i = -1;
 	while (line_split[++i])
 		;
 	list = ft_calloc(i + 1, sizeof(t_command *));
@@ -21,7 +19,7 @@ static t_command	**ft_split_line(t_command **list, char *line)
 	while (line_split[++i])
 	{
 		list[i]->line = ft_strdup(line_split[i]);
-		if (i + 1 <= total_split)
+		if (i <= 0)
 			list[i]->next = NULL;
 		else
 			list[i]->next = list[i + 1];

@@ -48,7 +48,7 @@ t_command	*ft_expand(t_command *list, t_ms *ms, int i, int j)
 		i++;
 	if ((i - 1 >= 0 && list->line[i - 1] == '\\')
 		|| (int)ft_strlen(list->line) == i)
-		return (list);
+		return (ft_free_matrix(list->flags), list);
 	list->flags[2] = ft_substr(list->line, 0, i);
 	while (list->line[i + j] && list->line[i + j] != ' '
 		&& list->line[i + j] != '\'' && list->line[i + j] != '\"')
@@ -63,5 +63,5 @@ t_command	*ft_expand(t_command *list, t_ms *ms, int i, int j)
 	free(list->line);
 	list->line = list->flags[2];
 	ft_expand(list, ms, i + j + 1, 0);
-	return (list);
+	return (ft_free_matrix(list->flags), list);
 }
