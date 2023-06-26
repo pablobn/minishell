@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 15:33:13 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/23 19:07:57 by pbengoec         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:14:16 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*ft_strjoin_gnl(char *str, char *buf)
 	}
 	if (buf == NULL)
 		return (NULL);
-	new = (char *) malloc(sizeof(char) * (ft_strlen_gnl(str) + ft_strlen_gnl(buf) + 1));
+	new = malloc(sizeof(char) * (ft_strlen_gnl(str) + ft_strlen_gnl(buf) + 1));
 	if (new == NULL)
 		return (free(str), NULL);
 	i = 0;

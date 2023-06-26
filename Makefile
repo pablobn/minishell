@@ -8,22 +8,24 @@ CFLAGS = -Wall -Wextra -Werror
 # SOURCES
 SRCSFD = src/
 MINISHELLFD = minishell/
-MINISHELL_SRC = minishell.c 	\
-				leaks.c			\
-				parser.c		\
-				pipex.c			\
-				list_utils.c	\
-				prompt.c		\
-				handler.c		\
-				init_env.c		\
-				built_in.c		\
-				cd_built.c		\
-				unset_built.c	\
-				export_built.c	\
-				free.c			\
-				utils_prompt.c	\
-				quotes.c		\
-				expand.c
+MINISHELL_SRC = minishell.c 		\
+				leaks.c				\
+				parser.c			\
+				pipex.c				\
+				list_utils.c		\
+				prompt.c			\
+				handler.c			\
+				init_env.c			\
+				built_in.c			\
+				cd_built.c			\
+				unset_built.c		\
+				export_built.c		\
+				free.c				\
+				utils_minishell.c	\
+				quotes.c			\
+				expand.c			\
+				command.c			\
+				split_pipex.c
 GNLPFD = get_next_line/
 GNLPFD_SRC = get_next_line.c\
 			get_next_line_utils.c

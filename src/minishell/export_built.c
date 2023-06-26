@@ -24,8 +24,8 @@ char	**ft_order_matrix(char **matrix)
 	while (ord)
 	{
 		ord = 0;
-		i = 0;
-		while (i < ft_size_matrix(matrix) - 1)
+		i = -1;
+		while (++i < ft_size_matrix(matrix) - 1)
 		{
 			size = ft_strlen(matrix[i]);
 			if (ft_strlen(matrix[i + 1]) > (size_t) size)
@@ -37,7 +37,6 @@ char	**ft_order_matrix(char **matrix)
 				matrix[i] = matrix[i + 1];
 				matrix[i + 1] = swap;
 			}
-			i++;
 		}
 	}
 	return (matrix);
@@ -101,11 +100,8 @@ int	ft_export(t_ms *ms, char *new)
 		else
 			second = ft_strdup("");
 		if (!second)
-		{
-			perror("Memory allocation failed");
-			ft_free_matrix(split);
-			return (1);
-		}
+			return (perror("Memory allocation failed"),
+				ft_free_matrix(split), 1);
 		ft_insert_env(&ms->exp, ft_strdup(split[0]), ft_strdup(second));
 		ft_insert_env(&ms->env, ft_strdup(split[0]), ft_strdup(second));
 		ft_free_matrix(split);

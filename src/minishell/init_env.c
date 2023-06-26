@@ -16,19 +16,6 @@ char	*ft_get_env_key(t_env *env, char *str)
 	return (NULL);
 }
 
-static int	ft_count_env(t_env *env)
-{
-	int	i;
-
-	i = 0;
-	while (env)
-	{
-		env = env->next;
-		i++;
-	}	
-	return (i);
-}
-
 char	**ft_get_envp(t_env *env)
 {
 	char	**envp;

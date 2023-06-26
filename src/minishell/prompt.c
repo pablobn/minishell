@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-extern t_ms	*g_ms;
 
 static t_command	**ft_split_line(t_command **list, char *line)
 {
@@ -9,7 +8,7 @@ static t_command	**ft_split_line(t_command **list, char *line)
 	char	**line_split;
 
 	total_split = -1;
-	line_split = ft_split(line, '|');
+	line_split = ft_split_pipex(line, '|');
 	if (!line_split)
 		return (NULL);
 	i = 0;
@@ -57,8 +56,7 @@ static t_command	*ft_tilde(t_command *list, t_env *env)
 		}
 		i++;
 	}
-	free(home);
-	return (list);
+	return (free(home), list);
 }
 
 void	ft_prompt(t_ms *ms)
@@ -82,7 +80,7 @@ void	ft_prompt(t_ms *ms)
 	while (ms->list[i])
 	{
 		ms->list[i] = ft_quotes(ms->list[i]);
-		ms->list[i] = ft_expand(ms->list[i], ms, 0);
+		ms->list[i] = ft_expand(ms->list[i], ms, 0, 0);
 		ms->list[i] = ft_tilde(ms->list[i], ms->env);
 		i++;
 	}

@@ -1,12 +1,13 @@
 #include "minishell.h"
 
-static int	ft_space_iter(char *str, int i)
+static void	ft_infile_file(t_command *cmd, char *aux)
 {
-	if (!str)
-		return (i);
-	while (str[i] && str[i] == ' ' && (i - 1 >= -1 || str[i - 1] == '\\'))
-		i++;
-	return (i);
+	if (cmd->in)
+		close(cmd->in);
+	if (cmd->in_f != 0 && !ft_is_empty(aux))
+		cmd->heredoc = ft_strdup(aux);
+	else
+		cmd->in = open(aux, O_RDONLY);
 }
 
 static int	ft_infile(t_command *cmd, int i)
@@ -15,35 +16,25 @@ static int	ft_infile(t_command *cmd, int i)
 	char	aux[255];
 
 	j = -1;
-	if (!cmd->line[i])
+	if (!cmd->line[i] || cmd->line[i] != '<')
 		return (i);
+	i++;
 	if (cmd->line[i] == '<')
+		cmd->in_f = i++;
+	else
+		cmd->in_f = 0;
+	i = ft_space_iter(cmd->line, i);
+	if (cmd->line[i] == '<' || cmd->line[i] == '>')
+		return (i);
+	while (cmd->line[i] && cmd->line[i] != ' ')
 	{
-		i++;
-		if (cmd->line[i] == '<')
-			cmd->in_f = i++;
-		else
-			cmd->in_f = 0;
-		i = ft_space_iter(cmd->line, i);
-		if (cmd->line[i] == '<')
-			return (i);
-		if (cmd->line[i] == '>')
-			return (i);
-		while (cmd->line[i] && cmd->line[i] != ' ')
-		{
-			if (cmd->line[i + 1] && cmd->line[i] == '\\')
-				i++;
-			aux[++j] = cmd->line[i];
+		if (cmd->line[i + 1] && cmd->line[i] == '\\')
 			i++;
-		}
-		aux[++j] = 0;
-		if (cmd->in)
-			close(cmd->in);
-		if (cmd->in_f != 0 && !ft_is_empty(aux))
-			cmd->heredoc = ft_strdup(aux);
-		else
-			cmd->in = open(aux, O_RDONLY);
+		aux[++j] = cmd->line[i];
+		i++;
 	}
+	aux[++j] = 0;
+	ft_infile_file(cmd, aux);
 	return (i);
 }
 
@@ -65,55 +56,25 @@ static int	ft_outfile(t_command *cmd, int i)
 	j = -1;
 	if (!cmd->line[i])
 		return (i);
-	if (cmd->line[i] == '>')
-	{
-		if (cmd->line[++i] == '>')
-			cmd->out_f = ++i;
-		else
-			cmd->out_f = 0;
-		i = ft_space_iter(cmd->line, i);
-		if (cmd->line[i] == '<')
-			return (i);
-		while (cmd->line[i] && cmd->line[i] != ' ')
-		{
-			if (cmd->line[i + 1] && cmd->line[i] == '\\')
-				i++;
-			aux[++j] = cmd->line[i];
-			i++;
-		}
-		aux[++j] = 0;
-		ft_outfile_file(cmd, aux);
-	}
-	return (i);
-}
-
-static int	ft_command(t_command *list, int i)
-{
-	int		j;
-	char	*temp;
-
-	j = 0;
-	while (list->line[i + j] && list->line[i + j] != ' ')
-		j++;
-	temp = ft_calloc(sizeof(char *), j + 255);
-	if (!temp)
+	if (cmd->line[i] != '>')
 		return (i);
-	j = 0;
-	while (list->line[i] && list->line[i] != ' '
-		&& list->line[i] != '<' && list->line[i] != '>')
-	{
-		if (list->line[i + 1] && list->line[i] == '\\')
-			i++;
-		temp[j++] = list->line[i++];
-	}
-	if (list->cmd)
-	{
-		list->cmd = ft_strjoin_free(list->cmd, temp);
-		free(temp);
-	}
+	if (cmd->line[++i] == '>')
+		cmd->out_f = ++i;
 	else
-		list->cmd = temp;
-	return (list->cmd = ft_strjoin_free(list->cmd, " \0"), i);
+		cmd->out_f = 0;
+	i = ft_space_iter(cmd->line, i);
+	if (cmd->line[i] == '<')
+		return (i);
+	while (cmd->line[i] && cmd->line[i] != ' ')
+	{
+		if (cmd->line[i + 1] && cmd->line[i] == '\\')
+			i++;
+		aux[++j] = cmd->line[i];
+		i++;
+	}
+	aux[++j] = 0;
+	ft_outfile_file(cmd, aux);
+	return (i);
 }
 
 void	ft_parser(t_command *list)

@@ -14,18 +14,16 @@ char	*ft_get_previous_path(char *pwd)
 	return (path);
 }
 
-char	*ft_parse_absolute_rute(char *str)
+char	*ft_parse_absolute_rute(char *str, int i)
 {
 	char	*path;
-	int		i;
 	char	*temp;
 	char	**new;
 
 	new = ft_split(str, '/');
 	path = ft_strdup("/");
 	temp = ft_strdup("");
-	i = 0;
-	while (new[i])
+	while (new[++i])
 	{
 		if (ft_strncmp(new[i], ".", ft_strlen(new[i])))
 		{
@@ -40,7 +38,6 @@ char	*ft_parse_absolute_rute(char *str)
 				path = ft_strjoin_free(path, temp);
 			}
 		}
-		i++;
 	}
 	return (ft_free_matrix(new), path);
 }
@@ -62,12 +59,12 @@ char	*ft_parse_cd(char *str, t_env *env)
 		if (pwd[ft_strlen(pwd) - 1] != '/')
 			temp = ft_strjoin("/", new);
 		path = ft_strjoin(pwd, temp);
-		path = ft_parse_absolute_rute(path);
+		path = ft_parse_absolute_rute(path, -1);
 		free(new);
 		free(temp);
 		free(pwd);
 	}
-	path = ft_parse_absolute_rute(path);
+	path = ft_parse_absolute_rute(path, -1);
 	return (path);
 }
 

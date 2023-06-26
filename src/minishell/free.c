@@ -15,7 +15,6 @@ t_env	*free_env(t_env *env)
 	return (NULL);
 }
 
-
 void	ft_free_ms(t_ms *g_ms)
 {
 	free_env(g_ms->env);
