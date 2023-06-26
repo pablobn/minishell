@@ -2,5 +2,5 @@
 hola
 
 # Todo luis
-- Heredoc
-- LEAK
+- ARREGLAR HEREDOC PROBLEMA ^D
+- norminette

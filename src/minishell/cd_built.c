@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_built.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/26 19:44:45 by pbengoec          #+#    #+#             */
+/*   Updated: 2023/06/26 19:44:48 by pbengoec         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*ft_get_previous_path(char *pwd)
@@ -49,34 +61,29 @@ char	*ft_parse_absolute_rute(char *str, int i)
 char	*ft_parse_cd(char *str)
 {
 	char	*path;
-	char	*temp;
 	char	*pwd;
 	char	*new;
+	char	*temp_path;
+	char	*parsed_path;
 
 	path = ft_strdup(str);
 	if (str[0] != '/')
 	{
-		temp = ft_strdup("");
 		pwd = getcwd(NULL, 0);
 		new = ft_strtrim(str, "/");
 		if (pwd[ft_strlen(pwd) - 1] != '/')
-		{
-			free(temp);
-			temp = ft_strjoin("/", new);
-		}
-		free(path);
-		path = ft_strjoin(pwd, temp);
-		free(temp);
-		temp = ft_parse_absolute_rute(path, -1);
-		free(path);
-		path = temp;
-		free(new);
+			temp_path = ft_strjoin(pwd, "/");
+		else
+			temp_path = ft_strdup(pwd);
 		free(pwd);
+		free(path);
+		path = ft_strjoin(temp_path, new);
+		free(temp_path);
+		free(new);
 	}
-	temp = ft_parse_absolute_rute(path, -1);
+	parsed_path = ft_parse_absolute_rute(path, -1);
 	free(path);
-	path = temp;
-	return (path);
+	return (parsed_path);
 }
 
 char	*ft_path_cd(t_command *list, t_env *env)
@@ -90,12 +97,7 @@ char	*ft_path_cd(t_command *list, t_env *env)
 	if (i == 1)
 		path = ft_get_env_key(env, "HOME");
 	else
-	{
-		if (ft_strncmp(list->flags[1], "~", ft_strlen(list->flags[1])) == 0)
-			path = ft_get_env_key(env, "HOME");
-		else
-			path = ft_parse_cd(list->flags[1]);
-	}
+		path = ft_parse_cd(list->flags[1]);
 	return (path);
 }
 
@@ -114,14 +116,12 @@ int	ft_cd(t_command *list, t_ms *ms)
 		actual_path = getcwd(NULL, 0);
 		pwd = ft_strjoin("PWD=", path);
 		old = ft_strjoin("OLDPWD=", actual_path);
-		if (ft_export(ms, pwd))
-			return (free(pwd), free(path), free(old), free(actual_path), 1);
-		if (ft_export(ms, old))
-			return (free(pwd), free(path), free(old), free(actual_path), 1);
+		free(actual_path);
+		if (ft_export(ms, pwd) || ft_export(ms, old))
+			return (free(pwd), free(path), free(old), 1);
 		free(pwd);
 		free(path);
 		free(old);
-		free(actual_path);
 	}
 	else
 	{
