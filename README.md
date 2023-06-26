@@ -2,5 +2,6 @@
 hola
 
 # Todo luis
-- Heredoc
-- LEAK
+- normi
+- nombre de funciones
+- 'echo' "hi"'' " ' "' "' "" ''''''""

@@ -62,6 +62,7 @@ t_command	*ft_expand(t_command *list, t_ms *ms, int i, int j)
 		list->flags[2] = ft_strjoin_free(list->flags[2], &list->line[i + j]);
 	free(list->line);
 	list->line = list->flags[2];
+	free(list->flags);
 	ft_expand(list, ms, i + j + 1, 0);
-	return (free(list->flags), list);
+	return (list);
 }
