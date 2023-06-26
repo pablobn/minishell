@@ -49,7 +49,7 @@ int	ft_env_is_repeated(t_env **env, char *key, char *value)
 			size = ft_strlen(key);
 		if (ft_strncmp(tmp->key, key, size) == 0)
 		{
-			tmp->value = value;
+			tmp->value = ft_strdup(value);
 			return (1);
 		}
 		tmp = tmp->next;
@@ -64,9 +64,11 @@ void	ft_insert_env(t_env **env, char *key, char *value)
 	if (ft_env_is_repeated(env, key, value))
 		return ;
 	new = malloc(sizeof(t_env));
-	new->key = key;
+	if (!new)
+		return ;
+	new->key = ft_strdup(key);
 	if (value)
-		new->value = value;
+		new->value = ft_strdup(value);
 	else
 		new->value = NULL;
 	new->next = *env;
@@ -86,8 +88,8 @@ int	ft_init_env(t_ms *ms, char **envp)
 		split = ft_split(envp[i], '=');
 		if (!split)
 			return (1);
-		ft_insert_env(&ms->env, ft_strdup(split[0]), ft_strdup(split[1]));
-		ft_insert_env(&ms->exp, ft_strdup(split[0]), ft_strdup(split[1]));
+		ft_insert_env(&ms->env, split[0], split[1]);
+		ft_insert_env(&ms->exp, split[0], split[1]);
 		i--;
 		ft_free_matrix(split);
 	}

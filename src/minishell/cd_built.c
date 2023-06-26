@@ -11,7 +11,7 @@ char	*ft_get_previous_path(char *pwd)
 		i--;
 	if (i != 0)
 		path = ft_substr(pwd, 0, i);
-	return (path);
+	return (free(pwd), path);
 }
 
 char	*ft_parse_absolute_rute(char *str, int i)
@@ -22,15 +22,16 @@ char	*ft_parse_absolute_rute(char *str, int i)
 
 	new = ft_split(str, '/');
 	path = ft_strdup("/");
-	temp = ft_strdup("");
 	while (new[++i])
 	{
+		temp = ft_strdup("");
 		if (ft_strncmp(new[i], ".", ft_strlen(new[i])))
 		{
 			if (ft_strncmp(new[i], "..", ft_strlen(new[i])) == 0)
 				path = ft_get_previous_path(path);
 			else
 			{
+				free(temp);
 				if (path[ft_strlen(path) - 1] != '/')
 					temp = ft_strjoin("/", new[i]);
 				else
@@ -38,6 +39,7 @@ char	*ft_parse_absolute_rute(char *str, int i)
 				path = ft_strjoin_free(path, temp);
 			}
 		}
+		free(temp);
 	}
 	return (ft_free_matrix(new), path);
 }
@@ -56,7 +58,11 @@ char	*ft_parse_cd(char *str)
 		pwd = getcwd(NULL, 0);
 		new = ft_strtrim(str, "/");
 		if (pwd[ft_strlen(pwd) - 1] != '/')
+		{
+			free(temp);
 			temp = ft_strjoin("/", new);
+		}
+		free(path);
 		path = ft_strjoin(pwd, temp);
 		path = ft_parse_absolute_rute(path, -1);
 		free(new);
