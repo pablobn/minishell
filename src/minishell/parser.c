@@ -1,14 +1,5 @@
 #include "minishell.h"
 
-static int	ft_space_iter(char *str, int i)
-{
-	if (!str)
-		return (i);
-	while (str[i] && str[i] == ' ' && (i - 1 >= -1 || str[i - 1] == '\\'))
-		i++;
-	return (i);
-}
-
 static int	ft_infile(t_command *cmd, int i)
 {
 	int		j;
@@ -17,33 +8,32 @@ static int	ft_infile(t_command *cmd, int i)
 	j = -1;
 	if (!cmd->line[i])
 		return (i);
+	if (cmd->line[i] != '<')
+		return (i);
+	i++;
 	if (cmd->line[i] == '<')
+		cmd->in_f = i++;
+	else
+		cmd->in_f = 0;
+	i = ft_space_iter(cmd->line, i);
+	if (cmd->line[i] == '<')
+		return (i);
+	if (cmd->line[i] == '>')
+		return (i);
+	while (cmd->line[i] && cmd->line[i] != ' ')
 	{
-		i++;
-		if (cmd->line[i] == '<')
-			cmd->in_f = i++;
-		else
-			cmd->in_f = 0;
-		i = ft_space_iter(cmd->line, i);
-		if (cmd->line[i] == '<')
-			return (i);
-		if (cmd->line[i] == '>')
-			return (i);
-		while (cmd->line[i] && cmd->line[i] != ' ')
-		{
-			if (cmd->line[i + 1] && cmd->line[i] == '\\')
-				i++;
-			aux[++j] = cmd->line[i];
+		if (cmd->line[i + 1] && cmd->line[i] == '\\')
 			i++;
-		}
-		aux[++j] = 0;
-		if (cmd->in)
-			close(cmd->in);
-		if (cmd->in_f != 0 && !ft_is_empty(aux))
-			cmd->heredoc = ft_strdup(aux);
-		else
-			cmd->in = open(aux, O_RDONLY);
+		aux[++j] = cmd->line[i];
+		i++;
 	}
+	aux[++j] = 0;
+	if (cmd->in)
+		close(cmd->in);
+	if (cmd->in_f != 0 && !ft_is_empty(aux))
+		cmd->heredoc = ft_strdup(aux);
+	else
+		cmd->in = open(aux, O_RDONLY);
 	return (i);
 }
 
@@ -65,25 +55,24 @@ static int	ft_outfile(t_command *cmd, int i)
 	j = -1;
 	if (!cmd->line[i])
 		return (i);
-	if (cmd->line[i] == '>')
+	if (cmd->line[i] != '>')
+		return (i);
+	if (cmd->line[++i] == '>')
+		cmd->out_f = ++i;
+	else
+		cmd->out_f = 0;
+	i = ft_space_iter(cmd->line, i);
+	if (cmd->line[i] == '<')
+		return (i);
+	while (cmd->line[i] && cmd->line[i] != ' ')
 	{
-		if (cmd->line[++i] == '>')
-			cmd->out_f = ++i;
-		else
-			cmd->out_f = 0;
-		i = ft_space_iter(cmd->line, i);
-		if (cmd->line[i] == '<')
-			return (i);
-		while (cmd->line[i] && cmd->line[i] != ' ')
-		{
-			if (cmd->line[i + 1] && cmd->line[i] == '\\')
-				i++;
-			aux[++j] = cmd->line[i];
+		if (cmd->line[i + 1] && cmd->line[i] == '\\')
 			i++;
-		}
-		aux[++j] = 0;
-		ft_outfile_file(cmd, aux);
+		aux[++j] = cmd->line[i];
+		i++;
 	}
+	aux[++j] = 0;
+	ft_outfile_file(cmd, aux);
 	return (i);
 }
 

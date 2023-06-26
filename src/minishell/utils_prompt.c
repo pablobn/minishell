@@ -10,3 +10,12 @@ int	ft_is_empty(char *str)
 			return (0);
 	return (1);
 }
+
+int	ft_space_iter(char *str, int i)
+{
+	if (!str)
+		return (i);
+	while (str[i] && str[i] == ' ' && (i - 1 >= -1 || str[i - 1] == '\\'))
+		i++;
+	return (i);
+}

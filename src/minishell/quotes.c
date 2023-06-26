@@ -72,10 +72,10 @@ static int	ft_normi_quotes_doble2(int j, t_command *list)
 		list->line = temp;
 		j = ft_normi_quotes_doble(j, list);
 	}
-		if (list->line[j] == '\"')
-			ft_delete_quotes(j, list);
-		if (list->line[j] != '\'')
-			j++;
+	if (list->line[j] == '\"')
+		ft_delete_quotes(j, list);
+	if (list->line[j] != '\'')
+		j++;
 	return (j);
 }
 
