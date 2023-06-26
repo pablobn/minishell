@@ -22,9 +22,9 @@ char	*ft_parse_absolute_rute(char *str, int i)
 
 	new = ft_split(str, '/');
 	path = ft_strdup("/");
-	temp = ft_strdup("");
 	while (new[++i])
 	{
+		temp = ft_strdup("");
 		if (ft_strncmp(new[i], ".", ft_strlen(new[i])))
 		{
 			if (ft_strncmp(new[i], "..", ft_strlen(new[i])) == 0)
