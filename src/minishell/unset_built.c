@@ -16,6 +16,9 @@ void	ft_remove_env(t_env **env, char *str)
 	if (ft_search_env(tmp, str))
 	{
 		*env = tmp->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
 		return ;
 	}
 	while (tmp && !ft_search_env(tmp, str))
@@ -26,6 +29,8 @@ void	ft_remove_env(t_env **env, char *str)
 	if (!tmp)
 		return ;
 	prev->next = tmp->next;
+	free(tmp->key);
+	free(tmp->value);
 	free(tmp);
 }
 

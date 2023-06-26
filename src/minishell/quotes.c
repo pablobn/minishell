@@ -54,7 +54,7 @@ static void	ft_delete_quotes(int j, t_command *list)
 {
 	char	*temp;
 
-	temp = ft_strjoin(ft_substr(list->line, 0, j), "");
+	temp = ft_strjoin_free(ft_substr(list->line, 0, j), "");
 	temp = ft_strjoin_free(temp, &list->line[j + 1]);
 	free(list->line);
 	list->line = temp;

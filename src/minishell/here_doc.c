@@ -33,11 +33,18 @@ static void	ft_create_heredoc(t_command *list)
 		size = ft_strlen(list->heredoc);
 		ft_putstr_fd("heredoc> ", 1);
 		str = get_next_line(0);
+		if (!str)
+		{
+			//EL PROBLEMA ES AQUI
+			printf("\n");
+			break ;
+		}
 		if (ft_strlen(str) - 1 > size)
 			size = ft_strlen(str) - 1;
 		if (ft_strncmp(str, list->heredoc, size) == 0)
 			break ;
 		write(file, str, ft_strlen(str));
+		free(str);
 	}
 	free(str);
 	close(file);

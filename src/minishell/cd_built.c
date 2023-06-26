@@ -10,7 +10,10 @@ char	*ft_get_previous_path(char *pwd)
 	while (pwd[i] != '/')
 		i--;
 	if (i != 0)
+	{
+		free(path);
 		path = ft_substr(pwd, 0, i);
+	}
 	return (free(pwd), path);
 }
 
@@ -20,26 +23,25 @@ char	*ft_parse_absolute_rute(char *str, int i)
 	char	*temp;
 	char	**new;
 
-	new = ft_split(str, '/');
+	new = ft_split_pipex(str, '/');
 	path = ft_strdup("/");
+	i = -1;
 	while (new[++i])
 	{
-		temp = ft_strdup("");
 		if (ft_strncmp(new[i], ".", ft_strlen(new[i])))
 		{
 			if (ft_strncmp(new[i], "..", ft_strlen(new[i])) == 0)
 				path = ft_get_previous_path(path);
 			else
 			{
-				free(temp);
 				if (path[ft_strlen(path) - 1] != '/')
 					temp = ft_strjoin("/", new[i]);
 				else
-					temp = new[i];
+					temp = ft_strdup(new[i]);
 				path = ft_strjoin_free(path, temp);
+				free(temp);
 			}
 		}
-		free(temp);
 	}
 	return (ft_free_matrix(new), path);
 }
@@ -64,12 +66,16 @@ char	*ft_parse_cd(char *str)
 		}
 		free(path);
 		path = ft_strjoin(pwd, temp);
-		path = ft_parse_absolute_rute(path, -1);
-		free(new);
 		free(temp);
+		temp = ft_parse_absolute_rute(path, -1);
+		free(path);
+		path = temp;
+		free(new);
 		free(pwd);
 	}
-	path = ft_parse_absolute_rute(path, -1);
+	temp = ft_parse_absolute_rute(path, -1);
+	free(path);
+	path = temp;
 	return (path);
 }
 
@@ -98,26 +104,29 @@ int	ft_cd(t_command *list, t_ms *ms)
 	char	*pwd;
 	char	*old;
 	char	*path;
+	char	*actual_path;
 
 	path = ft_path_cd(list, ms->env);
 	if (!path)
 		return (ft_putstr_fd("HOME not set\n", 2), 1);
 	if (chdir(path) >= 0)
 	{
+		actual_path = getcwd(NULL, 0);
 		pwd = ft_strjoin("PWD=", path);
-		old = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
+		old = ft_strjoin("OLDPWD=", actual_path);
 		if (ft_export(ms, pwd))
-			return (1);
+			return (free(pwd), free(path), free(old), free(actual_path), 1);
 		if (ft_export(ms, old))
-			return (1);
+			return (free(pwd), free(path), free(old), free(actual_path), 1);
 		free(pwd);
 		free(path);
 		free(old);
+		free(actual_path);
 	}
 	else
 	{
 		perror(list->flags[1]);
-		return (1);
+		return (free(path), 1);
 	}
 	return (0);
 }

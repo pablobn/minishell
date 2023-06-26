@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 16:38:36 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/12 17:38:34 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/26 18:03:41 by pbengoec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	**ft_split(char const *s, char c)
 	char	**split;
 	size_t	size;
 
+	if (s == NULL)
+		return (NULL);
 	size = ft_countwords(s, c);
 	split = ft_calloc(size + 2, sizeof(char *));
 	if (split == NULL)
