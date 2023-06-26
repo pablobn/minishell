@@ -41,14 +41,14 @@ static void	ft_normi_2(t_command *list, t_ms *ms, int i)
 
 t_command	*ft_expand(t_command *list, t_ms *ms, int i, int j)
 {
-	list->flags = ft_calloc(3, sizeof(char *));
 	if (!ms->env || !list->line || !list->line[i])
 		return (list);
 	while (list->line[i] && list->line[i] != '$')
 		i++;
 	if ((i - 1 >= 0 && list->line[i - 1] == '\\')
 		|| (int)ft_strlen(list->line) == i)
-		return (ft_free_matrix(list->flags), list);
+		return (list);
+	list->flags = ft_calloc(3, sizeof(char *));
 	list->flags[2] = ft_substr(list->line, 0, i);
 	while (list->line[i + j] && list->line[i + j] != ' '
 		&& list->line[i + j] != '\'' && list->line[i + j] != '\"')
@@ -63,5 +63,5 @@ t_command	*ft_expand(t_command *list, t_ms *ms, int i, int j)
 	free(list->line);
 	list->line = list->flags[2];
 	ft_expand(list, ms, i + j + 1, 0);
-	return (ft_free_matrix(list->flags), list);
+	return (free(list->flags), list);
 }
