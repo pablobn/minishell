@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 t_command	*ft_expand(t_command *list, t_ms *ms, int i)
 {
 	int		j;

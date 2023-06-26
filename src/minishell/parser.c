@@ -1,14 +1,22 @@
 #include "minishell.h"
 
+static void	ft_infile_file(t_command *cmd, char *aux)
+{
+	if (cmd->in)
+		close(cmd->in);
+	if (cmd->in_f != 0 && !ft_is_empty(aux))
+		cmd->heredoc = ft_strdup(aux);
+	else
+		cmd->in = open(aux, O_RDONLY);
+}
+
 static int	ft_infile(t_command *cmd, int i)
 {
 	int		j;
 	char	aux[255];
 
 	j = -1;
-	if (!cmd->line[i])
-		return (i);
-	if (cmd->line[i] != '<')
+	if (!cmd->line[i] || cmd->line[i] != '<')
 		return (i);
 	i++;
 	if (cmd->line[i] == '<')
@@ -16,9 +24,7 @@ static int	ft_infile(t_command *cmd, int i)
 	else
 		cmd->in_f = 0;
 	i = ft_space_iter(cmd->line, i);
-	if (cmd->line[i] == '<')
-		return (i);
-	if (cmd->line[i] == '>')
+	if (cmd->line[i] == '<' || cmd->line[i] == '>')
 		return (i);
 	while (cmd->line[i] && cmd->line[i] != ' ')
 	{
@@ -28,12 +34,7 @@ static int	ft_infile(t_command *cmd, int i)
 		i++;
 	}
 	aux[++j] = 0;
-	if (cmd->in)
-		close(cmd->in);
-	if (cmd->in_f != 0 && !ft_is_empty(aux))
-		cmd->heredoc = ft_strdup(aux);
-	else
-		cmd->in = open(aux, O_RDONLY);
+	ft_infile_file(cmd, aux);
 	return (i);
 }
 
@@ -74,35 +75,6 @@ static int	ft_outfile(t_command *cmd, int i)
 	aux[++j] = 0;
 	ft_outfile_file(cmd, aux);
 	return (i);
-}
-
-static int	ft_command(t_command *list, int i)
-{
-	int		j;
-	char	*temp;
-
-	j = 0;
-	while (list->line[i + j] && list->line[i + j] != ' ')
-		j++;
-	temp = ft_calloc(sizeof(char *), j + 255);
-	if (!temp)
-		return (i);
-	j = 0;
-	while (list->line[i] && list->line[i] != ' '
-		&& list->line[i] != '<' && list->line[i] != '>')
-	{
-		if (list->line[i + 1] && list->line[i] == '\\')
-			i++;
-		temp[j++] = list->line[i++];
-	}
-	if (list->cmd)
-	{
-		list->cmd = ft_strjoin_free(list->cmd, temp);
-		free(temp);
-	}
-	else
-		list->cmd = temp;
-	return (list->cmd = ft_strjoin_free(list->cmd, " \0"), i);
 }
 
 void	ft_parser(t_command *list)

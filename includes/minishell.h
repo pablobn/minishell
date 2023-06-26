@@ -92,11 +92,14 @@ void		ft_free_list(t_command	**list);
 char		*ft_strjoin_free(char *str, char *buf);
 //utils_prompt
 int			ft_is_empty(char *str);
-int	ft_space_iter(char *str, int i);
+int			ft_space_iter(char *str, int i);
+int			ft_count_env(t_env *env);
 //quotes
 t_command	*ft_quotes(t_command *list);
 //expand
 t_command	*ft_expand(t_command *list, t_ms *ms, int i);
 //gnl
-char	*get_next_line(int fd);
+char		*get_next_line(int fd);
+//command
+int			ft_command(t_command *list, int i);
 #endif

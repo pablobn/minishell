@@ -19,3 +19,16 @@ int	ft_space_iter(char *str, int i)
 		i++;
 	return (i);
 }
+
+int	ft_count_env(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (env)
+	{
+		env = env->next;
+		i++;
+	}	
+	return (i);
+}
