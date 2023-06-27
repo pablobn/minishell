@@ -6,7 +6,7 @@
 /*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:45:28 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/26 19:45:30 by pbengoec         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:15:15 by pbengoec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static char	*ft_get_cmd(char *str, char *path)
 	char		*tmp;
 	int			i;
 
+	if (!str)
+		return (NULL);
 	if (access(str, X_OK) == 0)
 		return (ft_strdup(str));
 	cases = ft_split(path, ':');
@@ -32,6 +34,7 @@ static char	*ft_get_cmd(char *str, char *path)
 		free(tmp);
 		i++;
 	}
+	perror(str);
 	return (free(new), ft_free_matrix(cases), NULL);
 }
 
@@ -50,7 +53,6 @@ void	ft_execute_command(t_command *list, t_env *env)
 	if (!cmd_path)
 	{
 		free(path);
-		perror(list->flags[0]);
 		exit (127);
 	}
 	free(path);
