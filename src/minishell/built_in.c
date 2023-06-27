@@ -6,7 +6,7 @@
 /*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:44:56 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/26 19:45:00 by pbengoec         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:43:20 by pbengoec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,12 @@ int	ft_built_in_cd(t_command *list, t_ms *ms)
 	if (list->flags[1])
 	{
 		if (ft_strncmp(list->flags[0], "export", 6) == 0)
-			return (ft_export(ms, list->flags[1]));
+		{
+			if (!list->flags[2])
+				return (ft_export(ms, list->flags[1]));
+			ft_putstr_fd("Esta mal asignado el export\n", 2);
+			return (255);
+		}
 	}
 	if (ft_strncmp(list->flags[0], "unset", 5) == 0)
 		return (ft_unset(ms, list->flags[1]));

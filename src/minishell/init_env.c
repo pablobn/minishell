@@ -6,7 +6,7 @@
 /*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:47:02 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/27 16:27:38 by pbengoec         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:33:11 by pbengoec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_env_is_repeated(t_env **env, char *key, char *value)
 	tmp = *env;
 	while (tmp)
 	{
-		size = ft_strlen((*env)->key);
+		size = ft_strlen(tmp->key);
 		if (ft_strlen(key) > size)
 			size = ft_strlen(key);
 		if (ft_strncmp(tmp->key, key, size) == 0)
