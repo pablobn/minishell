@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:28:19 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 10:28:20 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/27 13:03:45 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ t_command	*ft_expand(t_command *list, t_ms *ms, int i, int j)
 			break ;
 	list->flags[0] = ft_substr(list->line, i, j);
 	ft_normi_2(list, ms, i);
-	if (j > i)
-		list->flags[2] = ft_strjoin_free(list->flags[2], &list->line[i + j]);
-	else
-		list->flags[2] = ft_strjoin_free(list->flags[2], &list->line[i + j]);
+	list->flags[2] = ft_strjoin_free(list->flags[2], &list->line[i + j]);
 	free(list->line);
 	list->line = list->flags[2];
 	free(list->flags);
