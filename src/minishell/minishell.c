@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/27 10:28:53 by sdiaz-ru          #+#    #+#             */
+/*   Updated: 2023/06/27 10:38:31 by sdiaz-ru         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_ms	*g_ms;
@@ -29,10 +41,10 @@ static void	ft_exit(t_ms *ms)
 		}
 	}
 }
+//atexit(ft_leaks);
 
 int	main(int argc, char **argv, char **envp)
 {
-	//atexit(ft_leaks);
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	ft_init_env(g_ms, envp);
 	while (42)

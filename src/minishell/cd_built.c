@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_built.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:44:45 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/26 19:44:48 by pbengoec         ###   ########.fr       */
+/*   Updated: 2023/06/27 10:37:59 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,6 @@ int	ft_cd(t_command *list, t_ms *ms)
 		free(old);
 	}
 	else
-	{
-		perror(list->flags[1]);
-		return (free(path), 1);
-	}
+		return (perror(list->flags[1]), free(path), 1);
 	return (0);
 }

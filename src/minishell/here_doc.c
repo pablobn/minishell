@@ -19,6 +19,17 @@ static void	ft_open_heredoc(t_command *list)
 	}
 }
 
+static int	ft_exit_heredoc(char *str)
+{
+	if (!str)
+	{
+		rl_replace_line("                      ", 0);
+		printf("\n");
+		return (1);
+	}
+	return (0);
+}
+
 static void	ft_create_heredoc(t_command *list)
 {
 	int		file;
@@ -33,12 +44,8 @@ static void	ft_create_heredoc(t_command *list)
 		size = ft_strlen(list->heredoc);
 		ft_putstr_fd("heredoc> ", 1);
 		str = get_next_line(0);
-		if (!str)
-		{
-			//EL PROBLEMA ES AQUI
-			printf("\n");
+		if (ft_exit_heredoc(str))
 			break ;
-		}
 		if (ft_strlen(str) - 1 > size)
 			size = ft_strlen(str) - 1;
 		if (ft_strncmp(str, list->heredoc, size) == 0)
