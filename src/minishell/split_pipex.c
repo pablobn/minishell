@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:02:15 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 13:02:35 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:26:34 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**ft_split_pipex(char const *s, char c)
 	int		count;
 
 	count = ft_count_words(s, c);
-	arr = ft_calloc(count, sizeof(char *));
+	arr = ft_calloc(count + 1, sizeof(char *));
 	if (!arr)
 		return (NULL);
 	return (ft_split_words(arr, s, c));
