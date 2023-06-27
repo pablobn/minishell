@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:29:16 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 10:29:16 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:05:17 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static int	ft_normi_quotes(int j, t_command *list)
 		if ((list->line[j] == '$' || list->line[j] == ' ')
 			&& list->line[j - 1] != '\\')
 		{
-			temp = ft_strjoin(ft_substr(list->line, 0, j), "\\");
+			temp = ft_substr(list->line, 0, j);
+			temp = ft_strjoin_free(temp, "\\");
 			temp = ft_strjoin_free(temp, &list->line[j]);
 			free(list->line);
 			list->line = temp;
@@ -49,7 +50,8 @@ static int	ft_normi_quotes_doble(int j, t_command *list)
 		{
 			if (list->line[j] && j - 1 >= 0 && list->line[j - 1] != '\\')
 			{
-				temp = ft_strjoin(ft_substr(list->line, 0, j), "\\");
+				temp = ft_substr(list->line, 0, j);
+				temp = ft_strjoin_free(temp, "\\");
 				temp = ft_strjoin_free(temp, &list->line[j]);
 				free(list->line);
 				list->line = temp;
@@ -66,7 +68,8 @@ static void	ft_delete_quotes(int j, t_command *list)
 {
 	char	*temp;
 
-	temp = ft_strjoin(ft_substr(list->line, 0, j), "");
+	temp = ft_substr(list->line, 0, j);
+	temp = ft_strjoin_free(temp, "");
 	temp = ft_strjoin_free(temp, &list->line[j + 1]);
 	free(list->line);
 	list->line = temp;
