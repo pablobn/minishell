@@ -6,7 +6,7 @@
 /*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 15:05:45 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/27 15:12:35 by pbengoec         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:21:07 by pbengoec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ft_exit_heredoc(char *str)
 {
 	if (!str)
 	{
-		rl_replace_line("                      ", 0);
+		printf("                          ");
 		printf("\n");
 		return (1);
 	}
