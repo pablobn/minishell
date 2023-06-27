@@ -6,7 +6,7 @@
 /*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:45:20 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/27 16:40:37 by pbengoec         ###   ########.fr       */
+/*   Updated: 2023/06/27 17:05:01 by pbengoec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,17 +107,17 @@ int	ft_export(t_ms *ms, char *new)
 		split = ft_split(new, '=');
 		if (!split)
 			return (perror(new), 1);
+		if (ft_strlen(split[0]) == 0)
+			return (ft_free_matrix(split), perror(new), 255);
 		if (split[1])
 			second = ft_strdup(split[1]);
 		else
 			second = ft_strdup("");
 		if (!second)
-			return (perror("Memory allocation failed"),
-				ft_free_matrix(split), 1);
-		ft_insert_env(&ms->exp, split[0], second);
-		ft_insert_env(&ms->env, split[0], second);
-		ft_free_matrix(split);
-		free(second);
+			return (perror("failed memory"), ft_free_matrix(split), 1);
+		return (ft_insert_env(&ms->exp, split[0], second), \
+		ft_insert_env(&ms->env, split[0], second), \
+		ft_free_matrix(split), free(second), 0);
 	}
 	return (0);
 }
