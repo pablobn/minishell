@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_built.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:44:45 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/27 10:37:59 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:18:57 by pbengoec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,21 @@ char	*ft_path_cd(t_command *list, t_env *env)
 	while (list->flags[i])
 		i++;
 	if (i == 1)
+	{
+		if (!ft_get_env_key(env, "HOME"))
+			return (ft_putstr_fd("No existe HOME\n", 2), NULL);
 		path = ft_get_env_key(env, "HOME");
+	}
 	else
+	{
+		if (ft_strncmp(list->flags[1], "-", ft_strlen(list->flags[1])) == 0)
+		{
+			if (!ft_get_env_key(env, "OLDPWD"))
+				return (ft_putstr_fd("No existe OLDPWD\n", 2), NULL);
+			return (ft_get_env_key(env, "OLDPWD"));
+		}
 		path = ft_parse_cd(list->flags[1]);
+	}
 	return (path);
 }
 
@@ -110,7 +122,7 @@ int	ft_cd(t_command *list, t_ms *ms)
 
 	path = ft_path_cd(list, ms->env);
 	if (!path)
-		return (ft_putstr_fd("HOME not set\n", 2), 1);
+		return (255);
 	if (chdir(path) >= 0)
 	{
 		actual_path = getcwd(NULL, 0);

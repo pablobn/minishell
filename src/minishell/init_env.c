@@ -6,7 +6,7 @@
 /*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 19:47:02 by pbengoec          #+#    #+#             */
-/*   Updated: 2023/06/26 19:47:04 by pbengoec         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:27:38 by pbengoec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ char	*ft_get_env_key(t_env *env, char *str)
 {
 	size_t	size;
 
-	size = ft_strlen(env->key);
-	if (ft_strlen(str) > size)
-		size = ft_strlen(str);
 	while (env)
 	{
+		size = ft_strlen(env->key);
+		if (ft_strlen(str) > size)
+			size = ft_strlen(str);
 		if (!ft_strncmp(env->key, str, size))
 			return (ft_strdup(env->value));
 		env = env->next;
