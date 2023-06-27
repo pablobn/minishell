@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:28:19 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 15:37:39 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:39:35 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ t_command	*ft_expand(t_command *list, t_ms *ms, int i, int j)
 	list->line = list->flags[2];
 	free(list->flags);
 	if (i + j + 1 <= (int)ft_strlen(list->line))
-	ft_expand(list, ms, i + j + 1, 0);
+		ft_expand(list, ms, i + j + 1, 0);
 	return (list);
 }

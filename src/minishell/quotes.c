@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:29:16 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 15:32:51 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:43:30 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ static int	ft_normi_quotes_doble(int j, t_command *list)
 	while (list->line[j] && list->line[j] != '\"')
 	{
 		if (list->line[j] == '$')
-		{
 			while (list->line[j] && list->line[j] != ' '
 				&& list->line[j] != '\"')
 				j++;
-		}
 		else
 		{
 			if (list->line[j] && j - 1 >= 0 && list->line[j - 1] != '\\')
