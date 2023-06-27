@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:29:16 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 15:05:17 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:32:51 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,16 @@ static void	ft_delete_quotes(int j, t_command *list)
 {
 	char	*temp;
 
-	temp = ft_substr(list->line, 0, j);
-	temp = ft_strjoin_free(temp, "");
-	temp = ft_strjoin_free(temp, &list->line[j + 1]);
-	free(list->line);
-	list->line = temp;
+	if (list->line[j + 1])
+	{
+		temp = ft_substr(list->line, 0, j);
+		temp = ft_strjoin_free(temp, "");
+		temp = ft_strjoin_free(temp, &list->line[j + 1]);
+		free(list->line);
+		list->line = temp;
+	}
+	else
+		list->line[ft_strlen(list->line) - 1] = 0;
 }
 
 static int	ft_normi_quotes_doble2(int j, t_command *list)
@@ -81,11 +86,16 @@ static int	ft_normi_quotes_doble2(int j, t_command *list)
 
 	if (list->line[j] == '\"')
 	{
-		temp = ft_substr(list->line, 0, j);
-		temp = ft_strjoin_free(temp, &list->line[j + 1]);
-		free(list->line);
-		list->line = temp;
-		j = ft_normi_quotes_doble(j, list);
+		if (list->line[j + 1])
+		{
+			temp = ft_substr(list->line, 0, j);
+			temp = ft_strjoin_free(temp, &list->line[j + 1]);
+			free(list->line);
+			list->line = temp;
+			j = ft_normi_quotes_doble(j, list);
+		}
+		else
+			list->line[ft_strlen(list->line) - 1] = 0;
 	}
 	if (list->line[j] == '\"')
 		ft_delete_quotes(j, list);
