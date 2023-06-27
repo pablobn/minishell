@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbengoec <pbengoec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:28:53 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 16:19:39 by pbengoec         ###   ########.fr       */
+/*   Updated: 2023/06/27 17:07:50 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ static void	ft_exit(t_ms *ms)
 	{
 		if (!ft_strncmp(ms->list[i]->flags[0], "exit", 4))
 		{
-			if (g_ms->list[i]->flags[1])
+			if (ms->list[i]->flags[1])
 			{	
 				ms->status = ft_atoi(ms->list[i]->flags[1]);
 				ft_free_list(ms->list);
 				rl_clear_history();
-				free_env(g_ms->env);
-				free_env(g_ms->exp);
-				if (g_ms->line)
-					free(g_ms->line);
+				free_env(ms->env);
+				free_env(ms->exp);
+				if (ms->line)
+					free(ms->line);
 				exit(ms->status);
 			}
 			ft_free_list(ms->list);
