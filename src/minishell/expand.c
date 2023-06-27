@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:28:19 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 15:09:27 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:37:39 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_command	*ft_expand(t_command *list, t_ms *ms, int i, int j)
 	list->flags[2] = ft_substr(list->line, 0, i);
 	while (list->line[i + j] && list->line[i + j] != ' '
 		&& list->line[i + j] != '\'' && list->line[i + j] != '\"')
-		if (list->line[i + ++j] == '$')
+		if (list->line[i + ++j] == '$' || list->line[i + j] == '|')
 			break ;
 	list->flags[0] = ft_substr(list->line, i, j);
 	ft_normi_2(list, ms, i);
