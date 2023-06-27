@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:28:53 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 10:38:31 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:08:16 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 t_ms	*g_ms;
 
-static void	ft_exit(t_ms *ms)
+static void	ft_exit()
 {
 	int	i;
 
 	i = -1;
-	while (ms->list[++i] && ms->list[i]->flags)
+	while (g_ms->list[++i] && g_ms->list[i]->flags)
 	{
-		if (!ft_strncmp(ms->list[i]->flags[0], "exit", 4))
+		if (!ft_strncmp(g_ms->list[i]->flags[0], "exit", 4))
 		{
 			if (g_ms->list[i]->flags[1])
 			{	
-				ms->status = ft_atoi(ms->list[i]->flags[1]);
-				ft_free_list(ms->list);
+				g_ms->status = ft_atoi(g_ms->list[i]->flags[1]);
+				ft_free_list(g_ms->list);
 				rl_clear_history();
 				free_env(g_ms->env);
 				free_env(g_ms->exp);
 				if (g_ms->line)
 					free(g_ms->line);
-				exit(ms->status);
+				exit(g_ms->status);
 			}
-			ft_free_list(ms->list);
-			ft_free_ms(ms);
+			ft_free_list(g_ms->list);
+			ft_free_ms(g_ms);
 			rl_clear_history();
 			exit(255);
 		}
@@ -55,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 		argc = -1;
 		while (g_ms->list && g_ms->list[++argc])
 			ft_parser(g_ms->list[argc]);
-		ft_exit(g_ms);
+		ft_exit();
 		if (g_ms->list[0])
 			ft_execute_line(g_ms);
 		ft_free_list(g_ms->list);
