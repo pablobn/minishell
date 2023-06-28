@@ -6,26 +6,26 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:29:16 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 15:43:30 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/28 10:58:28 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_normi_quotes(int j, t_command *list)
+static int	ft_normi_quotes(int j, t_command *li)
 {
 	char	*temp;
 
-	while (list->line[j] && list->line[j] != '\'')
+	while (li->line[j] && li->line[j] != '\'')
 	{
-		if ((list->line[j] == '$' || list->line[j] == ' ')
-			&& list->line[j - 1] != '\\')
+		if ((li->line[j] == '$' || li->line[j] == ' ' || li->line[j] == '<'
+				|| li->line[j] == '>') && li->line[j - 1] != '\\')
 		{
-			temp = ft_substr(list->line, 0, j);
+			temp = ft_substr(li->line, 0, j);
 			temp = ft_strjoin_free(temp, "\\");
-			temp = ft_strjoin_free(temp, &list->line[j]);
-			free(list->line);
-			list->line = temp;
+			temp = ft_strjoin_free(temp, &li->line[j]);
+			free(li->line);
+			li->line = temp;
 			j += 2;
 		}
 		else

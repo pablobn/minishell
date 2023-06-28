@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:29:02 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 10:29:03 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/28 11:10:42 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static int	ft_infile(t_command *cmd, int i)
 	i = ft_space_iter(cmd->line, i);
 	if (cmd->line[i] == '<' || cmd->line[i] == '>')
 		return (i);
-	while (cmd->line[i] && cmd->line[i] != ' ')
+	while (cmd->line[i] && cmd->line[i] != ' '
+		&& cmd->line[i] != '<' && cmd->line[i] != '>')
 	{
 		if (cmd->line[i + 1] && cmd->line[i] == '\\')
 			i++;
@@ -77,7 +78,8 @@ static int	ft_outfile(t_command *cmd, int i)
 	i = ft_space_iter(cmd->line, i);
 	if (cmd->line[i] == '<')
 		return (i);
-	while (cmd->line[i] && cmd->line[i] != ' ')
+	while (cmd->line[i] && cmd->line[i] != ' '
+		&& cmd->line[i] != '<' && cmd->line[i] != '>')
 	{
 		if (cmd->line[i + 1] && cmd->line[i] == '\\')
 			i++;
@@ -85,8 +87,7 @@ static int	ft_outfile(t_command *cmd, int i)
 		i++;
 	}
 	aux[++j] = 0;
-	ft_outfile_file(cmd, aux);
-	return (i);
+	return (ft_outfile_file(cmd, aux), i);
 }
 
 void	ft_parser(t_command *list)
