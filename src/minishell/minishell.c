@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:28:53 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 17:07:50 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/06/28 11:44:43 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void	ft_exit(t_ms *ms)
 
 int	main(int argc, char **argv, char **envp)
 {
+	rl_catch_signals = 0;
 	g_ms = ft_calloc(1, sizeof(t_ms));
 	ft_init_env(g_ms, envp);
 	while (42)
