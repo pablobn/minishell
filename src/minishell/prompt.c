@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:29:09 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/27 15:26:47 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/07/11 10:31:41 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static t_command	*ft_tilde(t_command *list, t_env *env)
 				break ;
 			if (list->line[i + 1] && list->line[i + 1] != ' ')
 				break ;
-			temp = ft_strjoin(ft_substr(list->line, 0, i), home);
+			temp = ft_strjoin_free(ft_substr(list->line, 0, i), home);
 			temp = ft_strjoin_free(temp, &list->line[i + 1]);
 			free(list->line);
 			list->line = temp;

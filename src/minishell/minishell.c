@@ -6,7 +6,7 @@
 /*   By: sdiaz-ru <sdiaz-ru@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 10:28:53 by sdiaz-ru          #+#    #+#             */
-/*   Updated: 2023/06/28 11:44:43 by sdiaz-ru         ###   ########.fr       */
+/*   Updated: 2023/07/11 10:34:16 by sdiaz-ru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static void	ft_exit(t_ms *ms)
 		}
 	}
 }
-//atexit(ft_leaks);
 
+//atexit(ft_leaks);
 int	main(int argc, char **argv, char **envp)
 {
 	rl_catch_signals = 0;
