@@ -13,6 +13,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "../library/libft/libft.h"
+
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
@@ -21,11 +23,10 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <sys/stat.h>
-# include "../library/libft/libft.h"
 //Para silenciar los echos de la terminal
 # include <termios.h>
-# include "../library/libft/libft.h"
 // COLORS
 # define BLUE "\001\x1b[34m\002"
 # define GREEN "\001\x1b[32m\002"
